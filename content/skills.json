@@ -1,0 +1,371 @@
+{
+ "version": "0.1-foundation",
+ "skills": [
+  {
+   "id": "ll-count5",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Number",
+   "icon": "count",
+   "gen": "countTap",
+   "params": {
+    "max": 5
+   },
+   "items": 5,
+   "title": "Count to 5"
+  },
+  {
+   "id": "ll-count10",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "count",
+   "gen": "countTap",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-count5"
+   ],
+   "title": "Count to 10"
+  },
+  {
+   "id": "ll-shapes",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "shapeMatch",
+   "items": 5,
+   "title": "Shapes"
+  },
+  {
+   "id": "ll-balance",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "balance",
+   "gen": "balanceBlocks",
+   "params": {
+    "max": 6
+   },
+   "items": 5,
+   "title": "Same on both sides"
+  },
+  {
+   "id": "ll-clock",
+   "track": "school",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G1",
+   "strand": "Measurement",
+   "icon": "clock",
+   "gen": "clockShow",
+   "items": 5,
+   "title": "Telling time"
+  },
+  {
+   "id": "ll-abacus",
+   "track": "method",
+   "modes": [
+    "little"
+   ],
+   "level": "Abacus L1",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusShow",
+   "params": {
+    "max": 9
+   },
+   "items": 5,
+   "title": "Abacus: 1 to 9"
+  },
+  {
+   "id": "ex-add2",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Operations",
+   "icon": "plus",
+   "gen": "add2",
+   "items": 8,
+   "title": "2-digit adding with carrying"
+  },
+  {
+   "id": "ex-numline",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Number",
+   "icon": "numline",
+   "gen": "numlinePlace",
+   "params": {
+    "min": 0,
+    "max": 100,
+    "step": 5
+   },
+   "items": 6,
+   "title": "Number line to 100"
+  },
+  {
+   "id": "ex-tables",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Operations",
+   "icon": "times",
+   "gen": "mulDrill",
+   "params": {
+    "gen": "mulFact",
+    "seconds": 60
+   },
+   "title": "Times tables sprint"
+  },
+  {
+   "id": "ex-frac",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracCompare",
+   "items": 6,
+   "title": "Compare fractions"
+  },
+  {
+   "id": "m-abacus2",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Abacus L2",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusShow",
+   "params": {
+    "max": 99
+   },
+   "items": 6,
+   "prereq": [
+    "ll-abacus"
+   ],
+   "title": "Abacus: tens and ones"
+  },
+  {
+   "id": "m-bar1",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Bar models",
+   "strand": "Singapore bar models",
+   "icon": "bar",
+   "gen": "barPartWhole",
+   "items": 5,
+   "title": "Bar models: part and whole"
+  },
+  {
+   "id": "m-bar2",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Bar models",
+   "strand": "Singapore bar models",
+   "icon": "bar",
+   "gen": "barCompare",
+   "items": 5,
+   "prereq": [
+    "m-bar1"
+   ],
+   "title": "Bar models: comparing"
+  },
+  {
+   "id": "m-series",
+   "track": "method",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Puzzles",
+   "strand": "Reasoning",
+   "icon": "series",
+   "gen": "seriesNext",
+   "items": 6,
+   "title": "Number series puzzles"
+  },
+  {
+   "id": "v-sq5",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Sutra 1",
+   "strand": "Ekadhikena Purvena",
+   "icon": "vedic",
+   "gen": "sq5",
+   "items": 5,
+   "intro": "sq5",
+   "title": "Squares ending in 5"
+  },
+  {
+   "id": "v-nikhilam",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Sutra 2",
+   "strand": "Nikhilam",
+   "icon": "vedic",
+   "gen": "nikhilam",
+   "items": 4,
+   "intro": "nikhilam",
+   "title": "Multiplying near 100"
+  },
+  {
+   "id": "v-urdhva",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Sutra 3",
+   "strand": "Urdhva-Tiryagbhyam",
+   "icon": "cross",
+   "gen": "urdhva2",
+   "items": 4,
+   "intro": "urdhva",
+   "title": "Vertically and crosswise"
+  },
+  {
+   "id": "x-imo",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "SOF IMO",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "mockMini",
+   "params": {
+    "exam": "SOF IMO",
+    "klass": 6
+   },
+   "title": "IMO sample mock (Class 6)"
+  },
+  {
+   "id": "x-mat",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "NMMS · MSCE",
+   "strand": "Mental ability",
+   "icon": "puzzle",
+   "mix": [
+    "seriesNext",
+    "oddOneOut"
+   ],
+   "params": {
+    "hard": true
+   },
+   "items": 8,
+   "title": "Mental ability practice"
+  },
+  {
+   "id": "ac-lineq",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Algebra",
+   "icon": "eq",
+   "gen": "linEq",
+   "items": 6,
+   "title": "Linear equations"
+  },
+  {
+   "id": "ac-simplify",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "simplifyLike",
+   "items": 6,
+   "title": "Simplifying expressions"
+  },
+  {
+   "id": "ac-plot",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Graphs",
+   "icon": "graph",
+   "gen": "plotLine",
+   "items": 5,
+   "prereq": [
+    "ac-lineq"
+   ],
+   "title": "Plotting straight lines"
+  },
+  {
+   "id": "m-speed11",
+   "track": "method",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Speed maths",
+   "strand": "Speed Arena",
+   "icon": "speed",
+   "gen": "mulDrill",
+   "params": {
+    "gen": "mul11",
+    "seconds": 60
+   },
+   "intro": "x11",
+   "title": "Speed Arena: × 11"
+  }
+ ]
+}
