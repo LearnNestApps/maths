@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Ccircle cx=%2232%22 cy=%2234%22 r=%2226%22 fill=%22%23ff8a3d%22/%3E%3Ccircle cx=%2224%22 cy=%2230%22 r=%225%22 fill=%22%23fff%22/%3E%3Ccircle cx=%2240%22 cy=%2230%22 r=%225%22 fill=%22%23fff%22/%3E%3Ccircle cx=%2224%22 cy=%2231%22 r=%222.5%22 fill=%22%231d2b53%22/%3E%3Ccircle cx=%2240%22 cy=%2231%22 r=%222.5%22 fill=%22%231d2b53%22/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Pip Maths">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Pip Maths</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,6 +15,7 @@
 (function () {
   var h = document.documentElement, ok = window.CSS && CSS.supports;
   if (!(ok && CSS.supports('width', 'clamp(1px, 2px, 3px)'))) h.className += ' noclamp';
+  if (!(ok && CSS.supports('aspect-ratio', '1'))) h.className += ' noar';
   var d = document.createElement('div'); d.style.cssText = 'display:flex;flex-direction:column;row-gap:1px;position:absolute';
   d.appendChild(document.createElement('div')); d.appendChild(document.createElement('div')); h.appendChild(d);
   if (d.scrollHeight !== 1) h.className += ' nogap'; h.removeChild(d);
@@ -37,6 +41,6 @@
   setTimeout(function () { fail(''); }, 12000);
 })();
 </script>
-<script src="js/app.js?v=1795374878"></script>
+<script src="js/app.js?v=1795375572"></script>
 </body>
 </html>

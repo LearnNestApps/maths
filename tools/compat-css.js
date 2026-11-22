@@ -19,5 +19,17 @@ while ((m = re.exec(css))) {
   const decls = body.split(';').filter(d => d.includes('clamp('));
   if (decls.length) out.push(wrap(`${pre(sel).map(s => s.startsWith(':root') ? '.noclamp' : `.noclamp ${s}`).join(',')}{${decls.map(d => clampMax(d.trim())).join(';')}}`));
 }
+// .noar → aspect-ratio (Safari 15+): give the element a height worked out from its width.
+const re2 = /([^{}@]+)\{([^{}]*)\}/g; let r2;
+while ((r2 = re2.exec(css))) {
+  const sel = r2[1].trim(), body = r2[2], ar = /(?:^|;)\s*aspect-ratio:\s*([\d.]+)(?:\s*\/\s*([\d.]+))?/.exec(body), w = /(?:^|;)\s*width:\s*([^;]+)/.exec(body);
+  if (!ar || !w || w[1].includes('%')) continue;
+  const k = `${ar[2] || 1} / ${ar[1]}`, list = pre(sel);
+  out.push(`${list.map(x => `.noar ${x}`).join(',')}{height:calc(${w[1].trim()} * ${k})}`);
+  if (w[1].includes('clamp(')) out.push(`${list.map(x => `.noar.noclamp ${x}`).join(',')}{height:calc(${clampMax(w[1].trim())} * ${k})}`);
+}
+// Elements sized by their container: hand-made fallbacks.
+out.push('.noar .board{height:min(100vw - 32px,420px)}', '.noar .pond .lily{height:calc(min(56vw,360px) / 3)}', '.noar .hrow b{min-height:2.2em}',
+  '.noar .bslot{position:relative;height:0;padding-bottom:100%}', '.noar .bin-in .sitem{height:52px}', '.noar .bslot>svg{position:absolute;top:0;left:0}');
 fs.writeFileSync(__dirname + '/../css/compat.css', out.join('\n') + '\n');
 console.log(`css/compat.css: ${out.length - 1} rules`);
