@@ -8,7 +8,7 @@ en: {
   'ui.mode': 'Mode', 'ui.sound': 'Sound effects', 'ui.voice': 'Spoken prompts', 'ui.addLearner': 'Add a learner', 'ui.switch': 'Switch',
   'ui.reset': 'Reset progress', 'ui.resetConfirm': 'Tap again to reset', 'ui.delete': 'Remove learner', 'ui.deleteConfirm': 'Tap again to remove',
   'ui.upNext': 'Up next', 'ui.listen': 'Hear it again', 'ui.skip': 'Skip', 'ui.coins': 'coins', 'ui.stickers': 'stickers', 'ui.all': 'All',
-  'ui.sampleNote': 'Foundation build: a sample of lessons from every mode and track. Full content arrives in the next build steps.',
+  'ui.sampleNote': 'Sample lessons for this age group. The full set arrives in the next build steps.',
   'track.school': 'School maths', 'track.vedic': 'Vedic maths', 'track.exam': 'Exam prep', 'track.method': 'Other methods',
   'mode.little': 'Little Learners', 'mode.explore': 'Explorers', 'mode.achieve': 'Achievers', 'mode.adult': 'Adults', 'mode.auto': 'Auto (from age)',
   'status.new': 'New', 'status.learning': 'Learning', 'status.mastered': 'Mastered', 'status.review': 'Review due',
@@ -35,6 +35,7 @@ en: {
   'mock.yes': 'Submit', 'mock.no': 'Keep going', 'mock.result': 'Your score', 'mock.marks': '{m} of {t} marks', 'mock.section': 'Section',
   'mock.note': 'Sample mock: original questions in the exam’s four-section pattern. Real-length mocks come with the Exam Centre build.',
   'ex.start': 'Start practice',
+  'pick.peek': 'Look again', 'share.reset': 'Start again', 'pv.h': 'Hundreds', 'pv.t': 'Tens', 'pv.o': 'Ones', 'lvl.JK': 'Junior KG', 'lvl.SK': 'Senior KG', 'lvl.G1': 'Grade 1', 'lvl.G2': 'Grade 2', 'lvl.other': 'More games', 'book.title': 'My sticker book', 'book.empty': 'Finish a game to win your first sticker!',
   'adm.open': 'All topics (admin) · {n} lessons', 'adm.title': 'All topics', 'adm.sub': 'Every lesson in every mode. Try any lesson in the look of the mode it belongs to. Practice here is saved to the current learner.',
   'adm.search': 'Search lessons, levels, strands', 'adm.level': 'Level', 'adm.modes': 'Modes', 'adm.type': 'Generator', 'adm.try': 'Try', 'adm.none': 'No lessons match.'
 }
@@ -54,5 +55,7 @@ export const tr = o => (o && typeof o === 'object') ? (o[L] ?? o.en) : (o ?? '')
 
 export function timeText(h, m) {
   if (m === 0) return t('time.oclock', { h });
+  if (m === 15) return `quarter past ${h}`;
+  if (m === 45) return `quarter to ${h % 12 + 1}`;
   return t('time.half', { h });
 }

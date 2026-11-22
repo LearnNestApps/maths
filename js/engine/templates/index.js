@@ -3,6 +3,7 @@ import { tap, mcq, numpadT, mathkb } from './basic.js';
 import { drag, balance } from './drag.js';
 import { abacus, numline, clock, bar } from './manip.js';
 import { steps, graph, drill, mock, explainer } from './advanced.js';
+import { pick, sort, pattern, build, share, feed } from './little.js';
 
 export const TEMPLATES = {
   tap,            // 1  tap-to-count / tap-to-select
@@ -15,6 +16,7 @@ export const TEMPLATES = {
   abacus, numline, clock, bar, // 8  manipulatives
   graph,          // 9  graph plotter
   drill,          // 10 timed drill
-  mock            // 11 mock test runner
+  mock,           // 11 mock test runner
+  pick, sort, pattern, build, share, feed // Little Learners extras
 };
 export { explainer }; // 12 animated explainer

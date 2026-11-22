@@ -1,5 +1,5 @@
 {
- "version": "0.1-foundation",
+ "version": "0.2-little",
  "skills": [
   {
    "id": "ll-count5",
@@ -16,6 +16,138 @@
    },
    "items": 5,
    "title": "Count to 5"
+  },
+  {
+   "id": "ll-subit3",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Number",
+   "icon": "dots",
+   "gen": "subitize",
+   "params": {
+    "max": 3
+   },
+   "items": 5,
+   "title": "Quick look: 1 to 3"
+  },
+  {
+   "id": "ll-shapes",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "shapeMatch",
+   "items": 5,
+   "title": "Shapes"
+  },
+  {
+   "id": "ll-sortcol",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Sorting",
+   "icon": "sort",
+   "gen": "sortColor",
+   "items": 4,
+   "title": "Sort by colour"
+  },
+  {
+   "id": "ll-patab",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Patterns",
+   "icon": "pattern",
+   "gen": "pattern",
+   "params": {
+    "lv": 0
+   },
+   "items": 5,
+   "title": "Patterns: AB"
+  },
+  {
+   "id": "ll-more",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Comparing",
+   "icon": "compare",
+   "gen": "moreGroup",
+   "params": {
+    "max": 5
+   },
+   "items": 5,
+   "title": "Which has more?"
+  },
+  {
+   "id": "ll-big",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Measuring",
+   "icon": "size",
+   "gen": "sizes",
+   "params": {
+    "ask": "pick"
+   },
+   "items": 5,
+   "title": "Big and small"
+  },
+  {
+   "id": "ll-tall",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Measuring",
+   "icon": "flower",
+   "gen": "heights",
+   "params": {
+    "ask": "pick"
+   },
+   "items": 5,
+   "title": "Tall and short"
+  },
+  {
+   "id": "ll-heavy",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Measuring",
+   "icon": "balance",
+   "gen": "heavier",
+   "items": 5,
+   "title": "Heavy and light"
+  },
+  {
+   "id": "ll-pos",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "JK",
+   "strand": "Position",
+   "icon": "position",
+   "gen": "position",
+   "items": 5,
+   "title": "On, under, next to, in"
   },
   {
    "id": "ll-count10",
@@ -37,17 +169,99 @@
    "title": "Count to 10"
   },
   {
-   "id": "ll-shapes",
+   "id": "ll-frog",
    "track": "school",
    "modes": [
     "little"
    ],
-   "level": "JK",
-   "strand": "Geometry",
-   "icon": "shapes",
-   "gen": "shapeMatch",
+   "level": "SK",
+   "strand": "Number",
+   "icon": "frog",
+   "gen": "feedFrog",
+   "params": {
+    "max": 10
+   },
    "items": 5,
-   "title": "Shapes"
+   "prereq": [
+    "ll-count5"
+   ],
+   "title": "Feed the frog"
+  },
+  {
+   "id": "ll-numeral",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "numeralMatch",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-count10"
+   ],
+   "title": "Match numbers to dots"
+  },
+  {
+   "id": "ll-bugs",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "bug",
+   "gen": "bugs",
+   "params": {
+    "max": 6
+   },
+   "items": 5,
+   "prereq": [
+    "ll-subit3"
+   ],
+   "title": "How many ladybugs?"
+  },
+  {
+   "id": "ll-after",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "track",
+   "gen": "afterBefore",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-count10"
+   ],
+   "title": "Before and after"
+  },
+  {
+   "id": "ll-onemore",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Number",
+   "icon": "tenframe",
+   "gen": "oneMoreLess",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-after"
+   ],
+   "title": "One more, one less"
   },
   {
    "id": "ll-balance",
@@ -66,18 +280,618 @@
    "title": "Same on both sides"
   },
   {
+   "id": "ll-fewer",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Comparing",
+   "icon": "compare",
+   "gen": "moreGroup",
+   "params": {
+    "max": 8,
+    "fewer": true
+   },
+   "items": 5,
+   "prereq": [
+    "ll-more"
+   ],
+   "title": "More or fewer?"
+  },
+  {
+   "id": "ll-add5",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Adding",
+   "icon": "duck",
+   "gen": "addDucks",
+   "params": {
+    "max": 5
+   },
+   "items": 5,
+   "prereq": [
+    "ll-count5"
+   ],
+   "title": "Adding ducks (to 5)"
+  },
+  {
+   "id": "ll-sub5",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Taking away",
+   "icon": "bird",
+   "gen": "birdsAway",
+   "params": {
+    "max": 5
+   },
+   "items": 5,
+   "prereq": [
+    "ll-add5"
+   ],
+   "title": "Birds fly away (to 5)"
+  },
+  {
+   "id": "ll-shapes2",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "shapeMatch",
+   "items": 5,
+   "title": "More shapes",
+   "params": {
+    "pool": [
+     "circle",
+     "square",
+     "triangle",
+     "star",
+     "rectangle",
+     "heart"
+    ]
+   },
+   "prereq": [
+    "ll-shapes"
+   ]
+  },
+  {
+   "id": "ll-solids",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Geometry",
+   "icon": "solid",
+   "gen": "solids",
+   "items": 5,
+   "prereq": [
+    "ll-shapes"
+   ],
+   "title": "3D shapes"
+  },
+  {
+   "id": "ll-patabc",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Patterns",
+   "icon": "pattern",
+   "gen": "pattern",
+   "params": {
+    "lv": 1
+   },
+   "items": 5,
+   "prereq": [
+    "ll-patab"
+   ],
+   "title": "Patterns: AAB, ABB, ABC"
+  },
+  {
+   "id": "ll-sortsize",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "SK",
+   "strand": "Sorting",
+   "icon": "sort",
+   "gen": "sortSize",
+   "items": 4,
+   "prereq": [
+    "ll-sortcol"
+   ],
+   "title": "Sort by size"
+  },
+  {
+   "id": "ll-hundred",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Number",
+   "icon": "grid",
+   "gen": "missing100",
+   "items": 5,
+   "prereq": [
+    "ll-after"
+   ],
+   "title": "Missing numbers to 100"
+  },
+  {
+   "id": "ll-skip",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Number",
+   "icon": "track",
+   "gen": "skipCount",
+   "params": {
+    "steps": [
+     2,
+     5,
+     10
+    ]
+   },
+   "items": 5,
+   "prereq": [
+    "ll-hundred"
+   ],
+   "title": "Count in 2s, 5s and 10s"
+  },
+  {
+   "id": "ll-tens",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Place value",
+   "icon": "blocks",
+   "gen": "tensOnes",
+   "params": {
+    "places": 2
+   },
+   "items": 5,
+   "prereq": [
+    "ll-count10"
+   ],
+   "title": "Tens and ones"
+  },
+  {
+   "id": "ll-bonds",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Adding",
+   "icon": "tenframe",
+   "gen": "bonds10",
+   "items": 5,
+   "prereq": [
+    "ll-add5"
+   ],
+   "title": "Number bonds to 10"
+  },
+  {
+   "id": "ll-add10",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Adding",
+   "icon": "plus",
+   "gen": "sentence",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-add5"
+   ],
+   "title": "Adding to 10"
+  },
+  {
+   "id": "ll-missadd",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Adding",
+   "icon": "plus",
+   "gen": "sentence",
+   "params": {
+    "max": 10,
+    "missing": true
+   },
+   "items": 5,
+   "prereq": [
+    "ll-add10"
+   ],
+   "title": "Missing numbers"
+  },
+  {
+   "id": "ll-add20",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Adding",
+   "icon": "plus",
+   "gen": "sentence",
+   "params": {
+    "max": 20
+   },
+   "items": 5,
+   "prereq": [
+    "ll-add10"
+   ],
+   "title": "Adding to 20"
+  },
+  {
+   "id": "ll-sub10",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Taking away",
+   "icon": "minus",
+   "gen": "subtract",
+   "params": {
+    "max": 10
+   },
+   "items": 5,
+   "prereq": [
+    "ll-sub5"
+   ],
+   "title": "Taking away to 10"
+  },
+  {
+   "id": "ll-cmp100",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Comparing",
+   "icon": "compare",
+   "gen": "compareNum",
+   "params": {
+    "max": 99
+   },
+   "items": 5,
+   "prereq": [
+    "ll-tens"
+   ],
+   "title": "Bigger number"
+  },
+  {
    "id": "ll-clock",
    "track": "school",
    "modes": [
-    "little",
-    "explore"
+    "little"
    ],
    "level": "G1",
    "strand": "Measurement",
    "icon": "clock",
    "gen": "clockShow",
    "items": 5,
-   "title": "Telling time"
+   "title": "Time: o'clock"
+  },
+  {
+   "id": "ll-days",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Time",
+   "icon": "calendar",
+   "gen": "dayAfter",
+   "items": 5,
+   "title": "Days of the week"
+  },
+  {
+   "id": "ll-coins",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "coins",
+   "params": {
+    "max": 20
+   },
+   "items": 5,
+   "title": "Counting coins"
+  },
+  {
+   "id": "ll-sides",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "sides",
+   "items": 5,
+   "prereq": [
+    "ll-shapes2"
+   ],
+   "title": "Sides and corners"
+  },
+  {
+   "id": "ll-halves",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "halves",
+   "items": 5,
+   "title": "Halves"
+  },
+  {
+   "id": "ll-pict",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "pictograph",
+   "items": 5,
+   "title": "Picture graphs"
+  },
+  {
+   "id": "ll-length",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Measuring",
+   "icon": "ruler",
+   "gen": "lengthBlocks",
+   "items": 5,
+   "prereq": [
+    "ll-tall"
+   ],
+   "title": "Measure with blocks"
+  },
+  {
+   "id": "ll-pv3",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Place value",
+   "icon": "blocks",
+   "gen": "tensOnes",
+   "params": {
+    "places": 3
+   },
+   "items": 5,
+   "prereq": [
+    "ll-tens"
+   ],
+   "title": "Hundreds, tens and ones"
+  },
+  {
+   "id": "ll-add100",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Operations",
+   "icon": "plus",
+   "gen": "add2",
+   "items": 5,
+   "title": "Adding to 100",
+   "prereq": [
+    "ll-add20"
+   ]
+  },
+  {
+   "id": "ll-sub100",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Taking away",
+   "icon": "minus",
+   "gen": "sub2",
+   "items": 5,
+   "prereq": [
+    "ll-sub10"
+   ],
+   "title": "Taking away to 100"
+  },
+  {
+   "id": "ll-arrays",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Multiplying",
+   "icon": "array",
+   "gen": "arrays",
+   "items": 5,
+   "prereq": [
+    "ll-skip"
+   ],
+   "title": "Rows and arrays"
+  },
+  {
+   "id": "ll-share",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Dividing",
+   "icon": "cookie",
+   "gen": "shareEqual",
+   "items": 4,
+   "prereq": [
+    "ll-arrays"
+   ],
+   "title": "Sharing equally"
+  },
+  {
+   "id": "ll-oddeven",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Number",
+   "icon": "pairs",
+   "gen": "oddEven",
+   "items": 5,
+   "title": "Odd and even"
+  },
+  {
+   "id": "ll-frac",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fractionName",
+   "items": 5,
+   "prereq": [
+    "ll-halves"
+   ],
+   "title": "Halves, thirds, quarters"
+  },
+  {
+   "id": "ll-ruler",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Measuring",
+   "icon": "ruler",
+   "gen": "ruler",
+   "items": 5,
+   "prereq": [
+    "ll-length"
+   ],
+   "title": "Measure in centimetres"
+  },
+  {
+   "id": "ll-clockq",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Time",
+   "icon": "clock",
+   "gen": "clockQuarter",
+   "items": 5,
+   "prereq": [
+    "ll-clock"
+   ],
+   "title": "Time: half and quarter past"
+  },
+  {
+   "id": "ll-money",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "coins",
+   "params": {
+    "max": 100,
+    "notes": true
+   },
+   "items": 5,
+   "prereq": [
+    "ll-coins"
+   ],
+   "title": "Money to ₹100"
+  },
+  {
+   "id": "ll-sym",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Geometry",
+   "icon": "mirror",
+   "gen": "symmetry",
+   "items": 5,
+   "title": "Symmetry"
+  },
+  {
+   "id": "ll-bars",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "barGraph",
+   "items": 5,
+   "prereq": [
+    "ll-pict"
+   ],
+   "title": "Bar graphs"
+  },
+  {
+   "id": "ll-rule",
+   "track": "school",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Patterns",
+   "icon": "track",
+   "gen": "numberRule",
+   "items": 5,
+   "prereq": [
+    "ll-skip"
+   ],
+   "title": "Number patterns"
   },
   {
    "id": "ll-abacus",
@@ -94,6 +908,67 @@
    },
    "items": 5,
    "title": "Abacus: 1 to 9"
+  },
+  {
+   "id": "ll-abacus2",
+   "track": "method",
+   "modes": [
+    "little"
+   ],
+   "level": "Abacus L2",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusDirect",
+   "items": 5,
+   "prereq": [
+    "ll-abacus"
+   ],
+   "title": "Abacus: add and take away"
+  },
+  {
+   "id": "ll-odd",
+   "track": "method",
+   "modes": [
+    "little"
+   ],
+   "level": "Puzzles",
+   "strand": "Puzzles",
+   "icon": "puzzle",
+   "gen": "oddOnePic",
+   "items": 5,
+   "title": "Odd one out"
+  },
+  {
+   "id": "ll-patpuz",
+   "track": "method",
+   "modes": [
+    "little"
+   ],
+   "level": "Puzzles",
+   "strand": "Puzzles",
+   "icon": "pattern",
+   "gen": "pattern",
+   "params": {
+    "lv": 2
+   },
+   "items": 5,
+   "prereq": [
+    "ll-patabc"
+   ],
+   "title": "Pattern puzzles"
+  },
+  {
+   "id": "ex-clock",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G1",
+   "strand": "Measurement",
+   "icon": "clock",
+   "gen": "clockShow",
+   "items": 5,
+   "title": "Telling time"
   },
   {
    "id": "ex-add2",

@@ -33,7 +33,7 @@ export const GEN = {
       solution: [`${L} = ${L}`] };
   },
   abacusShow({ max = 99 } = {}) {
-    const n = rnd(max > 20 ? 11 : 1, max), rods = max > 99 ? 3 : 2;
+    const n = rnd(max > 20 ? 11 : 1, max), rods = max > 99 ? 3 : max > 9 ? 2 : 1;
     const digits = String(n).padStart(rods, '0').split('').map(Number);
     return { template: 'abacus', prompt: t('q.abacus', { n }), answer: n, data: { target: n, rods }, hint: t('h.abacus'),
       solution: digits.map((d, i) => `${['', 'Hundreds', 'Tens', 'Ones'].slice(-rods)[i] || ''}: ${d} = ${d >= 5 ? '5 + ' + (d - 5) : d}`) };
@@ -161,3 +161,7 @@ export const GEN = {
       { name: 'Achievers Section', marks: 3, qs: [hard(), hard()] }] } };
   }
 };
+
+// Little Learners (JK–Grade 2) generators live in their own file.
+import { GEN_LITTLE } from './generators_little.js';
+Object.assign(GEN, GEN_LITTLE);

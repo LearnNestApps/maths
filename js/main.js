@@ -57,9 +57,9 @@ function home() {
   const mode = effectiveMode(p), list = skillsFor(p);
   const tracks = TRACKS.filter(tk => list.some(s => s.track === tk));
   if (!tracks.includes(tab)) tab = tracks[0];
-  const up = nextSkill(p, list);
+  const up = nextSkill(p, byAge(p, list));
   const shown = list.filter(s => s.track === tab);
-  const stat = mode === 'little' ? `<span class="pill">${sticker('count', 0)}<b>${p.stickers.length}</b></span>`
+  const stat = mode === 'little' ? `<button class="pill book" aria-label="${t('book.title')}">${sticker('count', 0)}<b>${p.stickers.length}</b></button>`
     : mode === 'explore' ? `<span class="pill">${ICON.coin}<b>${p.coins}</b></span>`
     : `<span class="pill">${ICON.star}<b>${list.filter(s => status(p.progress[s.id]) === 'mastered').length}/${list.length}</b></span>`;
   const el = h(`<section class="home">
@@ -68,16 +68,37 @@ function home() {
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(up.level)} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
-    <div class="skills">${shown.map(s => card(p, s, mode)).join('')}</div>
-    <p class="note">${t('ui.sampleNote')}</p></section>`);
+    ${mode === 'little' ? groupByLevel(shown).map(([lv, l]) => `<h2 class="lvlh">${t('lvl.' + lv)} <small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small></h2><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div>`).join('')
+      : `<div class="skills">${shown.map(s => card(p, s, mode)).join('')}</div>`}
+    ${mode === 'little' ? '' : `<p class="note">${t('ui.sampleNote')}</p>`}</section>`);
   mount(el);
   $$('.skill', el).forEach((c, i) => popIn(c, i * 40));
   $$('.tab', el).forEach(b => b.onclick = () => { tab = b.dataset.t; sfx.tap(); home(); });
   const open = id => { const s = content.skills.find(x => x.id === id); if (mode === 'little') say(tr(s.title)); sfx.pop(); setTimeout(() => playSkill(s, content, { mount, onExit: home }), mode === 'little' ? 500 : 0); };
   $$('[data-id]', el).forEach(b => b.onclick = () => open(b.dataset.id));
+  if ($('.pill.book', el)) $('.pill.book', el).onclick = () => { sfx.pop(); stickerBook(); };
   $('.who', el).onclick = () => profiles().length > 1 ? learnerSheet() : null;
   const gear = $('.gear', el);
   if (mode === 'adult') gear.onclick = grownups; else holdButton(gear, 2000, grownups);
+}
+// Levels in teaching order; the learner's own level is recommended first.
+const LEVELS = ['JK', 'SK', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
+function byAge(p, list) {
+  const target = Math.max(0, Math.min(13, p.age - 4)), idx = s => { const i = LEVELS.indexOf(s.level); return i < 0 ? target : i; };
+  const rank = s => { const d = idx(s) - target; return d === 0 ? 0 : d < 0 ? -d * 2 - 1 : d * 2; };
+  return [...list].sort((a, b) => rank(a) - rank(b));
+}
+function groupByLevel(list) {
+  const g = new Map(); list.forEach(s => { const k = LEVELS.includes(s.level) ? s.level : 'other'; if (!g.has(k)) g.set(k, []); g.get(k).push(s); });
+  return [...g.entries()];
+}
+function stickerBook() {
+  const p = profile(), n = Math.max(12, Math.ceil((p.stickers.length + 1) / 6) * 6);
+  const el = h(`<section class="home"><header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('book.title')}</h1><span class="pill">${sticker('count', 0)}<b>${p.stickers.length}</b></span></header>
+    ${p.stickers.length ? '' : `<p class="note">${t('book.empty')}</p>`}
+    <div class="bookpage">${Array.from({ length: n }, (_, i) => `<div class="bslot"${p.stickers[i] ? ' style="border:0"' : ''}>${p.stickers[i] ? sticker(p.stickers[i], i + 1) : ''}</div>`).join('')}</div></section>`);
+  mount(el); say(p.stickers.length ? t('book.title') : t('book.empty'));
+  $('.aback', el).onclick = home;
 }
 function card(p, s, mode) {
   const r = p.progress[s.id], st = status(r), m = pct(r);

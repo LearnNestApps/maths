@@ -11,7 +11,8 @@ const checkBtn = () => `<button class="btn primary checkbtn">${ICON.check}<span>
 export const abacus = {
   render(host, act, ctx) {
     const rods = act.data.rods, st = Array.from({ length: rods }, () => ({ hv: 0, e: 0 }));
-    const labels = ['H', 'T', 'O'].slice(-rods);
+    if (act.data.start) String(act.data.start).padStart(rods, '0').split('').forEach((d, i) => { st[i].hv = +d >= 5 ? 1 : 0; st[i].e = +d % 5; });
+    const labels = rods === 1 ? [''] : ['H', 'T', 'O'].slice(-rods);
     host.innerHTML = `<div class="t-abacus"><div class="readout ${ctx.mode === 'little' ? 'on' : ''}">0</div>
       <div class="frame" style="--rods:${rods}">${st.map((_, r) => `<div class="rod" data-r="${r}"><i class="wire"></i><button class="bead hv" data-r="${r}" data-b="h" aria-label="5"></button>${[0, 1, 2, 3].map(i => `<button class="bead" data-r="${r}" data-b="${i}" aria-label="1"></button>`).join('')}<span class="lab">${labels[r]}</span></div>`).join('')}<i class="bar"></i></div>${checkBtn()}</div>`;
     const value = () => st.reduce((s, x) => s * 10 + x.hv * 5 + x.e, 0);
@@ -81,7 +82,7 @@ export const clock = {
     });
     const move = a => {
       if (grab === 'h') { const nh = Math.round(((a - m / 2) % 360 + 360) % 360 / 30) || 12; if (nh !== hr) { hr = nh; sfx.tick(); } }
-      else if (grab === 'm') { const nm = (Math.round(a / 180) * 30) % 60; if (nm !== m) { m = nm; sfx.tick(); } }
+      else if (grab === 'm') { const sm = act.data.quarter ? 15 : 30, nm = (Math.round(a / (sm * 6)) * sm) % 60; if (nm !== m) { m = nm; sfx.tick(); } }
       draw();
     };
     svg.addEventListener('pointermove', e => { if (grab) move(ang(e)); });
