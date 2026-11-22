@@ -810,7 +810,7 @@
    "prereq": [
     "ll-length"
    ],
-   "title": "Measure in centimetres"
+   "title": "Measure with a ruler"
   },
   {
    "id": "ll-clockq",

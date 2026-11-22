@@ -1,7 +1,7 @@
 // Explorers (Grades 3–8) generators.
 import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { SOLID } from '../core/art_little.js';
-import { fmt, money, isIndia } from '../core/region.js';
+import { fmt, money, isIndia, U, conversions } from '../core/region.js';
 
 const E = s => `<span class="expr">${s}</span>`;
 const r2 = x => +(+x).toFixed(2);
@@ -28,7 +28,7 @@ function lineAngles(a) { // straight line split into a and x
 function triSvg(A, B) { // labelled triangle, third angle x
   return `<svg viewBox="0 0 220 150" class="ang"><path d="M20 130H200L80 20Z" fill="var(--line)" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><text x="40" y="124" font-size="16" font-weight="800" fill="currentColor">${A}°</text><text x="168" y="124" font-size="16" font-weight="800" fill="currentColor">${B}°</text><text x="80" y="48" font-size="18" font-weight="800" fill="var(--acc)" text-anchor="middle">x</text></svg>`;
 }
-function rectSvg(w, h, unit = 'cm', shape = 'rect') {
+function rectSvg(w, h, unit = U('len'), shape = 'rect') {
   if (shape === 'tri') return `<svg viewBox="0 0 220 150" class="ang"><path d="M20 130H200L70 25Z" fill="#d0ebff" stroke="currentColor" stroke-width="3"/><path d="M70 25V130" stroke="var(--acc)" stroke-width="2" stroke-dasharray="5 4"/><text x="110" y="148" font-size="15" font-weight="800" text-anchor="middle" fill="currentColor">${w} ${unit}</text><text x="76" y="88" font-size="15" font-weight="800" fill="var(--acc)">${h} ${unit}</text></svg>`;
   if (shape === 'para') return `<svg viewBox="0 0 220 150" class="ang"><path d="M20 130H160L200 30H60Z" fill="#d3f9d8" stroke="currentColor" stroke-width="3"/><path d="M60 30V130" stroke="var(--acc)" stroke-width="2" stroke-dasharray="5 4"/><text x="90" y="148" font-size="15" font-weight="800" text-anchor="middle" fill="currentColor">${w} ${unit}</text><text x="66" y="86" font-size="15" font-weight="800" fill="var(--acc)">${h} ${unit}</text></svg>`;
   const W = 60 + Math.min(w, 20) * 6, H = 30 + Math.min(h, 15) * 5;
@@ -84,7 +84,7 @@ export const GEN_EXPLORE = {
   },
   negatives() {
     const kind = pick(['add', 'sub', 'temp']);
-    if (kind === 'temp') { const a = rnd(-8, 6), b = rnd(a + 3, a + 15); return NP(`The temperature rises from ${a}°C to ${b}°C. By how many degrees did it rise?`, b - a, '', 'Count the steps on a number line from the first to the second.', [`${b} − (${a}) = ${b - a}`]); }
+    if (kind === 'temp') { const a = rnd(-8, 6), b = rnd(a + 3, a + 15); return NP(`The temperature rises from ${a}${U('temp')} to ${b}${U('temp')}. By how many degrees did it rise?`, b - a, '', 'Count the steps on a number line from the first to the second.', [`${b} − (${a}) = ${b - a}`]); }
     const a = rnd(-12, 12), b = rnd(-12, 12), ans = kind === 'add' ? a + b : a - b, f = v => v < 0 ? `(−${-v})` : v;
     return NP('Work it out.', ans, `${a < 0 ? '−' + -a : a} ${kind === 'add' ? '+' : '−'} ${f(b)} = ?`, kind === 'sub' ? 'Taking away a negative is the same as adding.' : 'Adding a negative is the same as taking away.', [`= ${ans}`], { data: { neg: true } });
   },
@@ -161,10 +161,10 @@ export const GEN_EXPLORE = {
   ratioShare() { const a = rnd(1, 5), b = rnd(1, 5), k = rnd(5, 30); if (a === b) return GEN_EXPLORE.ratioShare(); return NP(`Share ${money((a + b) * k)} between Riya and Aarav in the ratio ${a} : ${b}. How much does Aarav get?`, b * k, '', `Total parts: ${a + b}. One part = ${money((a + b) * k)} ÷ ${a + b}.`, [`1 part = ${money(k)}`, `Aarav: ${b} × ${k} = ${money(b * k)}`]); },
   unitRate() { const n = rnd(2, 6), p = rnd(5, 40), m = rnd(n + 1, 12); return NP(`${n} pencils cost ${money(n * p)}. How much do ${m} pencils cost?`, m * p, '', 'Find the cost of 1 pencil first.', [`1 pencil = ${money(p)}`, `${m} × ${p} = ${money(m * p)}`]); },
   sdt() {
-    const s = pick([20, 30, 40, 45, 50, 60, 80]), t = rnd(2, 6), kind = pick(['d', 's', 't']);
-    if (kind === 'd') return NP(`A bus travels at ${s} km/h for ${t} hours. How far does it go (km)?`, s * t, '', 'Distance = speed × time.', [`${s} × ${t} = ${s * t} km`]);
-    if (kind === 's') return NP(`A car goes ${s * t} km in ${t} hours. What is its speed (km/h)?`, s, '', 'Speed = distance ÷ time.', [`${s * t} ÷ ${t} = ${s} km/h`]);
-    return NP(`How many hours does it take to travel ${s * t} km at ${s} km/h?`, t, '', 'Time = distance ÷ speed.', [`${s * t} ÷ ${s} = ${t} h`]);
+    const s = pick([20, 30, 40, 45, 50, 60, 80]), t = rnd(2, 6), kind = pick(['d', 's', 't']), d = U('big'), v = U('speed');
+    if (kind === 'd') return NP(`A bus travels at ${s} ${v} for ${t} hours. How far does it go (${d})?`, s * t, '', 'Distance = speed × time.', [`${s} × ${t} = ${s * t} ${d}`]);
+    if (kind === 's') return NP(`A car goes ${s * t} ${d} in ${t} hours. What is its speed (${v})?`, s, '', 'Speed = distance ÷ time.', [`${s * t} ÷ ${t} = ${s} ${v}`]);
+    return NP(`How many hours does it take to travel ${s * t} ${d} at ${s} ${v}?`, t, '', 'Time = distance ÷ speed.', [`${s * t} ÷ ${s} = ${t} h`]);
   },
 
   // ---------- Algebra ----------
@@ -178,27 +178,27 @@ export const GEN_EXPLORE = {
   angleLine() { const a = rnd(25, 155); return NP(`Find x. ${fig(lineAngles(a))}`, 180 - a, '', 'Angles on a straight line add up to 180°.', [`180 − ${a} = ${180 - a}`]); },
   angleTri() { const A = rnd(30, 80), B = rnd(30, 140 - A); return NP(`Find x. ${fig(triSvg(A, B))}`, 180 - A - B, '', 'Angles in a triangle add up to 180°.', [`180 − ${A} − ${B} = ${180 - A - B}`]); },
   polygonAngles() { const n = rnd(5, 10), names = { 5: 'pentagon', 6: 'hexagon', 7: 'heptagon', 8: 'octagon', 9: 'nonagon', 10: 'decagon' }; return NP(`What do the inside angles of a ${names[n]} (${n} sides) add up to, in degrees?`, (n - 2) * 180, '', 'Split it into triangles from one corner: (n − 2) triangles × 180°.', [`(${n} − 2) × 180 = ${(n - 2) * 180}`]); },
-  circleParts() { const r = rnd(3, 25); return Math.random() < .5 ? NP(`A circle has radius ${r} cm. What is its diameter (cm)?`, 2 * r, '', 'Diameter = 2 × radius.', [`2 × ${r} = ${2 * r}`]) : NP(`A circle has diameter ${2 * r} cm. What is its radius (cm)?`, r, '', 'Radius = half the diameter.', [`${2 * r} ÷ 2 = ${r}`]); },
+  circleParts() { const r = rnd(3, 25), u = U('len'); return Math.random() < .5 ? NP(`A circle has radius ${r} ${u}. What is its diameter (${u})?`, 2 * r, '', 'Diameter = 2 × radius.', [`2 × ${r} = ${2 * r}`]) : NP(`A circle has diameter ${2 * r} ${u}. What is its radius (${u})?`, r, '', 'Radius = half the diameter.', [`${2 * r} ÷ 2 = ${r}`]); },
   coordinates({ quads = 1 } = {}) { const lo = quads === 1 ? 0 : -6, x = rnd(lo, 6), y = rnd(lo, 6); if (!x && !y) return GEN_EXPLORE.coordinates({ quads }); return MC(`What are the coordinates of the point? ${fig(gridPoint(x, y, quads))}`, `(${x}, ${y})`, [`(${y}, ${x})`, `(${x + 1}, ${y})`, `(${x}, ${y - 1})`, `(${-x}, ${y})`], 'Along the corridor (x), then up the stairs (y).', [`(${x}, ${y})`]); },
   solidFEV() { const s = pick([['cube', 6, 12, 8], ['cuboid', 6, 12, 8], ['square pyramid', 5, 8, 5], ['triangular prism', 5, 9, 6], ['tetrahedron (triangle pyramid)', 4, 6, 4]]), ask = pick(['faces', 'edges', 'vertices']), v = { faces: s[1], edges: s[2], vertices: s[3] }[ask]; return numMC(`How many ${ask} does a ${s[0]} have?`, v, 6, 'Faces are flat surfaces, edges are lines, vertices are corners.', [`${s[0]}: ${s[1]} faces, ${s[2]} edges, ${s[3]} vertices`]); },
   symmetryLines() { const n = rnd(3, 8), names = { 3: 'equilateral triangle', 4: 'square', 5: 'regular pentagon', 6: 'regular hexagon', 7: 'regular heptagon', 8: 'regular octagon' }; return numMC(`How many lines of symmetry does a ${names[n]} have?`, n, 4, 'A regular shape has as many lines of symmetry as sides.', [`${n} sides → ${n} lines`]); },
 
   // ---------- Measurement ----------
   units() {
-    const c = pick([['m', 'cm', 100], ['km', 'm', 1000], ['kg', 'g', 1000], ['l', 'ml', 1000], ['cm', 'mm', 10]]), big = Math.random() < .5, v = rnd(2, 15) + (Math.random() < .4 ? .5 : 0);
-    return big ? NP(`Convert ${v} ${c[0]} to ${c[1]}.`, r2(v * c[2]), '', `1 ${c[0]} = ${c[2]} ${c[1]}.`, [`${v} × ${c[2]} = ${r2(v * c[2])}`], { data: { dot: true } })
+    const c = pick(conversions()), big = Math.random() < .5, v = c[2] > 1000 ? rnd(1, 3) : rnd(2, 15) + (Math.random() < .4 ? .5 : 0);
+    return big ? NP(`Convert ${v} ${c[0]} to ${c[1]}.`, r2(v * c[2]), '', `1 ${c[0]} = ${fmt(c[2])} ${c[1]}.`, [`${v} × ${c[2]} = ${r2(v * c[2])}`], { data: { dot: true } })
       : NP(`Convert ${r2(v * c[2])} ${c[1]} to ${c[0]}.`, v, '', `Divide by ${c[2]}.`, [`${r2(v * c[2])} ÷ ${c[2]} = ${v}`], { data: { dot: true } });
   },
-  perimeter() { const w = rnd(3, 20), h = rnd(2, 14); return NP(`What is the perimeter of this rectangle (cm)? ${fig(rectSvg(w, h))}`, 2 * (w + h), '', 'Perimeter = distance all the way round: add all four sides.', [`2 × (${w} + ${h}) = ${2 * (w + h)} cm`]); },
-  areaRect() { const w = rnd(3, 20), h = rnd(2, 14); return NP(`What is the area of this rectangle (cm²)? ${fig(rectSvg(w, h))}`, w * h, '', 'Area = length × width.', [`${w} × ${h} = ${w * h} cm²`]); },
+  perimeter() { const w = rnd(3, 20), h = rnd(2, 14), u = U('len'); return NP(`What is the perimeter of this rectangle (${u})? ${fig(rectSvg(w, h))}`, 2 * (w + h), '', 'Perimeter = distance all the way round: add all four sides.', [`2 × (${w} + ${h}) = ${2 * (w + h)} ${u}`]); },
+  areaRect() { const w = rnd(3, 20), h = rnd(2, 14), a = U('area'); return NP(`What is the area of this rectangle (${a})? ${fig(rectSvg(w, h))}`, w * h, '', 'Area = length × width.', [`${w} × ${h} = ${w * h} ${a}`]); },
   areaShapes() {
-    const k = pick(['tri', 'para', 'trap']);
-    if (k === 'tri') { const b = rnd(4, 20) * 2, h = rnd(3, 15); return NP(`What is the area of this triangle (cm²)? ${fig(rectSvg(b, h, 'cm', 'tri'))}`, b * h / 2, '', 'Triangle area = ½ × base × height.', [`½ × ${b} × ${h} = ${b * h / 2} cm²`]); }
-    if (k === 'para') { const b = rnd(4, 20), h = rnd(3, 15); return NP(`What is the area of this parallelogram (cm²)? ${fig(rectSvg(b, h, 'cm', 'para'))}`, b * h, '', 'Parallelogram area = base × height.', [`${b} × ${h} = ${b * h} cm²`]); }
-    const a = rnd(3, 12), b = a + rnd(2, 10), h = rnd(2, 10) * 2; return NP(`A trapezium has parallel sides ${a} cm and ${b} cm and height ${h} cm. What is its area (cm²)?`, (a + b) * h / 2, '', 'Trapezium area = ½ × (a + b) × h.', [`½ × (${a} + ${b}) × ${h} = ${(a + b) * h / 2}`]);
+    const k = pick(['tri', 'para', 'trap']), u = U('len'), A = U('area');
+    if (k === 'tri') { const b = rnd(4, 20) * 2, h = rnd(3, 15); return NP(`What is the area of this triangle (${A})? ${fig(rectSvg(b, h, u, 'tri'))}`, b * h / 2, '', 'Triangle area = ½ × base × height.', [`½ × ${b} × ${h} = ${b * h / 2} ${A}`]); }
+    if (k === 'para') { const b = rnd(4, 20), h = rnd(3, 15); return NP(`What is the area of this parallelogram (${A})? ${fig(rectSvg(b, h, u, 'para'))}`, b * h, '', 'Parallelogram area = base × height.', [`${b} × ${h} = ${b * h} ${A}`]); }
+    const a = rnd(3, 12), b = a + rnd(2, 10), h = rnd(2, 10) * 2, T = U('trap'); return NP(`A ${T} has parallel sides ${a} ${u} and ${b} ${u} and height ${h} ${u}. What is its area (${A})?`, (a + b) * h / 2, '', `${T[0].toUpperCase() + T.slice(1)} area = ½ × (a + b) × h.`, [`½ × (${a} + ${b}) × ${h} = ${(a + b) * h / 2}`]);
   },
-  circleMeasure() { const r = 7 * rnd(1, 4), area = Math.random() < .5; return area ? NP(`Using π = 22/7, find the area of a circle with radius ${r} cm (cm²).`, 22 * r * r / 7, '', 'Area = π r².', [`22/7 × ${r} × ${r} = ${22 * r * r / 7}`]) : NP(`Using π = 22/7, find the circumference of a circle with radius ${r} cm (cm).`, 44 * r / 7, '', 'Circumference = 2 π r.', [`2 × 22/7 × ${r} = ${44 * r / 7}`]); },
-  volume() { const l = rnd(2, 12), w = rnd(2, 10), h = rnd(2, 10), sa = Math.random() < .35; return sa ? NP(`A cuboid is ${l} cm × ${w} cm × ${h} cm. What is its surface area (cm²)?`, 2 * (l * w + w * h + l * h), '', 'Surface area = 2(lw + wh + lh).', [`2 × (${l * w} + ${w * h} + ${l * h}) = ${2 * (l * w + w * h + l * h)}`]) : NP(`A cuboid is ${l} cm × ${w} cm × ${h} cm. What is its volume (cm³)?`, l * w * h, '', 'Volume = length × width × height.', [`${l} × ${w} × ${h} = ${l * w * h}`]); },
+  circleMeasure() { const r = 7 * rnd(1, 4), area = Math.random() < .5, u = U('len'), A = U('area'); return area ? NP(`Using π = 22/7, find the area of a circle with radius ${r} ${u} (${A}).`, 22 * r * r / 7, '', 'Area = π r².', [`22/7 × ${r} × ${r} = ${22 * r * r / 7}`]) : NP(`Using π = 22/7, find the circumference of a circle with radius ${r} ${u} (${u}).`, 44 * r / 7, '', 'Circumference = 2 π r.', [`2 × 22/7 × ${r} = ${44 * r / 7}`]); },
+  volume() { const l = rnd(2, 12), w = rnd(2, 10), h = rnd(2, 10), sa = Math.random() < .35, u = U('len'), B = U('box'); return sa ? NP(`A ${B} is ${l} ${u} × ${w} ${u} × ${h} ${u}. What is its surface area (${U('area')})?`, 2 * (l * w + w * h + l * h), '', 'Surface area = 2(lw + wh + lh).', [`2 × (${l * w} + ${w * h} + ${l * h}) = ${2 * (l * w + w * h + l * h)}`]) : NP(`A ${B} is ${l} ${u} × ${w} ${u} × ${h} ${u}. What is its volume (${U('vol')})?`, l * w * h, '', 'Volume = length × width × height.', [`${l} × ${w} × ${h} = ${l * w * h}`]); },
   time24() {
     if (Math.random() < .5) { const h = rnd(13, 23), m = pick([0, 15, 30, 45, 5, 50]), want = `${h - 12}:${String(m).padStart(2, '0')} pm`; return MC(`${E(`${h}:${String(m).padStart(2, '0')}`)} in 12-hour time is…`, want, [`${h - 10}:${String(m).padStart(2, '0')} pm`, `${h - 12}:${String(m).padStart(2, '0')} am`, `${h}:${String(m).padStart(2, '0')} pm`], 'For afternoon times, take away 12.', [want]); }
     const h1 = rnd(7, 15), m1 = pick([0, 10, 15, 20, 30, 40, 45]), dur = rnd(25, 170), t2 = h1 * 60 + m1 + dur, f = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;

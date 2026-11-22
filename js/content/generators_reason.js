@@ -2,7 +2,7 @@
 // Maharashtra scholarship Intelligence Test and the NMMS Mental Ability Test. All original questions.
 import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { GEN } from './generators.js';
-import { isIndia } from '../core/region.js';
+import { isIndia, U } from '../core/region.js';
 
 const AZ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', L = i => AZ[((i % 26) + 26) % 26], pos = ch => AZ.indexOf(ch);
 const shift = (w, k) => [...w].map(c => L(pos(c) + k)).join('');
@@ -73,7 +73,7 @@ export const GEN_REASON = {
     }
     const a = pick([0, 2]), b = pick([1, 3]), x = rnd(2, 9), y = rnd(2, 9);
     const ns = a === 0 ? 'North' : 'South', ew = b === 1 ? 'East' : 'West', ans = ns + '-' + ew;
-    return mc(`Raj walks ${x} km ${ns}, then ${y} km ${ew}. In which direction is he from where he started?`, ans, [`${ns === 'North' ? 'South' : 'North'}-${ew}`, `${ns}-${ew === 'East' ? 'West' : 'East'}`, ns, ew].map(String), 'Draw it: one walk up or down, one walk across.', [`He is ${ns} and ${ew} of the start: ${ans}`]);
+    return mc(`Raj walks ${x} ${U('big')} ${ns}, then ${y} ${U('big')} ${ew}. In which direction is he from where he started?`, ans, [`${ns === 'North' ? 'South' : 'North'}-${ew}`, `${ns}-${ew === 'East' ? 'West' : 'East'}`, ns, ew].map(String), 'Draw it: one walk up or down, one walk across.', [`He is ${ns} and ${ew} of the start: ${ans}`]);
   },
   ranking() {
     if (Math.random() < .5) { const l = rnd(4, 18), r = rnd(4, 18); return numMc(`In a row of children, Meera is ${l}th from the left and ${r}th from the right. How many children are in the row?`, l + r - 1, l + r - 4, l + r + 3, 'Add both positions, then take 1 away (Meera is counted twice).', [`${l} + ${r} − 1 = ${l + r - 1}`]); }

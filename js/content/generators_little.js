@@ -3,7 +3,7 @@ import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { timeText } from '../core/i18n.js';
 import { OBJ, shapeSvg } from '../core/art.js';
 import { FLOWER, BUG, CHICK } from '../core/art_pond.js';
-import { R, coinLabel, amountLabel } from '../core/region.js';
+import { R, coinLabel, amountLabel, isUS, U } from '../core/region.js';
 import { dots, tenFrame, BALL, BIRD, COL, positionScene, SOLID, COIN, NOTE, PENCIL, fracShape, SYM, FRUIT, FEATHER, ROCK, UNIT } from '../core/art_little.js';
 
 const N = n => `<span class="tn">${n}</span>`;
@@ -148,7 +148,7 @@ export const GEN_LITTLE = {
     while (items.length < 6) { const v = pick(pool); if (total + v > cap) { if (items.length >= 2) break; continue; } items.push(v); total += v; if (Math.random() < .15 && items.length >= 3) break; }
     items.sort((x, y) => y - x);
     const o = choices(total / step, 3, 1, cap / step + 5).map(x => x * step), isNote = v => r.notes.includes(v) && (notes || v >= 1000);
-    const scene = `<div class="money">${items.map(v => isNote(v) ? c(NOTE(coinLabel(v), r.notes.indexOf(v)), 'note') : c(COIN(coinLabel(v), r.coins.indexOf(v) / Math.max(1, r.coins.length - 1), r.gold.includes(v)), 'coin')).join('')}</div>`;
+    const scene = `<div class="money">${items.map(v => isNote(v) ? c(NOTE(coinLabel(v), r.notes.indexOf(v)), 'note') : c(COIN(coinLabel(v), r.coins.indexOf(v) / Math.max(1, r.coins.length - 1), r.gold.includes(v) || ((r.copper || []).includes(v) && 'copper')), 'coin')).join('')}</div>`;
     return P('How much money is this?', o.indexOf(total), { scene, tiles: o.map(v => N(amountLabel(v))), labels: o.map(amountLabel) }, 'Start with the biggest one and count on.', `${items.map(coinLabel).join(' + ')} = ${amountLabel(total)}`);
   },
   sides() {
@@ -199,10 +199,10 @@ export const GEN_LITTLE = {
     return P(`Which picture shows ${want[1]} shaded?`, opts.indexOf(want[0]), { tiles: opts.map(k => fracShape(kind, k, 1)), labels: opts.map(k => '1 of ' + k) }, `Count the equal parts: ${want[1]} means 1 of ${want[0]} equal parts.`, `${want[1]} = 1/${want[0]}`);
   },
   ruler() {
-    const L = rnd(3, 11), o = numTiles(L, 3, 1, 12);
-    o.tiles = o.labels.map(v => N(v + ' cm'));
-    const ticks = Array.from({ length: 13 }, (_, i) => `<span class="tk"><b>${i}</b></span>`).join('');
-    return P('How long is the pencil?', o.answer, { scene: `<div class="rulerscene" style="--l:${L}"><div class="pen2">${PENCIL(L)}</div><div class="rul">${ticks}</div></div>`, tiles: o.tiles, labels: o.labels, wide: true }, 'The pencil starts at 0. Read the number at its tip.', `${L} cm`);
+    const us = isUS(), top = us ? 7 : 12, u = U('len'), L = us ? rnd(2, 6) : rnd(3, 11), o = numTiles(L, 3, 1, top);
+    o.tiles = o.labels.map(v => N(v + ' ' + u));
+    const ticks = Array.from({ length: top + 1 }, (_, i) => `<span class="tk"><b>${i}</b></span>`).join('');
+    return P('How long is the pencil?', o.answer, { scene: `<div class="rulerscene" style="--l:${L}${us ? ';--u:clamp(36px,11vw,76px)' : ''}"><div class="pen2">${PENCIL(L)}</div><div class="rul">${ticks}</div></div>`, tiles: o.tiles, labels: o.labels, wide: true }, 'The pencil starts at 0. Read the number at its tip.', `${L} ${u}`);
   },
   clockQuarter() {
     const hr = rnd(1, 12), m = pick([0, 15, 30, 45]);

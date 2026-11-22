@@ -10,7 +10,7 @@ export const REGIONS = {
   canada: { name: 'Canada', locale: 'en-CA', voice: 'en-CA', group: 'intl', sym: '$', minor: '¢',
     coins: [5, 10, 25, 100, 200], notes: [500, 1000, 2000, 5000], gold: [100, 200] },
   uk: { name: 'UK', locale: 'en-GB', voice: 'en-GB', group: 'intl', sym: '£', minor: 'p',
-    coins: [1, 2, 5, 10, 20, 50, 100, 200], notes: [500, 1000, 2000, 5000], gold: [1, 2, 100, 200] }
+    coins: [1, 2, 5, 10, 20, 50, 100, 200], notes: [500, 1000, 2000, 5000], gold: [100, 200], copper: [1, 2] }
 };
 export function guessRegion() {
   const l = (navigator.language || '').toLowerCase(), tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
@@ -39,3 +39,15 @@ export function coinLabel(v) { const r = R(); return r.minor && v < 100 ? `${v}$
 // A total in the smallest unit → how to say it in an answer.
 export function amountLabel(v) { const r = R(); if (r.minor && v < 100) return `${v}${r.minor}`; return v % 100 ? `${r.sym}${(v / 100).toFixed(2)}` : `${r.sym}${fmt(v / 100)}`; }
 export const dateFmt = (d, opts) => new Date(d).toLocaleDateString(R().locale, opts);
+
+// Measurement: US customary units in the USA, metric everywhere else.
+const UNITS = {
+  metric: { len: 'cm', big: 'km', speed: 'km/h', temp: '°C', area: 'cm²', vol: 'cm³', trap: 'trapezium', box: 'cuboid' },
+  us: { len: 'in', big: 'miles', speed: 'mph', temp: '°F', area: 'sq in', vol: 'cu in', trap: 'trapezoid', box: 'rectangular prism' }
+};
+export const isUS = () => regionId() === 'us';
+export const U = k => UNITS[isUS() ? 'us' : 'metric'][k];
+// Unit conversions: [big unit, small unit, how many small in one big]
+export const conversions = () => isUS()
+  ? [['ft', 'in', 12], ['yd', 'ft', 3], ['lb', 'oz', 16], ['gal', 'qt', 4], ['qt', 'pt', 2], ['pt', 'cups', 2], ['mi', 'ft', 5280]]
+  : [['m', 'cm', 100], ['km', 'm', 1000], ['kg', 'g', 1000], ['l', 'ml', 1000], ['cm', 'mm', 10]];
