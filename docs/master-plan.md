@@ -3,6 +3,8 @@
 **Status:** updated 22 Nov 2026. Steps 1 (foundation), 2 (Little Learners) and 3 (Explorers) are built, plus Tables, Tricks, Reasoning and Logic & coding. 217 lessons in total.
 **Companion doc:** `claude/maths-curriculum-map.md` in the Maths project (the full topic list by strand).
 
+**Country setting (22 Nov 2026):** India, USA, Canada or UK, chosen at sign-up and changeable in Grown-ups. Lakhs and crores and Indian commas appear only for India; other countries get thousands and millions. Coins, notes and the money symbol follow the country, as do the voice and date style. The reasoning section is called "Reasoning" everywhere.
+
 **Changes on 22 Nov 2026 (owner's decisions):** English only (Marathi and Hindi dropped); no school-board selection; an admin view that shows every topic; code kept in a GitHub repository.
 
 ---
