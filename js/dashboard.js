@@ -4,13 +4,14 @@ import { t } from './core/i18n.js';
 import { profiles, effectiveMode } from './core/store.js';
 import { status, pct } from './core/mastery.js';
 import { ICON, SKILL_ICON } from './core/art.js';
+import { dateFmt } from './core/region.js';
 
 const DAY = 864e5, today = () => Math.floor(Date.now() / DAY);
 const MODES = ['little', 'explore', 'achieve', 'adult'];
 const fmtDur = ms => { const m = Math.round(ms / 60000); return m < 60 ? `${m} min` : `${Math.floor(m / 60)}h ${m % 60}m`; };
 const LV = ['JK', 'SK', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
 const lvSort = (a, b) => { const i = LV.indexOf(a), j = LV.indexOf(b); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || a.localeCompare(b, 'en', { numeric: true }); };
-const dayLabel = d => new Date(d * DAY).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+const dayLabel = d => dateFmt(d * DAY, { day: 'numeric', month: 'short' });
 
 function stats(p, skills) {
   const mine = skills.filter(s => s.modes.includes(effectiveMode(p))), now = today();
@@ -65,7 +66,7 @@ export function dashboard({ content, mount, onBack, onTry, pid }) {
       </div>
       <div class="dgrid2">
         <section class="dcard"><h3>${t('dash.attention')}</h3>${S.weak.length || S.review.length ? `<ul class="dlist">${S.review.slice(0, 3).map(s => `<li><span class="admic">${SKILL_ICON[s.icon] || ''}</span><span><b>${esc(s.title)}</b><small>${t('status.review')}</small></span><button class="btn dtry" data-id="${s.id}">${t('adm.try')}</button></li>`).join('')}${S.weak.map(x => `<li><span class="admic">${SKILL_ICON[x.s.icon] || ''}</span><span><b>${esc(x.s.title)}</b><small>${t('dash.accShort', { p: pct(x.r) })}</small></span><button class="btn dtry" data-id="${x.s.id}">${t('adm.try')}</button></li>`).join('')}</ul>` : `<p class="note left">${t('dash.allGood')}</p>`}</section>
-        <section class="dcard"><h3>${t('dash.recentS')}</h3>${S.sess.length ? `<div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('dash.when')}</th><th class="r">${t('dash.score')}</th><th class="r">${t('dash.timeS')}</th></tr></thead><tbody>${S.sess.slice(-8).reverse().map(s => { const sk = content.skills.find(x => x.id === s.id); return `<tr><td>${esc(sk ? sk.title : s.id)}</td><td>${new Date(s.t).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</td><td class="r">${s.c}/${s.n}</td><td class="r">${fmtDur(s.ms)}</td></tr>`; }).join('')}</tbody></table></div>` : `<p class="note left">${t('dash.noSess')}</p>`}</section>
+        <section class="dcard"><h3>${t('dash.recentS')}</h3>${S.sess.length ? `<div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('dash.when')}</th><th class="r">${t('dash.score')}</th><th class="r">${t('dash.timeS')}</th></tr></thead><tbody>${S.sess.slice(-8).reverse().map(s => { const sk = content.skills.find(x => x.id === s.id); return `<tr><td>${esc(sk ? sk.title : s.id)}</td><td>${dateFmt(s.t, { day: 'numeric', month: 'short' })}</td><td class="r">${s.c}/${s.n}</td><td class="r">${fmtDur(s.ms)}</td></tr>`; }).join('')}</tbody></table></div>` : `<p class="note left">${t('dash.noSess')}</p>`}</section>
       </div>
       ${all.length > 1 ? `<section class="dcard"><h3>${t('dash.everyone')}</h3><div class="scroll"><table class="ptab"><thead><tr><th>${t('dash.learner')}</th><th>${t('ui.mode')}</th><th class="r">${t('dash.mastered')}</th><th class="r">${t('dash.acc')}</th><th class="r">${t('dash.streak')}</th></tr></thead><tbody>${all.map(q => { const s = stats(q, content.skills); return `<tr><td>${esc(q.name)}</td><td>${t('mode.' + effectiveMode(q))}</td><td class="r">${s.mastered}/${s.mine.length}</td><td class="r">${s.acc == null ? '—' : s.acc + '%'}</td><td class="r">${s.streak}</td></tr>`; }).join('')}</tbody></table></div></section>` : ''}
     </div>

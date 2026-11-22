@@ -3,6 +3,7 @@ import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { timeText } from '../core/i18n.js';
 import { OBJ, shapeSvg } from '../core/art.js';
 import { FLOWER, BUG, CHICK } from '../core/art_pond.js';
+import { R, coinLabel, amountLabel } from '../core/region.js';
 import { dots, tenFrame, BALL, BIRD, COL, positionScene, SOLID, COIN, NOTE, PENCIL, fracShape, SYM, FRUIT, FEATHER, ROCK, UNIT } from '../core/art_little.js';
 
 const N = n => `<span class="tn">${n}</span>`;
@@ -139,12 +140,16 @@ export const GEN_LITTLE = {
     return P(`Which day comes after ${DAYS[i]}?`, o.indexOf(ans), { tiles: o.map(d => `<span class="tw">${d}</span>`), labels: o }, 'Say the days of the week in order.', DAYS.join(', '));
   },
   coins({ max = 20, notes = false } = {}) {
-    const pool = notes ? [1, 2, 5, 10, 20] : [1, 2, 5, 10]; let items = [], total = 0;
-    while (items.length < 5) { const v = pick(pool); if (total + v > max) break; items.push(v); total += v; }
-    if (!items.length) { items = [1]; total = 1; }
+    // Values are in the smallest unit (paise / cents / pence).
+    const r = R(), step = notes || !r.minor ? 100 : 1;
+    const pool = notes ? [...r.coins.filter(v => v >= 100), ...r.notes] : (r.minor ? r.coins.filter(v => v < 100) : r.coins.filter(v => v <= 1000));
+    const cap = notes ? max * 100 : r.minor ? 99 : max * 100;
+    let items = [], total = 0;
+    while (items.length < 6) { const v = pick(pool); if (total + v > cap) { if (items.length >= 2) break; continue; } items.push(v); total += v; if (Math.random() < .15 && items.length >= 3) break; }
     items.sort((x, y) => y - x);
-    const o = choices(total, 3, 1, max + 10);
-    return P('How much money is this?', o.indexOf(total), { scene: `<div class="money">${items.map(v => c(v >= 20 || (notes && v === 10) ? NOTE(v) : COIN(v), v >= 20 || (notes && v === 10) ? 'note' : 'coin')).join('')}</div>`, tiles: o.map(v => N('₹' + v)), labels: o.map(v => v + ' rupees') }, 'Start with the biggest one and count on.', `${items.join(' + ')} = ₹${total}`);
+    const o = choices(total / step, 3, 1, cap / step + 5).map(x => x * step), isNote = v => r.notes.includes(v) && (notes || v >= 1000);
+    const scene = `<div class="money">${items.map(v => isNote(v) ? c(NOTE(coinLabel(v), r.notes.indexOf(v)), 'note') : c(COIN(coinLabel(v), r.coins.indexOf(v) / Math.max(1, r.coins.length - 1), r.gold.includes(v)), 'coin')).join('')}</div>`;
+    return P('How much money is this?', o.indexOf(total), { scene, tiles: o.map(v => N(amountLabel(v))), labels: o.map(amountLabel) }, 'Start with the biggest one and count on.', `${items.map(coinLabel).join(' + ')} = ${amountLabel(total)}`);
   },
   sides() {
     const shapes = { 3: '<path d="M50 8 92 86H8z"/>', 4: '<rect x="12" y="12" width="76" height="76" rx="3"/>', 5: '<path d="M50 6 94 38 77 90H23L6 38z"/>', 6: '<path d="M28 10h44l22 40-22 40H28L6 50z"/>' };

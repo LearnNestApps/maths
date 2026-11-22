@@ -3,6 +3,7 @@
 import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { t, timeText } from '../core/i18n.js';
 import { sameExpr, termCount, pretty } from './expr.js';
+import { money as M } from '../core/region.js';
 
 const NAMES = ['Riya', 'Aarav', 'Sana', 'Kabir', 'Meera', 'Arjun', 'Ira', 'Vihaan'];
 const E = s => `<span class="expr">${s}</span>`;
@@ -152,7 +153,7 @@ export const GEN = {
     const asMcq = a => ({ stem: a.prompt + (a.data.expr ? ' ' + a.data.expr : ''), options: a.data.options, answer: a.answer });
     const num = (g) => { const a = GEN[g](); const opts = choices(a.answer, 4, Math.max(0, a.answer - 15), a.answer + 15); return { stem: a.prompt + ' ' + (a.data.expr || ''), options: opts.map(String), answer: opts.indexOf(a.answer) }; };
     const word = () => { const a = GEN.barPartWhole(); const o = choices(a.answer, 4, 1, 99); return { stem: a.prompt, options: o.map(String), answer: o.indexOf(a.answer) }; };
-    const money = () => { const p = rnd(3, 9) * 5, q = rnd(2, 5), paid = Math.ceil(p * q / 100) * 100; const ans = paid - p * q, o = choices(ans, 4, 0, paid); return { stem: `A pen costs ₹${p}. You buy ${q} pens and pay ₹${paid}. How much change do you get?`, options: o.map(v => '₹' + v), answer: o.indexOf(ans) }; };
+    const money = () => { const p = rnd(3, 9) * 5, q = rnd(2, 5), paid = Math.ceil(p * q / 100) * 100; const ans = paid - p * q, o = choices(ans, 4, 0, paid); return { stem: `A pen costs ${M(p)}. You buy ${q} pens and pay ${M(paid)}. How much change do you get?`, options: o.map(M), answer: o.indexOf(ans) }; };
     const hard = () => { const a = GEN.urdhva2(); const o = choices(a.answer, 4, a.answer - 40, a.answer + 40); return { stem: a.prompt, options: o.map(String), answer: o.indexOf(a.answer) }; };
     return { template: 'mock', prompt: `${exam} · Class ${klass}`, data: { title: `${exam} sample mock · Class ${klass}`, minutes: 12, sections: [
       { name: 'Logical Reasoning', marks: 1, qs: [asMcq(GEN.seriesNext({ hard: true })), asMcq(GEN.oddOneOut()), asMcq(GEN.seriesNext())] },

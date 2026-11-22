@@ -464,7 +464,7 @@ input,select{font:inherit;font-size:18px;color:var(--ink);background:var(--surfa
 .crow.blank .rhs{min-height:34px;border-radius:8px;background:var(--line);padding:0 8px}
 .crow.now{outline:3px solid var(--acc)}.crow.done .rhs{color:var(--ok);background:none}.crow.shown .rhs{color:var(--hint);background:none}
 @media(max-width:600px){.crows{grid-template-columns:1fr;max-height:34vh}}
-/* Buddhimatta figures */
+/* Reasoning figures */
 .mw{display:inline-block;font-weight:800;font-size:26px;letter-spacing:2px}
 .mw.flipx{transform:scaleX(-1)}.mw.flipy{transform:scaleY(-1)}.mw.rot{transform:rotate(180deg)}
 .fig{display:block;width:min(200px,60vw);margin:10px auto 0;color:var(--ink)}

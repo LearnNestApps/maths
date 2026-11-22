@@ -846,7 +846,7 @@
    "prereq": [
     "ll-coins"
    ],
-   "title": "Money to ₹100"
+   "title": "Money: notes and coins"
   },
   {
    "id": "ll-sym",
@@ -1133,13 +1133,16 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "seriesNext",
    "items": 6,
    "title": "Number series",
    "params": {
     "hard": true
+   },
+   "intl": {
+    "level": "Reasoning"
    }
   },
   {
@@ -1150,11 +1153,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "letterSeries",
    "items": 6,
-   "title": "Letter series"
+   "title": "Letter series",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-anum",
@@ -1164,11 +1170,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "analogyNum",
    "items": 6,
-   "title": "Number analogies"
+   "title": "Number analogies",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-alet",
@@ -1178,11 +1187,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "analogyLetter",
    "items": 6,
-   "title": "Letter analogies"
+   "title": "Letter analogies",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-odd",
@@ -1192,11 +1204,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "oddOneOut",
    "items": 6,
-   "title": "Odd one out: numbers"
+   "title": "Odd one out: numbers",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-oddlet",
@@ -1206,11 +1221,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "oddGroup",
    "items": 6,
-   "title": "Odd one out: letters"
+   "title": "Odd one out: letters",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-code",
@@ -1220,11 +1238,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "coding",
    "items": 6,
-   "title": "Coding and decoding"
+   "title": "Coding and decoding",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-alpha",
@@ -1234,11 +1255,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "alphabetPos",
    "items": 6,
-   "title": "Alphabet positions"
+   "title": "Alphabet positions",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-dir",
@@ -1248,11 +1272,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "directions",
    "items": 6,
-   "title": "Directions"
+   "title": "Directions",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-rank",
@@ -1262,11 +1289,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "ranking",
    "items": 6,
-   "title": "Ranking and order"
+   "title": "Ranking and order",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-cal",
@@ -1276,11 +1306,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "calendar",
    "items": 6,
-   "title": "Calendar"
+   "title": "Calendar",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-clock",
@@ -1290,11 +1323,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "clockAngle",
    "items": 6,
-   "title": "Clock angles and mirror time"
+   "title": "Clock angles and mirror time",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-mirror",
@@ -1304,11 +1340,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "mirrorWord",
    "items": 6,
-   "title": "Mirror and water images"
+   "title": "Mirror and water images",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-count",
@@ -1318,11 +1357,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "countFigures",
    "items": 6,
-   "title": "Counting figures"
+   "title": "Counting figures",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-miss",
@@ -1332,11 +1374,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "missingFigure",
    "items": 6,
-   "title": "Missing numbers in figures"
+   "title": "Missing numbers in figures",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-rel",
@@ -1346,11 +1391,14 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "relations",
    "items": 6,
-   "title": "Family relations"
+   "title": "Family relations",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "b-test",
@@ -1360,13 +1408,16 @@
     "achieve"
    ],
    "level": "MSCE · NMMS",
-   "strand": "Buddhimatta",
+   "strand": "Reasoning",
    "icon": "mock",
    "gen": "intelligenceMock",
    "params": {
     "n": 25
    },
-   "title": "Buddhimatta practice test (25 questions)"
+   "title": "Reasoning practice test (25 questions)",
+   "intl": {
+    "level": "Reasoning"
+   }
   },
   {
    "id": "x-imo",
@@ -2526,6 +2577,30 @@
    "title": "Lakhs and crores",
    "prereq": [
     "e-pv"
+   ],
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "e-millions",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "bigNumbers",
+   "items": 6,
+   "title": "Thousands and millions",
+   "prereq": [
+    "e-pv"
+   ],
+   "regions": [
+    "us",
+    "canada",
+    "uk"
    ]
   },
   {

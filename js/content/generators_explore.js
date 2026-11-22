@@ -1,10 +1,11 @@
 // Explorers (Grades 3–8) generators.
 import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { SOLID } from '../core/art_little.js';
+import { fmt, money, isIndia } from '../core/region.js';
 
 const E = s => `<span class="expr">${s}</span>`;
 const r2 = x => +(+x).toFixed(2);
-const fmtIN = n => { const s = String(n); if (s.length <= 3) return s; const last3 = s.slice(-3), rest = s.slice(0, -3); return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3; };
+const fmtIN = n => { const s = String(n); if (s.length <= 3) return s; const last3 = s.slice(-3), rest = s.slice(0, -3); return rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3; }; // used by the India-only lakhs and crores lesson
 const gcd = (a, b) => b ? gcd(b, a % b) : a, lcm = (a, b) => a * b / gcd(a, b);
 const NP = (prompt, answer, expr, hint, solution, extra = {}) => ({ template: 'numpad', prompt, answer, data: { expr: expr ? E(expr) : '', ...extra.data }, hint, solution: [].concat(solution), ...(extra.say ? { say: extra.say } : {}) });
 function MC(prompt, right, wrongs, hint, solution, data = {}) {
@@ -55,13 +56,21 @@ export const GEN_EXPLORE = {
   placeValue({ digits = 5 } = {}) {
     const n = rnd(10 ** (digits - 1), 10 ** digits - 1), s = String(n), i = rnd(0, s.length - 2), d = +s[i] || 1;
     const num = +(s.slice(0, i) + d + s.slice(i + 1)), place = 10 ** (s.length - 1 - i), val = d * place;
-    return numMCv(`What is the value of the digit ${d} in ${E(fmtIN(num))}?`, val, [d, d * place * 10, d * place / 10 || d * 10, place], 'Find its place: ones, tens, hundreds, thousands…', [`${d} is in the ${place.toLocaleString('en-IN')}s place → ${val.toLocaleString('en-IN')}`]);
+    return numMCv(`What is the value of the digit ${d} in ${E(fmt(num))}?`, val, [d, d * place * 10, d * place / 10 || d * 10, place], 'Find its place: ones, tens, hundreds, thousands…', [`${d} is in the ${fmt(place)}s place → ${fmt(val)}`]);
   },
   indianSystem() {
     const kind = pick(['lakh', 'crore', 'commas']);
     if (kind === 'commas') { const n = rnd(100000, 99999999); return MC(`Which is the Indian way of writing ${n}?`, fmtIN(n), [n.toLocaleString('en-US'), String(n).replace(/\B(?=(\d{4})+(?!\d))/g, ','), fmtIN(n).replace(',', '')], 'Indian commas: first after 3 digits from the right, then after every 2.', [fmtIN(n)]); }
     if (kind === 'lakh') { const l = rnd(2, 99); return numMC(`How many lakhs make ${E(fmtIN(l * 100000))}?`, l, 15, '1 lakh = 1,00,000.', [`${fmtIN(l * 100000)} ÷ 1,00,000 = ${l}`]); }
     const c = rnd(2, 9), l = rnd(1, 99); return numMC(`${c} crore ${l} lakh is how many lakhs?`, c * 100 + l, 40, '1 crore = 100 lakh.', [`${c} × 100 + ${l} = ${c * 100 + l} lakh`]);
+  },
+  bigNumbers() {
+    const kind = pick(['thousands', 'millions', 'commas', 'words']);
+    if (kind === 'thousands') { const k = rnd(12, 999); return numMC(`How many thousands make ${E(fmt(k * 1000))}?`, k, 30, '1 thousand = 1,000.', [`${fmt(k * 1000)} ÷ 1,000 = ${k}`]); }
+    if (kind === 'millions') { const m = rnd(1, 9), k = rnd(10, 990); return NP(`Write ${m} million ${k} thousand as a number. How many thousands is that?`, m * 1000 + k, '', '1 million = 1,000 thousands.', [`${m} × 1,000 + ${k} = ${fmt(m * 1000 + k)} thousand = ${fmt((m * 1000 + k) * 1000)}`]); }
+    if (kind === 'commas') { const n = rnd(1000000, 99999999), s = String(n); return MC('Where do the commas go?', n.toLocaleString('en-US'), [s.replace(/\B(?=(\d{4})+(?!\d))/g, ','), s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + s.slice(-3), s.replace(/(\d{2})(?=\d)/g, '$1,')], 'Count 3 digits from the right, put a comma, and repeat.', [n.toLocaleString('en-US')]); }
+    const m = rnd(1, 9), k = rnd(100, 999), n = m * 1000000 + k * 1000;
+    return MC(`How do you read ${E(fmt(n))}?`, `${m} million, ${k} thousand`, [`${m} billion, ${k} thousand`, `${m * 10 + Math.floor(k / 100)} lakh`, `${m} million, ${k} hundred`], 'Groups of three: millions, thousands, ones.', [`${fmt(n)} = ${m} million, ${k} thousand`]);
   },
   rounding({ to = 'pick' } = {}) {
     const p = to === 'pick' ? pick([10, 100, 1000]) : to, n = rnd(p * 2, p * 99) + rnd(1, p - 1), ans = Math.round(n / p) * p;
@@ -145,12 +154,12 @@ export const GEN_EXPLORE = {
     return MC(`${E(from)} is the same as…`, to, shuffle(all[kind]).filter(x => x !== to), 'Fraction → divide top by bottom for the decimal; × 100 for the percentage.', [`${f} = ${d} = ${p}`]);
   },
   pctOf() { const p = pick([10, 20, 25, 30, 40, 50, 60, 75, 5, 15]), n = pick([20, 40, 60, 80, 120, 200, 240, 300, 400, 500, 800]); return NP('Work it out.', n * p / 100, `${p}% of ${n} = ?`, 'Find 10% (÷ 10), or 1% (÷ 100), and build up.', [`${n} × ${p}/100 = ${n * p / 100}`]); },
-  pctChange() { const n = pick([200, 400, 500, 800, 1000, 1200, 1500, 2000]), p = pick([10, 20, 25, 5, 15]), up = Math.random() < .5; return NP(`A price of ₹${n} ${up ? 'goes up' : 'is reduced'} by ${p}%. What is the new price?`, up ? n * (100 + p) / 100 : n * (100 - p) / 100, '', `${p}% of ${n} = ${n * p / 100}; ${up ? 'add' : 'take'} it ${up ? 'on' : 'off'}.`, [`${n} ${up ? '+' : '−'} ${n * p / 100} = ${up ? n * (100 + p) / 100 : n * (100 - p) / 100}`]); },
+  pctChange() { const n = pick([200, 400, 500, 800, 1000, 1200, 1500, 2000]), p = pick([10, 20, 25, 5, 15]), up = Math.random() < .5; return NP(`A price of ${money(n)} ${up ? 'goes up' : 'is reduced'} by ${p}%. What is the new price?`, up ? n * (100 + p) / 100 : n * (100 - p) / 100, '', `${p}% of ${n} = ${n * p / 100}; ${up ? 'add' : 'take'} it ${up ? 'on' : 'off'}.`, [`${n} ${up ? '+' : '−'} ${n * p / 100} = ${up ? n * (100 + p) / 100 : n * (100 - p) / 100}`]); },
 
   // ---------- Ratio ----------
   ratioSimplify() { const g = rnd(2, 9), a = rnd(1, 7), b = rnd(1, 7); if (gcd(a, b) > 1 || a === b) return GEN_EXPLORE.ratioSimplify(); return MC(`Simplify the ratio ${E(`${a * g} : ${b * g}`)}.`, `${a} : ${b}`, [`${b} : ${a}`, `${a * 2} : ${b}`, `${a} : ${b * 2}`], 'Divide both sides by their HCF.', [`÷ ${g} → ${a} : ${b}`]); },
-  ratioShare() { const a = rnd(1, 5), b = rnd(1, 5), k = rnd(5, 30); if (a === b) return GEN_EXPLORE.ratioShare(); return NP(`Share ₹${(a + b) * k} between Riya and Aarav in the ratio ${a} : ${b}. How much does Aarav get?`, b * k, '', `Total parts: ${a + b}. One part = ₹${(a + b) * k} ÷ ${a + b}.`, [`1 part = ₹${k}`, `Aarav: ${b} × ${k} = ₹${b * k}`]); },
-  unitRate() { const n = rnd(2, 6), p = rnd(5, 40), m = rnd(n + 1, 12); return NP(`${n} pencils cost ₹${n * p}. How much do ${m} pencils cost?`, m * p, '', 'Find the cost of 1 pencil first.', [`1 pencil = ₹${p}`, `${m} × ${p} = ₹${m * p}`]); },
+  ratioShare() { const a = rnd(1, 5), b = rnd(1, 5), k = rnd(5, 30); if (a === b) return GEN_EXPLORE.ratioShare(); return NP(`Share ${money((a + b) * k)} between Riya and Aarav in the ratio ${a} : ${b}. How much does Aarav get?`, b * k, '', `Total parts: ${a + b}. One part = ${money((a + b) * k)} ÷ ${a + b}.`, [`1 part = ${money(k)}`, `Aarav: ${b} × ${k} = ${money(b * k)}`]); },
+  unitRate() { const n = rnd(2, 6), p = rnd(5, 40), m = rnd(n + 1, 12); return NP(`${n} pencils cost ${money(n * p)}. How much do ${m} pencils cost?`, m * p, '', 'Find the cost of 1 pencil first.', [`1 pencil = ${money(p)}`, `${m} × ${p} = ${money(m * p)}`]); },
   sdt() {
     const s = pick([20, 30, 40, 45, 50, 60, 80]), t = rnd(2, 6), kind = pick(['d', 's', 't']);
     if (kind === 'd') return NP(`A bus travels at ${s} km/h for ${t} hours. How far does it go (km)?`, s * t, '', 'Distance = speed × time.', [`${s} × ${t} = ${s * t} km`]);
@@ -195,8 +204,8 @@ export const GEN_EXPLORE = {
     const h1 = rnd(7, 15), m1 = pick([0, 10, 15, 20, 30, 40, 45]), dur = rnd(25, 170), t2 = h1 * 60 + m1 + dur, f = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
     return NP(`A train leaves at ${f(h1 * 60 + m1)} and arrives at ${f(t2)}. How many minutes is the journey?`, dur, '', 'Count up to the next hour, then whole hours, then the extra minutes.', [`${dur} minutes`]);
   },
-  profitLoss() { const cp = rnd(5, 45) * 20, p = pick([10, 20, 25, 5]), profit = Math.random() < .6, sp = profit ? cp * (100 + p) / 100 : cp * (100 - p) / 100; return NP(`A shopkeeper buys a toy for ₹${cp} and sells it for ₹${sp}. What is the ${profit ? 'profit' : 'loss'} in ₹?`, Math.abs(sp - cp), '', profit ? 'Profit = selling price − cost price.' : 'Loss = cost price − selling price.', [`₹${Math.abs(sp - cp)} = ${p}% of ₹${cp}`]); },
-  simpleInterest() { const P = rnd(2, 50) * 1000, R = pick([4, 5, 6, 8, 10, 12]), T = rnd(1, 5); return NP(`Find the simple interest on ₹${fmtIN(P)} at ${R}% a year for ${T} year${T > 1 ? 's' : ''}.`, P * R * T / 100, '', 'SI = P × R × T ÷ 100.', [`${P} × ${R} × ${T} ÷ 100 = ₹${P * R * T / 100}`]); },
+  profitLoss() { const cp = rnd(5, 45) * 20, p = pick([10, 20, 25, 5]), profit = Math.random() < .6, sp = profit ? cp * (100 + p) / 100 : cp * (100 - p) / 100; return NP(`A shopkeeper buys a toy for ${money(cp)} and sells it for ${money(sp)}. What is the ${profit ? 'profit' : 'loss'}?`, Math.abs(sp - cp), '', profit ? 'Profit = selling price − cost price.' : 'Loss = cost price − selling price.', [`${money(Math.abs(sp - cp))} = ${p}% of ${money(cp)}`]); },
+  simpleInterest() { const P = rnd(2, 50) * 1000, R = pick([4, 5, 6, 8, 10, 12]), T = rnd(1, 5); return NP(`Find the simple interest on ${money(P)} at ${R}% a year for ${T} year${T > 1 ? 's' : ''}.`, P * R * T / 100, '', 'SI = P × R × T ÷ 100.', [`${P} × ${R} × ${T} ÷ 100 = ${money(P * R * T / 100)}`]); },
 
   // ---------- Data and probability ----------
   meanMedian() {
@@ -257,7 +266,7 @@ export const GEN_EXPLORE = {
   // ---------- Bar models, speed, puzzles ----------
   barUnits() {
     const kind = pick(['frac', 'ratio', 'beforeafter']);
-    if (kind === 'frac') { const n = rnd(3, 6), k = rnd(1, n - 1), u = rnd(3, 12), [name] = shuffle(['Riya', 'Kabir', 'Meera']); return { template: 'bar', prompt: `${name} spent ${k}/${n} of her money and has ₹${(n - k) * u} left. How much did she have at first?`, answer: n * u, data: { kind: 'units', n, shade: k, label: `₹${(n - k) * u} left`, q: 'money at first' }, hint: `The ${n - k} unshaded units are ₹${(n - k) * u}, so 1 unit = ₹${u}.`, solution: [`1 unit = ${(n - k) * u} ÷ ${n - k} = ${u}`, `${n} units = ₹${n * u}`] }; }
+    if (kind === 'frac') { const n = rnd(3, 6), k = rnd(1, n - 1), u = rnd(3, 12), [name] = shuffle(['Riya', 'Kabir', 'Meera']); return { template: 'bar', prompt: `${name} spent ${k}/${n} of her money and has ${money((n - k) * u)} left. How much did she have at first?`, answer: n * u, data: { kind: 'units', n, shade: k, label: `${money((n - k) * u)} left`, q: 'money at first' }, hint: `The ${n - k} unshaded units are ${money((n - k) * u)}, so 1 unit = ${money(u)}.`, solution: [`1 unit = ${(n - k) * u} ÷ ${n - k} = ${u}`, `${n} units = ${money(n * u)}`] }; }
     if (kind === 'ratio') { const a = rnd(1, 4), b = rnd(2, 5), u = rnd(4, 15); if (a === b) return GEN_EXPLORE.barUnits(); return { template: 'bar', prompt: `Boys and girls are in the ratio ${a} : ${b}. There are ${(a + b) * u} children. How many girls?`, answer: b * u, data: { kind: 'units', n: a + b, shade: a, label: `${(a + b) * u} children`, q: 'girls' }, hint: `${a + b} units = ${(a + b) * u}, so 1 unit = ${u}.`, solution: [`1 unit = ${u}`, `girls: ${b} × ${u} = ${b * u}`] }; }
     const x = rnd(10, 40), give = rnd(3, 9); return { template: 'bar', prompt: `Aarav and Ira had the same number of stickers. Aarav gave away ${give} and now has ${x - give}. How many does Ira have?`, answer: x, data: { kind: 'units', n: 1, shade: 0, label: `${x - give} + ${give}`, q: 'Ira (same as Aarav at first)' }, hint: 'Before giving any away, they had the same amount.', solution: [`${x - give} + ${give} = ${x}`] };
   },
@@ -271,4 +280,4 @@ export const GEN_EXPLORE = {
     return NP(`Every row, column and diagonal adds up to ${sum}. What is the missing number? <div class="magic">${g.map((r, a) => r.map((v, b) => `<b class="${a === i && b === j ? 'qm' : ''}">${a === i && b === j ? '?' : v}</b>`).join('')).join('')}</div>`, ans, '', `Use a row or column that has the gap: ${sum} − the other two.`, [`${sum} − ${g[i].filter((_, b) => b !== j).join(' − ')} = ${ans}`]);
   }
 };
-function numMCv(prompt, ans, wrongs, hint, sol) { return MC(prompt, ans.toLocaleString('en-IN'), wrongs.map(w => (+w).toLocaleString('en-IN')), hint, sol); }
+function numMCv(prompt, ans, wrongs, hint, sol) { return MC(prompt, fmt(ans), wrongs.map(w => Number.isInteger(+w) ? fmt(+w) : String(+w)), hint, sol); }

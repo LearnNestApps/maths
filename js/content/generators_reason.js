@@ -1,7 +1,8 @@
-// Buddhimatta (intelligence / mental ability) generators: the reasoning topics used in the
+// Reasoning (mental ability) generators: the reasoning topics used in the
 // Maharashtra scholarship Intelligence Test and the NMMS Mental Ability Test. All original questions.
 import { rnd, pick, shuffle, choices } from '../core/ui.js';
 import { GEN } from './generators.js';
+import { isIndia } from '../core/region.js';
 
 const AZ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', L = i => AZ[((i % 26) + 26) % 26], pos = ch => AZ.indexOf(ch);
 const shift = (w, k) => [...w].map(c => L(pos(c) + k)).join('');
@@ -122,7 +123,8 @@ export const GEN_REASON = {
     const asQ = a => ({ stem: a.prompt, options: a.data.options, answer: a.answer, html: !!a.data.html });
     const take = (gens, k) => Array.from({ length: k }, () => asQ(GEN[pick(gens)]({ hard: true })));
     const per = Math.round(n / 5);
-    return { template: 'mock', prompt: 'Buddhimatta practice test', data: { title: `Buddhimatta practice test · ${n} questions`, minutes: Math.round(n * 1.2), note: 'Practice test: original questions on every Buddhimatta topic, 1 mark each. Check the official pattern for your exam year.', sections: [
+    const nm = 'Reasoning';
+    return { template: 'mock', prompt: `${nm} practice test`, data: { title: `${nm} practice test · ${n} questions`, minutes: Math.round(n * 1.2), note: isIndia() ? 'Practice test: original questions on every reasoning topic, 1 mark each. Check the official pattern for your exam year.' : 'Practice test: original questions on every reasoning topic, 1 mark each.', sections: [
       { name: 'Series and analogies', marks: 1, qs: take(['seriesNext', 'letterSeries', 'analogyNum', 'analogyLetter'], per) },
       { name: 'Odd one out and coding', marks: 1, qs: take(['oddOneOut', 'oddGroup', 'coding', 'alphabetPos'], per) },
       { name: 'Directions, ranking, time', marks: 1, qs: take(['directions', 'ranking', 'calendar', 'clockAngle'], per) },

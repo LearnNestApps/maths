@@ -1,6 +1,7 @@
 // Synthesised sound effects (Web Audio) and spoken prompts (SpeechSynthesis).
 import { settings } from './store.js';
 import { lang, VOICE_LANG } from './i18n.js';
+import { R } from './region.js';
 
 let ac;
 export function unlockAudio() { try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); } catch (e) {} return ac; }
@@ -25,7 +26,7 @@ let voices = [];
 function loadVoices() { try { voices = speechSynthesis.getVoices(); } catch (e) {} }
 if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
 function voiceFor(l) {
-  const tag = VOICE_LANG[l] || 'en-IN', base = tag.slice(0, 2);
+  const tag = R().voice || VOICE_LANG[l] || 'en-IN', base = tag.slice(0, 2);
   return voices.find(v => v.lang === tag) || voices.find(v => v.lang?.startsWith(base)) || (l === 'mr' ? voices.find(v => v.lang?.startsWith('hi')) : null) || voices.find(v => v.lang?.startsWith('en')) || null;
 }
 export function say(text, queue = false) {
@@ -33,7 +34,7 @@ export function say(text, queue = false) {
   try {
     if (!queue) speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(String(text).replace(/<[^>]+>/g, ' '));
-    const v = voiceFor(lang()); if (v) u.voice = v; u.lang = VOICE_LANG[lang()]; u.rate = .92; u.pitch = 1.15;
+    const v = voiceFor(lang()); if (v) u.voice = v; u.lang = R().voice; u.rate = .92; u.pitch = 1.15;
     speechSynthesis.speak(u);
   } catch (e) {}
 }

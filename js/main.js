@@ -7,9 +7,12 @@ import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
+import { REGIONS, regionId, setRegion, hasRegion } from './core/region.js';
 
 const app = $('#app');
-let content = { skills: [], explainers: {} };
+let content = { skills: [], explainers: {} }, RAW = [];
+// Lessons for this country: drop ones marked for other countries, use international names outside India.
+function applyRegion() { const id = regionId(); content.skills = RAW.filter(s => !s.regions || s.regions.includes(id)).map(s => id !== 'india' && s.intl ? { ...s, ...s.intl } : s); }
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
 const TRACKS = ['school', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
 let tab = null;
@@ -22,7 +25,7 @@ async function boot() {
   document.addEventListener('pointerdown', unlockAudio, { once: true });
   try {
     const [s, e] = await Promise.all([fetch('content/skills.json').then(r => r.json()), fetch('content/explainers.json').then(r => r.json())]);
-    content = { skills: s.skills, explainers: e };
+    RAW = s.skills; content = { skills: [], explainers: e }; applyRegion();
   } catch (err) { app.innerHTML = '<p class="err">Could not load lessons. Please reload the page.</p>'; return; }
   const wantAdmin = location.hash === '#admin';
   if (!profiles().length) { onboarding(); if (wantAdmin) toast(t('pgate.makeFirst')); return; }
@@ -62,10 +65,11 @@ function picker() {
 function onboarding({ cancel } = {}) {
   document.documentElement.dataset.mode = 'little';
   setLang('en');
-  const draft = { lang: 'en', name: '', age: null, color: COLORS[profiles().length % COLORS.length] };
+  const draft = { lang: 'en', name: '', age: null, color: COLORS[profiles().length % COLORS.length], region: regionId() };
   const ages = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   const el = h(`<section class="ob scene"><div class="obpip">${PIP()}</div><div class="obcard">
     <h1>${t('ob.who')}</h1>
+    ${hasRegion() ? '' : `<div class="fl"><span>${t('ob.country')}</span><div class="boards">${Object.entries(REGIONS).map(([k, r]) => `<button class="bb rg${k === draft.region ? ' on' : ''}" data-r="${k}">${r.name}</button>`).join('')}</div></div>`}
     <label class="fl"><span>${t('ob.name')}</span><input id="obname" maxlength="20" autocomplete="off" placeholder="${t('ob.namePh')}"></label>
     <div class="colors">${COLORS.map(c => `<button class="sw${c === draft.color ? ' on' : ''}" data-c="${c}" style="--c:${c}" aria-label="Colour"></button>`).join('')}</div>
     <div class="fl"><span>${t('ob.age')}</span><div class="ages">${ages.map(a => `<button class="ab" data-a="${a}">${a === 19 ? t('ob.adult') : a}</button>`).join('')}</div></div>
@@ -76,8 +80,9 @@ function onboarding({ cancel } = {}) {
   $('#obname').oninput = e => { draft.name = e.target.value; sync(); };
   $$('.sw').forEach(b => b.onclick = () => { draft.color = b.dataset.c; $$('.sw').forEach(x => x.classList.toggle('on', x === b)); });
   $$('.ab').forEach(b => b.onclick = () => { draft.age = +b.dataset.a; $$('.ab').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); sync(); });
+  $$('.rg').forEach(b => b.onclick = () => { draft.region = b.dataset.r; $$('.rg').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); });
   if (cancel) $('.obback').onclick = cancel;
-  go.onclick = () => { const p = addProfile({ ...draft, name: draft.name.trim() }); sfx.fanfare(); applyMode(); tab = null; home(); say(t('ob.hello', { name: p.name })); };
+  go.onclick = () => { if (!hasRegion()) { setRegion(draft.region); applyRegion(); } const p = addProfile({ ...draft, name: draft.name.trim() }); sfx.fanfare(); applyMode(); tab = null; home(); say(t('ob.hello', { name: p.name })); };
   $('#obname').focus();
 }
 
@@ -186,6 +191,7 @@ function grownups() {
     <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button></div>
     <h4>${esc(p.name)}</h4><div class="row" style="justify-content:flex-start"><button class="btn gedit">${t('ui.editProfile', { name: esc(p.name) })}</button></div>
     <div class="form">
+      <label><span>${t('ui.country')}</span>${sel('gregion', Object.entries(REGIONS).map(([k, r]) => [k, r.name]), regionId())}</label>
       <label><span>${t('ui.mode')}</span>${sel('gmode', [['', t('mode.auto')], ...['little', 'explore', 'achieve', 'adult'].map(m => [m, t('mode.' + m)])], p.modeOverride || '')}</label>
       <label class="tg"><span>${t('ui.sound')}</span><button class="tog" id="gsound" aria-pressed="${S.sound}"></button></label>
       <label class="tg"><span>${t('ui.voice')}</span><button class="tog" id="gvoice" aria-pressed="${S.voice}"></button></label>
@@ -205,6 +211,7 @@ function grownups() {
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
   $('.glogout', el).onclick = () => { el.remove(); setActive(null); picker(); };
+  $('#gregion', el).onchange = e => { setRegion(e.target.value); applyRegion(); tab = null; el.remove(); home(); grownups(); toast(t('ui.countrySet', { c: REGIONS[e.target.value].name })); };
   $('#gmode', el).onchange = e => { updateProfile({ modeOverride: e.target.value || null }); tab = null; el.remove(); home(); grownups(); };
   $('#gsound', el).onclick = e => { S.sound = !S.sound; e.currentTarget.setAttribute('aria-pressed', S.sound); save(); };
   $('#gvoice', el).onclick = e => { S.voice = !S.voice; e.currentTarget.setAttribute('aria-pressed', S.voice); if (!S.voice) hush(); save(); };

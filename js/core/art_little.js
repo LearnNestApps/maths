@@ -42,8 +42,10 @@ export const SOLID = {
 };
 
 // Indian money
-export const COIN = v => S('0 0 60 60', `<circle cx="30" cy="30" r="${v >= 10 ? 27 : v >= 5 ? 25 : v >= 2 ? 23 : 21}" fill="${v === 10 || v === 20 ? '#e8c26b' : '#ced4da'}" stroke="${v === 10 || v === 20 ? '#b8860b' : '#868e96'}" stroke-width="3"/><text x="30" y="38" text-anchor="middle" font-size="${v >= 10 ? 18 : 21}" font-weight="800" fill="#1d2b53">₹${v}</text>`);
-export const NOTE = v => S('0 0 100 50', `<rect x="2" y="2" width="96" height="46" rx="6" fill="${{ 10: '#e9b38a', 20: '#d8f5a2', 50: '#99e9f2', 100: '#d0bfff' }[v] || '#eee'}" stroke="#0003" stroke-width="2"/><circle cx="74" cy="25" r="13" fill="#fff8"/><text x="30" y="33" text-anchor="middle" font-size="22" font-weight="800" fill="#1d2b53">₹${v}</text>`);
+// Coin: label text, relative size 0–1, gold or silver.
+export const COIN = (label, size = .8, gold = false) => S('0 0 60 60', `<circle cx="30" cy="30" r="${(19 + 9 * size).toFixed(1)}" fill="${gold ? '#e8c26b' : '#ced4da'}" stroke="${gold ? '#b8860b' : '#868e96'}" stroke-width="3"/><text x="30" y="37" text-anchor="middle" font-size="${label.length > 3 ? 15 : 18}" font-weight="800" fill="#1d2b53">${label}</text>`);
+// Note / bill: label text and a colour slot.
+export const NOTE = (label, k = 0) => S('0 0 100 50', `<rect x="2" y="2" width="96" height="46" rx="6" fill="${['#e9b38a', '#d8f5a2', '#99e9f2', '#d0bfff'][k % 4]}" stroke="#0003" stroke-width="2"/><circle cx="76" cy="25" r="13" fill="#fff8"/><text x="32" y="33" text-anchor="middle" font-size="21" font-weight="800" fill="#1d2b53">${label}</text>`);
 
 // Base-ten blocks
 export const ROD = S('0 0 14 100', Array.from({ length: 10 }, (_, i) => `<rect x="1" y="${1 + i * 9.8}" width="12" height="9.4" rx="1.5" fill="#4dabf7" stroke="#1c7ed6"/>`).join(''));
