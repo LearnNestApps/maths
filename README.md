@@ -52,6 +52,13 @@ js/engine/templates/    the activity templates (tap, drag, balance, number pad, 
 
 3. Open the grown-ups area (press and hold the gear for 2 seconds), choose **All topics (admin)**, and press **Try** on the new lesson.
 
+## Grown-ups, admin and dashboard
+
+- **Switch or edit a learner:** tap the name at the top left of the home screen. From there you can switch learner, edit the name, colour and age, or add a learner.
+- **Grown-ups area:** press and hold the gear for 2 seconds (Adults: just tap it). Settings, progress table, **Dashboard** and **All topics (admin)**.
+- **Dashboard:** per learner: lessons mastered, right-first-time %, streak, practice time, active days, a 14-day activity chart, progress by track, lessons that need attention (with Try), recent sessions, and a summary of all learners. The **Content** tab counts lessons by track, age group and level.
+- **All topics (admin):** every lesson in every age group, with search, age-group filters and a Try button.
+
 ## Learning rules
 
 - **Hint ladder:** first wrong answer → "try again"; second → hint; third → worked solution.

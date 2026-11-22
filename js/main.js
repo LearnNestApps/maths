@@ -6,6 +6,7 @@ import { sfx, say, unlockAudio, hush } from './core/audio.js';
 import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
+import { dashboard } from './dashboard.js';
 
 const app = $('#app');
 let content = { skills: [], explainers: {} };
@@ -77,9 +78,9 @@ function home() {
   const open = id => { const s = content.skills.find(x => x.id === id); if (mode === 'little') say(tr(s.title)); sfx.pop(); setTimeout(() => playSkill(s, content, { mount, onExit: home }), mode === 'little' ? 500 : 0); };
   $$('[data-id]', el).forEach(b => b.onclick = () => open(b.dataset.id));
   if ($('.pill.book', el)) $('.pill.book', el).onclick = () => { sfx.pop(); stickerBook(); };
-  $('.who', el).onclick = () => profiles().length > 1 ? learnerSheet() : null;
+  $('.who', el).onclick = () => { sfx.tap(); learnerSheet(); };
   const gear = $('.gear', el);
-  if (mode === 'adult') gear.onclick = grownups; else holdButton(gear, 2000, grownups);
+  if (mode === 'adult') gear.onclick = grownups; else { holdButton(gear, 2000, grownups); gear.addEventListener('click', () => { if (!document.querySelector('.sheet.grown')) toast(t('ui.holdHint')); }); }
 }
 // Levels in teaching order; the learner's own level is recommended first.
 const LEVELS = ['JK', 'SK', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
@@ -109,9 +110,37 @@ function card(p, s, mode) {
 
 // ---------- Learner switcher ----------
 function learnerSheet() {
-  const el = h(`<div class="sheet on"><div class="sheetin"><h3>${t('g.learners')}</h3><div class="lrs">${profiles().map(q => `<button class="lr${q.id === profile().id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${t('mode.' + effectiveMode(q))}</small></button>`).join('')}</div><button class="btn sclose">${t('ui.close')}</button></div></div>`);
+  const me = profile();
+  const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="lt"><div class="ghead"><h3 id="lt">${t('g.learners')}</h3><button class="icon sclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <div class="lrs">${profiles().map(q => `<button class="lr${q.id === me.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.id === me.id ? t('ui.current') : t('mode.' + effectiveMode(q))}</small></button>`).join('')}</div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary sedit">${t('ui.editProfile', { name: esc(me.name) })}</button><button class="btn sadd">+ ${t('ui.addLearner')}</button></div></div></div>`);
   document.body.append(el);
-  el.onclick = e => { const b = e.target.closest('[data-p]'); if (b) { setActive(b.dataset.p); tab = null; el.remove(); hush(); home(); } else if (e.target === el || e.target.closest('.sclose')) el.remove(); };
+  el.onclick = e => {
+    const b = e.target.closest('[data-p]');
+    if (b) { setActive(b.dataset.p); tab = null; el.remove(); hush(); home(); }
+    else if (e.target.closest('.sedit')) { el.remove(); editProfile(); }
+    else if (e.target.closest('.sadd')) { el.remove(); onboarding({ cancel: home }); }
+    else if (e.target === el || e.target.closest('.sclose')) el.remove();
+  };
+}
+function editProfile() {
+  const p = profile(), d = { name: p.name, age: p.age, color: p.color };
+  const ages = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  const el = h(`<div class="sheet on"><div class="sheetin wide" role="dialog" aria-modal="true" aria-labelledby="et"><div class="ghead"><h3 id="et">${t('ui.editTitle')}</h3><button class="icon eclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <label class="fl"><span>${t('ob.name')}</span><input id="ename" maxlength="20" autocomplete="off" value="${esc(p.name)}"></label>
+    <div class="colors">${COLORS.map(c => `<button class="sw${c === d.color ? ' on' : ''}" data-c="${c}" style="--c:${c}" aria-label="Colour"></button>`).join('')}</div>
+    <div class="fl"><span>${t('ob.age')}</span><div class="ages">${ages.map(a => `<button class="ab${a === Math.min(p.age, 19) ? ' on' : ''}" data-a="${a}">${a === 19 ? t('ob.adult') : a}</button>`).join('')}</div></div>
+    <p class="obmode"></p>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary esave">${t('ui.save')}</button><button class="btn ecancel">${t('ui.cancel')}</button></div></div></div>`);
+  document.body.append(el);
+  const sync = () => { $('.obmode', el).textContent = `${t('ui.mode')}: ${t('mode.' + (p.modeOverride || modeForAge(d.age)))}`; $('.esave', el).disabled = !d.name.trim(); };
+  $('#ename', el).oninput = e => { d.name = e.target.value; sync(); };
+  $$('.sw', el).forEach(b => b.onclick = () => { d.color = b.dataset.c; $$('.sw', el).forEach(x => x.classList.toggle('on', x === b)); });
+  $$('.ab', el).forEach(b => b.onclick = () => { d.age = +b.dataset.a; $$('.ab', el).forEach(x => x.classList.toggle('on', x === b)); sync(); });
+  const close = () => el.remove();
+  $('.eclose', el).onclick = close; $('.ecancel', el).onclick = close;
+  $('.esave', el).onclick = () => { updateProfile({ name: d.name.trim(), age: d.age, color: d.color }); el.remove(); tab = null; sfx.pop(); home(); toast(t('ui.saved')); };
+  sync(); $('#ename', el).focus();
 }
 
 // ---------- Grown-ups area ----------
@@ -123,8 +152,8 @@ function grownups() {
     <h4>${t('g.learners')}</h4>
     <div class="lrs">${profiles().map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.age > 18 ? t('ob.adult') : q.age} · ${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
       <button class="lr add">+ ${t('ui.addLearner')}</button></div>
-    <button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button>
-    <h4>${esc(p.name)}</h4>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button></div>
+    <h4>${esc(p.name)}</h4><div class="row" style="justify-content:flex-start"><button class="btn gedit">${t('ui.editProfile', { name: esc(p.name) })}</button></div>
     <div class="form">
       <label><span>${t('ui.mode')}</span>${sel('gmode', [['', t('mode.auto')], ...['little', 'explore', 'achieve', 'adult'].map(m => [m, t('mode.' + m)])], p.modeOverride || '')}</label>
       <label class="tg"><span>${t('ui.sound')}</span><button class="tog" id="gsound" aria-pressed="${S.sound}"></button></label>
@@ -142,6 +171,8 @@ function grownups() {
   $$('[data-p]', el).forEach(b => b.onclick = () => { setActive(b.dataset.p); tab = null; el.remove(); home(); grownups(); });
   $('.lr.add', el).onclick = () => { el.remove(); onboarding({ cancel: home }); };
   $('.gadmin', el).onclick = () => { el.remove(); admin(); };
+  $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
+  $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
   $('#gmode', el).onchange = e => { updateProfile({ modeOverride: e.target.value || null }); tab = null; el.remove(); home(); grownups(); };
   $('#gsound', el).onclick = e => { S.sound = !S.sound; e.currentTarget.setAttribute('aria-pressed', S.sound); save(); };
   $('#gvoice', el).onclick = e => { S.voice = !S.voice; e.currentTarget.setAttribute('aria-pressed', S.voice); if (!S.voice) hush(); save(); };
@@ -150,29 +181,37 @@ function grownups() {
   twoTap($('.gdel', el), t('ui.deleteConfirm'), () => { removeProfile(p.id); el.remove(); profile() ? home() : onboarding(); });
 }
 
+// ---------- Dashboard ----------
+function openDash(pid) {
+  dashboard({ content, mount, pid, onBack: home,
+    onTry: (id, who) => { setActive(who); const s = content.skills.find(x => x.id === id), m = effectiveMode(profile()); document.documentElement.dataset.mode = m; playSkill(s, content, { mount, onExit: () => openDash(who) }); } });
+}
+
 // ---------- Admin: every lesson in every mode ----------
 const MODES = ['little', 'explore', 'achieve', 'adult'];
 let admFilter = 'all', admQuery = '';
 function admin() {
   document.documentElement.dataset.mode = 'achieve';
   const all = content.skills, q = admQuery.trim().toLowerCase();
-  const match = s => (admFilter === 'all' || s.modes.includes(admFilter)) && (!q || [s.title, s.level, s.strand, s.track, s.gen || (s.mix || []).join(' ')].join(' ').toLowerCase().includes(q));
+  const match = s => (admFilter === 'all' || s.modes.includes(admFilter)) && (!q || [s.title, s.level, s.strand, s.track, s.gen || (s.seq || s.mix || []).join(' ')].join(' ').toLowerCase().includes(q));
   const shown = all.filter(match);
   const groups = TRACKS.map(tk => [tk, shown.filter(s => s.track === tk)]).filter(([, l]) => l.length);
   const el = h(`<section class="home admin">
-    <header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('adm.title')}</h1><span class="pill">${shown.length} / ${all.length}</span></header>
+    <header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('adm.title')}</h1><button class="btn adash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn ahome">${ICON.home}<span>${t('ui.home')}</span></button><span class="pill">${shown.length} / ${all.length}</span></header>
     <p class="admsub">${t('adm.sub')}</p>
     <div class="admbar"><input class="admq" type="search" placeholder="${t('adm.search')}" value="${esc(admQuery)}">
       <div class="tabs">${['all', ...MODES].map(m => `<button class="tab${m === admFilter ? ' on' : ''}" data-m="${m}">${m === 'all' ? t('ui.all') : t('mode.' + m)} <small>${m === 'all' ? all.length : all.filter(s => s.modes.includes(m)).length}</small></button>`).join('')}</div></div>
     ${groups.map(([tk, l]) => `<h2 class="admg">${t('track.' + tk)} <small>${l.length}</small></h2>
       <div class="scroll"><table class="ptab admtab"><thead><tr><th>${t('g.skill')}</th><th>${t('adm.level')}</th><th>${t('adm.modes')}</th><th>${t('adm.type')}</th><th></th></tr></thead><tbody>
       ${l.map(s => `<tr><td><span class="admic">${SKILL_ICON[s.icon] || ''}</span><b>${esc(tr(s.title))}</b><small>${esc(s.strand)}</small></td><td>${esc(s.level)}</td>
-        <td>${s.modes.map(m => `<span class="chip">${t('mode.' + m)}</span>`).join(' ')}</td><td><code>${esc(s.gen || s.mix.join(' + '))}</code></td>
+        <td>${s.modes.map(m => `<span class="chip">${t('mode.' + m)}</span>`).join(' ')}</td><td><code>${esc(s.gen || (s.seq || s.mix || []).join(' + '))}</code></td>
         <td class="r"><button class="btn primary aplay" data-id="${s.id}">${ICON.play}<span>${t('adm.try')}</span></button></td></tr>`).join('')}
       </tbody></table></div>`).join('') || `<p class="note">${t('adm.none')}</p>`}
   </section>`);
   mount(el);
-  $('.aback', el).onclick = () => { home(); grownups(); };
+  $('.aback', el).onclick = home;
+  $('.adash', el).onclick = () => openDash(profile()?.id);
+  $('.ahome', el).onclick = home;
   $$('[data-m]', el).forEach(b => b.onclick = () => { admFilter = b.dataset.m; admin(); });
   const qi = $('.admq', el); qi.oninput = () => { admQuery = qi.value; clearTimeout(qi._t); qi._t = setTimeout(() => { admin(); const n = $('.admq'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
   $$('.aplay', el).forEach(b => b.onclick = () => {

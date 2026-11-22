@@ -11,7 +11,7 @@ import { GEN } from '../content/generators.js';
 const PRAISE = ['fb.great', 'fb.correct', 'fb.wellDone'];
 
 export async function playSkill(skill, content, { mount, onExit, mode: forced }) {
-  const p = profile(), mode = forced || effectiveMode(p);
+  const p = profile(), mode = forced || effectiveMode(p), started = Date.now();
   const root = h(`<section class="player">
     <header class="ptop"><button class="icon pclose" aria-label="${t('ui.close')}">${ICON.close}</button>
       <div class="pbar" role="progressbar" aria-label="Progress"><i></i></div>
@@ -120,6 +120,7 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   }
 
   function results({ correct, total, newBest, best }) {
+    (p.sessions ||= []).push({ id: skill.id, t: Date.now(), ms: Date.now() - started, c: correct, n: total }); if (p.sessions.length > 300) p.sessions.splice(0, p.sessions.length - 300);
     const r = p.progress[skill.id], m = pct(r);
     let reward = '';
     if (mode === 'little') { const got = correct >= Math.ceil(total * .6); if (got) p.stickers.push(skill.icon); reward = got ? `<div class="rsticker">${sticker(skill.icon, p.stickers.length)}</div><p class="rline">${t('res.sticker')}</p>` : ''; }
