@@ -24,8 +24,38 @@ async function boot() {
     const [s, e] = await Promise.all([fetch('content/skills.json').then(r => r.json()), fetch('content/explainers.json').then(r => r.json())]);
     content = { skills: s.skills, explainers: e };
   } catch (err) { app.innerHTML = '<p class="err">Could not load lessons. Please reload the page.</p>'; return; }
-  const p = profile();
-  if (p) { setLang(p.lang); applyMode(); home(); } else onboarding();
+  const wantAdmin = location.hash === '#admin';
+  if (!profiles().length) { onboarding(); if (wantAdmin) toast(t('pgate.makeFirst')); return; }
+  if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); gate(admin); return; }
+  if (!profile() || profiles().length > 1) picker(); else { setLang(profile().lang); applyMode(); home(); }
+}
+
+// ---------- Grown-ups gate: a quick sum instead of a hidden press-and-hold ----------
+function gate(next) {
+  const p = profile(); if (p && effectiveMode(p) === 'adult') return next();
+  const a = 3 + Math.floor(Math.random() * 7), b = 6 + Math.floor(Math.random() * 7);
+  const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="gq"><div class="ghead"><h3 id="gq">${t('pgate.title')}</h3><button class="icon gx" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <p>${t('pgate.ask')}</p><div class="gsum">${a} × ${b} = <input id="gans" inputmode="numeric" autocomplete="off" aria-label="${t('pgate.answer')}"></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gok">${t('ui.ok')}</button></div></div></div>`);
+  document.body.append(el);
+  const inp = $('#gans', el), close = () => el.remove();
+  const check = () => { if (+inp.value === a * b) { close(); next(); } else { inp.value = ''; toast(t('pgate.wrong')); close(); gate(next); } };
+  $('.gok', el).onclick = check; inp.onkeydown = e => { if (e.key === 'Enter') check(); };
+  $('.gx', el).onclick = close; el.addEventListener('click', e => { if (e.target === el) close(); });
+  inp.focus();
+}
+
+// ---------- Who is playing? (shown after logging out, or when there are several learners) ----------
+function picker() {
+  document.documentElement.dataset.mode = 'little'; hush();
+  const el = h(`<section class="ob scene picker"><div class="obpip">${PIP()}</div><h1 class="obh">${t('pick.who')}</h1>
+    <div class="pgrid">${profiles().map(q => `<button class="pcard" data-p="${q.id}"><span class="av big" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span><b>${esc(q.name)}</b><small>${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
+      <button class="pcard add"><span class="av big plus">+</span><b>${t('ui.addLearner')}</b></button></div>
+    <button class="btn grownbtn pgrown">${ICON.gear}<span>${t('ui.grownups')}</span></button></section>`);
+  mount(el);
+  $$('[data-p]', el).forEach(b => b.onclick = () => { sfx.pop(); setActive(b.dataset.p); tab = null; home(); say(t('ob.hello', { name: profile().name })); });
+  $('.pcard.add', el).onclick = () => onboarding({ cancel: picker });
+  $('.pgrown', el).onclick = () => gate(() => { if (!profile()) setActive(profiles()[0].id); admin(); });
 }
 
 // ---------- Onboarding ----------
@@ -65,7 +95,7 @@ function home() {
     : `<span class="pill">${ICON.star}<b>${list.filter(s => status(p.progress[s.id]) === 'mastered').length}/${list.length}</b></span>`;
   const el = h(`<section class="home">
     <header class="htop"><button class="who" aria-label="${t('ui.switch')}"><span class="av" style="--c:${p.color}">${esc(p.name[0] || '?').toUpperCase()}</span><span class="nm">${esc(p.name)}</span></button>
-      <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="icon gear" aria-label="${t('ui.holdHint')}" title="${t('ui.holdHint')}">${ICON.gear}</button></header>
+      <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="btn grownbtn gear" aria-label="${t('ui.grownups')}">${ICON.gear}<span>${t('ui.grownups')}</span></button></header>
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(up.level)} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
@@ -80,7 +110,7 @@ function home() {
   if ($('.pill.book', el)) $('.pill.book', el).onclick = () => { sfx.pop(); stickerBook(); };
   $('.who', el).onclick = () => { sfx.tap(); learnerSheet(); };
   const gear = $('.gear', el);
-  if (mode === 'adult') gear.onclick = grownups; else { holdButton(gear, 2000, grownups); gear.addEventListener('click', () => { if (!document.querySelector('.sheet.grown')) toast(t('ui.holdHint')); }); }
+  gear.onclick = () => gate(grownups);
 }
 // Levels in teaching order; the learner's own level is recommended first.
 const LEVELS = ['JK', 'SK', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
@@ -113,13 +143,14 @@ function learnerSheet() {
   const me = profile();
   const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="lt"><div class="ghead"><h3 id="lt">${t('g.learners')}</h3><button class="icon sclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
     <div class="lrs">${profiles().map(q => `<button class="lr${q.id === me.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.id === me.id ? t('ui.current') : t('mode.' + effectiveMode(q))}</small></button>`).join('')}</div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary sedit">${t('ui.editProfile', { name: esc(me.name) })}</button><button class="btn sadd">+ ${t('ui.addLearner')}</button></div></div></div>`);
+    <div class="row" style="justify-content:flex-start"><button class="btn primary sedit">${t('ui.editProfile', { name: esc(me.name) })}</button><button class="btn sadd">+ ${t('ui.addLearner')}</button><button class="btn slogout">${t('ui.logout')}</button></div></div></div>`);
   document.body.append(el);
   el.onclick = e => {
     const b = e.target.closest('[data-p]');
     if (b) { setActive(b.dataset.p); tab = null; el.remove(); hush(); home(); }
     else if (e.target.closest('.sedit')) { el.remove(); editProfile(); }
     else if (e.target.closest('.sadd')) { el.remove(); onboarding({ cancel: home }); }
+    else if (e.target.closest('.slogout')) { el.remove(); setActive(null); picker(); }
     else if (e.target === el || e.target.closest('.sclose')) el.remove();
   };
 }
@@ -163,7 +194,7 @@ function grownups() {
     <div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('g.status')}</th><th class="r">%</th></tr></thead>
       <tbody>${list.map(s => { const r = p.progress[s.id]; return `<tr><td>${esc(tr(s.title))}<small>${t('track.' + s.track)} · ${esc(s.level)}</small></td><td><span class="chip s-${status(r)}">${t('status.' + status(r))}</span></td><td class="r">${pct(r)}</td></tr>`; }).join('')}</tbody></table></div>
     <p class="gnote">${t('g.note')}</p>
-    <div class="row"><button class="btn ghost greset">${t('ui.reset')}</button><button class="btn ghost gdel">${t('ui.delete')}</button></div></div></div>`);
+    <div class="row"><button class="btn glogout">${t('ui.logout')}</button><button class="btn ghost greset">${t('ui.reset')}</button><button class="btn ghost gdel">${t('ui.delete')}</button></div></div></div>`);
   document.body.append(el);
   const close = () => { el.remove(); home(); };
   $('.gclose', el).onclick = close;
@@ -173,6 +204,7 @@ function grownups() {
   $('.gadmin', el).onclick = () => { el.remove(); admin(); };
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
+  $('.glogout', el).onclick = () => { el.remove(); setActive(null); picker(); };
   $('#gmode', el).onchange = e => { updateProfile({ modeOverride: e.target.value || null }); tab = null; el.remove(); home(); grownups(); };
   $('#gsound', el).onclick = e => { S.sound = !S.sound; e.currentTarget.setAttribute('aria-pressed', S.sound); save(); };
   $('#gvoice', el).onclick = e => { S.voice = !S.voice; e.currentTarget.setAttribute('aria-pressed', S.voice); if (!S.voice) hush(); save(); };

@@ -35,7 +35,7 @@ en: {
   'mock.yes': 'Submit', 'mock.no': 'Keep going', 'mock.result': 'Your score', 'mock.marks': '{m} of {t} marks', 'mock.section': 'Section',
   'mock.note': 'Sample mock: original questions in the exam’s four-section pattern. Real-length mocks come with the Exam Centre build.',
   'ex.start': 'Start practice',
-  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'ui.current': 'Playing now', 'ui.editProfile': 'Edit {name}', 'ui.editTitle': 'Edit profile', 'ui.save': 'Save', 'ui.cancel': 'Cancel', 'ui.saved': 'Profile saved',
+  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'ui.logout': 'Log out', 'pick.who': 'Who is playing?', 'pgate.title': 'Grown-ups only', 'pgate.ask': 'Answer this to continue:', 'pgate.answer': 'Answer', 'pgate.wrong': 'Not quite, here is another one.', 'pgate.makeFirst': 'Create a learner first, then open the admin link again.', 'ui.current': 'Playing now', 'ui.editProfile': 'Edit {name}', 'ui.editTitle': 'Edit profile', 'ui.save': 'Save', 'ui.cancel': 'Cancel', 'ui.saved': 'Profile saved',
   'dash.open': 'Dashboard', 'dash.title': 'Dashboard', 'dash.learners': 'Learners', 'dash.content': 'Content', 'dash.none': 'No learners yet.',
   'dash.mastered': 'Lessons mastered', 'dash.startedN': '{n} started', 'dash.acc': 'Right first time', 'dash.last7': 'last 7 days', 'dash.last30': 'last 30 days',
   'dash.streak': 'Streak', 'dash.day': 'day in a row', 'dash.days': 'days in a row', 'dash.time': 'Practice time', 'dash.active': 'Active days', 'dash.answered': 'Questions answered', 'dash.recent': 'recent answers',
@@ -43,7 +43,7 @@ en: {
   'dash.allGood': 'Nothing needs attention right now.', 'dash.recentS': 'Recent sessions', 'dash.when': 'When', 'dash.score': 'Score', 'dash.timeS': 'Time', 'dash.noSess': 'No finished lessons yet.',
   'dash.everyone': 'All learners', 'dash.learner': 'Learner', 'dash.track': 'Track', 'dash.total': 'Total', 'dash.contentSub': '{n} lessons in the app, by track and age group.',
   'dash.multi': 'Some lessons belong to more than one age group, so the age-group columns add up to more than the total.', 'dash.byLevel': 'Lessons by level', 'flash.again': 'Watch again', 'venn.key': 'Middle = A AND B · Outside = NOT A and NOT B', 'gate.out': 'Lamp', 'gate.ask': 'Will the lamp be…', 'gate.on': 'ON', 'gate.off': 'OFF', 'rob.F': 'Forward', 'rob.L': 'Turn left', 'rob.R': 'Turn right', 'rob.run': 'Run', 'rob.clear': 'Clear', 'rob.empty': 'Tap the commands above to build your program.', 'rob.limit': 'Use at most {n} blocks.', 'rob.loops': 'Tap × on a block to repeat it.', 'bin.total': 'Total:', 'share.reset': 'Start again', 'pv.h': 'Hundreds', 'pv.t': 'Tens', 'pv.o': 'Ones', 'lvl.JK': 'Junior KG', 'lvl.SK': 'Senior KG', 'lvl.G1': 'Grade 1', 'lvl.G2': 'Grade 2', 'lvl.other': 'More games', 'book.title': 'My sticker book', 'book.empty': 'Finish a game to win your first sticker!',
-  'adm.open': 'All topics (admin) · {n} lessons', 'adm.title': 'All topics', 'adm.sub': 'Every lesson in every mode. Try any lesson in the look of the mode it belongs to. Practice here is saved to the current learner.',
+  'adm.open': 'Admin: all {n} lessons', 'adm.title': 'All topics', 'adm.sub': 'Every lesson in every mode. Try any lesson in the look of the mode it belongs to. Practice here is saved to the current learner.',
   'adm.search': 'Search lessons, levels, strands', 'adm.level': 'Level', 'adm.modes': 'Modes', 'adm.type': 'Generator', 'adm.try': 'Try', 'adm.none': 'No lessons match.'
 }
 };
