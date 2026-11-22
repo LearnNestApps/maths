@@ -190,7 +190,7 @@ function grownups() {
     <h4>${t('g.learners')}</h4>
     <div class="lrs">${profiles().map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.age > 18 ? t('ob.adult') : q.age} · ${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
       <button class="lr add">+ ${t('ui.addLearner')}</button></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button><a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
     <h4>${esc(p.name)}</h4><div class="row" style="justify-content:flex-start"><button class="btn gedit">${t('ui.editProfile', { name: esc(p.name) })}</button></div>
     <div class="form">
       <label><span>${t('ui.country')}</span>${sel('gregion', Object.entries(REGIONS).map(([k, r]) => [k, r.name]), regionId())}</label>

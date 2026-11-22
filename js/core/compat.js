@@ -6,6 +6,23 @@ if (typeof Element !== 'undefined') {
   if (!Element.prototype.animate) Element.prototype.animate = function () { const a = { onfinish: null, cancel() {}, play() {}, finish() {}, finished: Promise.resolve() }; setTimeout(() => a.onfinish && a.onfinish(), 0); return a; };
 }
 
+// iPads up to iOS 13 ignore `touch-action: none`, so the page scrolls (and the drag is cancelled)
+// when a child drags a tile. Block scrolling ourselves when the touch starts on such an element.
+if (typeof document !== 'undefined' && window.getComputedStyle) {
+  let lock = false;
+  const blocks = el => { for (; el && el.nodeType === 1; el = el.parentElement) { if (getComputedStyle(el).touchAction === 'none') return true; } return false; };
+  document.addEventListener('touchstart', e => { lock = blocks(e.target); }, { passive: true, capture: true });
+  document.addEventListener('touchmove', e => { if (lock && e.cancelable) e.preventDefault(); }, { passive: false, capture: true });
+  document.addEventListener('touchend', () => { lock = false; }, { passive: true, capture: true });
+}
+
+// Keep the last few errors so the diagnostics page (diag.html) can show them.
+if (typeof window !== 'undefined') {
+  const keep = m => { try { const k = 'pipmaths.errors', l = JSON.parse(localStorage.getItem(k) || '[]'); l.push(new Date().toISOString().slice(0, 19) + ' ' + String(m).slice(0, 300)); localStorage.setItem(k, JSON.stringify(l.slice(-15))); } catch (e) {} };
+  window.addEventListener('error', e => keep((e.message || 'error') + ' @' + ((e.filename || '').split('/').pop().split('?')[0]) + ':' + (e.lineno || '') + ':' + (e.colno || '')));
+  window.addEventListener('unhandledrejection', e => keep('promise: ' + (e.reason && (e.reason.stack || e.reason.message) || e.reason)));
+}
+
 // Older iPads (Safari before 13) have no pointer events. This turns touch and mouse events into
 // pointerdown / pointermove / pointerup so dragging, the abacus and hold-to-open buttons still work.
 if (typeof window !== 'undefined' && !window.PointerEvent) {

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pip Maths: device check</title>
+<style>
+  :root { --acc: #ff8a3d; }
+  body { font: 16px/1.45 -apple-system, system-ui, sans-serif; margin: 0; padding: 16px; background: #eef7fb; color: #1d2b53; }
+  h1 { font-size: 22px; margin: 0 0 4px; } h2 { font-size: 17px; margin: 18px 0 6px; }
+  table { border-collapse: collapse; width: 100%; max-width: 760px; background: #fff; border-radius: 10px; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e3e8ef; vertical-align: top; } td:first-child { width: 46%; }
+  .ok { color: #2b8a3e; font-weight: 700; } .no { color: #c92a2a; font-weight: 700; } .mid { color: #e67700; font-weight: 700; }
+  button { font: inherit; font-weight: 700; padding: 10px 16px; margin: 4px 6px 4px 0; border: 0; border-radius: 10px; background: #ff8a3d; color: #fff; }
+  .icons span { display: inline-block; width: 64px; text-align: center; font-size: 12px; margin-right: 8px; }
+  .icons svg { width: 48px; height: 48px; display: block; margin: 0 auto 2px; background: #fff; border-radius: 8px; }
+  #drag { width: 90px; height: 90px; border-radius: 14px; background: #4dabf7; color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; position: relative; touch-action: none; user-select: none; -webkit-user-select: none; }
+  #dragzone { height: 140px; background: #fff; border-radius: 10px; padding: 10px; max-width: 760px; }
+  pre { white-space: pre-wrap; background: #fff; padding: 10px; border-radius: 10px; font-size: 13px; max-width: 760px; }
+</style>
+</head>
+<body>
+<h1>Pip Maths: device check</h1>
+<div>Take a photo of this whole page (scroll down for the rest) and send it.</div>
+
+<h2>1. This device</h2>
+<table id="info"></table>
+
+<h2>2. Pictures: do all four show an orange circle?</h2>
+<div class="icons">
+  <span><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#ff8a3d"/></svg>A</span>
+  <span><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="var(--acc)"/></svg>B</span>
+  <span><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" style="fill:var(--acc)"/></svg>C</span>
+  <span><svg viewBox="0 0 100 100" style="color:#ff8a3d"><circle cx="50" cy="50" r="40" fill="currentColor"/></svg>D</span>
+</div>
+
+<h2>3. Sound and voice: tap each button</h2>
+<button id="bsound">Test sound</button><button id="bvoice">Test voice</button>
+<table id="av"></table>
+
+<h2>4. Dragging: drag the blue square to the right</h2>
+<div id="dragzone"><div id="drag">Drag me</div></div>
+<table id="dr"></table>
+
+<h2>5. Errors the app has recorded</h2>
+<pre id="errs">(none)</pre>
+<button id="bclear">Clear saved app data</button> <button id="bopen">Open Pip Maths</button>
+
+<script>
+(function () {
+  function row(t, k, v, cls) { var tr = document.createElement('tr'); tr.innerHTML = '<td>' + k + '</td><td class="' + (cls || '') + '">' + v + '</td>'; document.getElementById(t).appendChild(tr); return tr.lastChild; }
+  function yes(b) { return b ? ['yes', 'ok'] : ['NO', 'no']; }
+  var ua = navigator.userAgent, ios = /OS (\d+)_(\d+)(?:_(\d+))? like Mac/.exec(ua), saf = /Version\/([\d.]+)/.exec(ua);
+  var ipadDesktop = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+  row('info', 'Device / system', ios ? 'iOS / iPadOS ' + ios[1] + '.' + ios[2] + (ios[3] ? '.' + ios[3] : '') : ipadDesktop ? 'iPad (desktop mode)' : (navigator.platform || '?'));
+  row('info', 'Browser', saf ? 'Safari ' + saf[1] : (/CriOS/.test(ua) ? 'Chrome on iOS' : ua.slice(0, 80)));
+  row('info', 'Screen', screen.width + ' × ' + screen.height + ', window ' + innerWidth + ' × ' + innerHeight);
+  var cs = window.CSS && CSS.supports ? function (p, v) { return CSS.supports(p, v); } : function () { return false; };
+  var f = [
+    ['Pointer events', !!window.PointerEvent], ['Web Audio', !!(window.AudioContext || window.webkitAudioContext)], ['Speech', 'speechSynthesis' in window],
+    ['CSS variables', cs('--a', '1')], ['clamp()', cs('width', 'clamp(1px,2px,3px)')], ['aspect-ratio', cs('aspect-ratio', '1')],
+    ['touch-action: none', cs('touch-action', 'none')], ['replaceChildren', !!Element.prototype.replaceChildren], ['Saved data (localStorage)', (function () { try { localStorage.setItem('t', '1'); localStorage.removeItem('t'); return true; } catch (e) { return false; } })()]
+  ];
+  for (var i = 0; i < f.length; i++) { var y = yes(f[i][1]); row('info', f[i][0], y[0], y[1]); }
+  try { var st = JSON.parse(localStorage.getItem('pipmaths.v1') || 'null'); row('info', 'App settings', st ? ('sound ' + (st.settings && st.settings.sound) + ', voice ' + (st.settings && st.settings.voice) + ', country ' + ((st.settings && st.settings.region) || 'auto') + ', learners ' + (st.profiles || []).length) : 'none saved yet'); } catch (e) { row('info', 'App settings', 'unreadable', 'no'); }
+  var appv = '?'; try { var x = new XMLHttpRequest(); x.open('GET', 'index.html?nocache=' + Date.now(), false); x.send(); var m = /app\.js\?v=(\d+)/.exec(x.responseText); appv = m ? new Date(+m[1] * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'old version (no app.js)'; } catch (e) {}
+  row('info', 'App version on server', appv);
+
+  // Sound
+  var ac, soundCell = row('av', 'Sound', 'not tested yet'), voiceCell = row('av', 'Voice', 'not tested yet');
+  var vs = []; function lv() { try { vs = speechSynthesis.getVoices() || []; } catch (e) {} }
+  if ('speechSynthesis' in window) { lv(); speechSynthesis.onvoiceschanged = lv; }
+  var voicesCell = row('av', 'English voices on this device', '…');
+  setTimeout(function () { lv(); var en = []; for (var i = 0; i < vs.length; i++) if (/^en/.test(vs[i].lang)) en.push(vs[i].lang); voicesCell.textContent = vs.length + ' voices; English: ' + (en.length ? en.slice(0, 8).join(', ') : 'none'); }, 800);
+  document.getElementById('bsound').onclick = function () {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.resume) ac.resume();
+      var o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 660; g.gain.value = 0.25; o.connect(g); g.connect(ac.destination);
+      (o.start || o.noteOn).call(o, 0); (o.stop || o.noteOff).call(o, ac.currentTime + 0.4);
+      setTimeout(function () { soundCell.textContent = 'played (audio state: ' + ac.state + '). Did you hear a beep? If not, check the side switch / volume.'; }, 300);
+    } catch (e) { soundCell.textContent = 'ERROR: ' + e.message; soundCell.className = 'no'; }
+  };
+  document.getElementById('bvoice').onclick = function () {
+    try {
+      var u = new SpeechSynthesisUtterance('Hello! I am Pip. Let us do some maths.'), got = [];
+      var en = null; lv(); for (var i = 0; i < vs.length; i++) if (/^en/.test(vs[i].lang)) { en = vs[i]; break; }
+      if (en) { u.voice = en; u.lang = en.lang; }
+      u.onstart = function () { got.push('started'); voiceCell.textContent = got.join(', '); };
+      u.onend = function () { got.push('finished'); voiceCell.textContent = got.join(', ') + ' (voice: ' + (en ? en.name : 'default') + ')'; voiceCell.className = 'ok'; };
+      u.onerror = function (e) { got.push('error ' + (e.error || '')); voiceCell.textContent = got.join(', '); voiceCell.className = 'no'; };
+      speechSynthesis.cancel(); speechSynthesis.speak(u); voiceCell.textContent = 'asked to speak…';
+      setTimeout(function () { if (!got.length) { voiceCell.textContent = 'NOTHING happened after 4 seconds'; voiceCell.className = 'no'; } }, 4000);
+    } catch (e) { voiceCell.textContent = 'ERROR: ' + e.message; voiceCell.className = 'no'; }
+  };
+
+  // Drag
+  var d = document.getElementById('drag'), seen = {}, evCell = row('dr', 'Events seen', 'none yet'), mvCell = row('dr', 'Moved', '0 px');
+  var sx = 0, on = false;
+  function note(n) { seen[n] = (seen[n] || 0) + 1; var s = []; for (var k in seen) s.push(k + ' ' + seen[k]); evCell.textContent = s.join(', '); }
+  function start(x) { on = true; sx = x; } function move(x) { if (!on) return; var dx = Math.max(0, x - sx); d.style.left = dx + 'px'; mvCell.textContent = Math.round(dx) + ' px'; mvCell.className = dx > 60 ? 'ok' : ''; }
+  function stop() { on = false; }
+  ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(function (n) { d.addEventListener(n, function () { note(n); }, { passive: true }); });
+  if (window.PointerEvent) { d.addEventListener('pointerdown', function (e) { start(e.clientX); try { d.setPointerCapture(e.pointerId); } catch (_) {} }); d.addEventListener('pointermove', function (e) { move(e.clientX); }); d.addEventListener('pointerup', stop); }
+  else { d.addEventListener('touchstart', function (e) { start(e.touches[0].clientX); }); d.addEventListener('touchmove', function (e) { e.preventDefault(); move(e.touches[0].clientX); }, { passive: false }); d.addEventListener('touchend', stop); }
+
+  // Errors
+  try { var l = JSON.parse(localStorage.getItem('pipmaths.errors') || '[]'); if (l.length) document.getElementById('errs').textContent = l.join('\n'); } catch (e) {}
+  document.getElementById('bclear').onclick = function () { if (confirm('Remove all learners and progress saved on this device?')) { localStorage.removeItem('pipmaths.v1'); localStorage.removeItem('pipmaths.errors'); location.reload(); } };
+  document.getElementById('bopen').onclick = function () { location.href = 'index.html?fresh=' + Date.now(); };
+})();
+</script>
+</body>
+</html>
