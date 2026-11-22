@@ -1,6 +1,6 @@
 # Maths App: Master Plan (JK to Adult)
 
-**Status:** updated 22 Nov 2026. Steps 1 (foundation) and 2 (Little Learners) are built.
+**Status:** updated 22 Nov 2026. Steps 1 (foundation), 2 (Little Learners) and 3 (Explorers) are built, plus Tables, Tricks, Buddhimatta and Logic & coding. 217 lessons in total.
 **Companion doc:** `claude/maths-curriculum-map.md` in the Maths project (the full topic list by strand).
 
 **Changes on 22 Nov 2026 (owner's decisions):** English only (Marathi and Hindi dropped); no school-board selection; an admin view that shows every topic; code kept in a GitHub repository.
@@ -132,7 +132,7 @@ English only, with spoken prompts in an Indian English voice where the device ha
 
 1. **Foundation** (done)
 2. **Little Learners complete** (done): 57 JK–G2 lessons, abacus levels 1–2, early puzzles, sticker book
-3. **Explorers complete:** Grades 3–8, Vedic sutras for this band, abacus 3–8, bar models, speed maths, puzzles
+3. **Explorers complete** (done): Grades 3–8 across all strands, Vedic sutras 1–3, 10, 14 and Beejank, abacus 3–8 with flash Anzan, bar models, Speed Arena, puzzles
 4. **Exam Centre:** MSCE, NMMS, IMO question banks and full mocks
 5. **Achievers complete:** Grades 9–12 and remaining sutras
 6. **Adults complete:** brush-up courses, Speed Arena, university modules

@@ -101,6 +101,8 @@ export const bar = {
     if (d.kind === 'pw') {
       const wa = Math.max(18, Math.round(84 * d.parts[0] / d.whole));
       svgBars = `<div class="bm"><div class="brace"><span>${d.whole}</span></div><div class="bars"><div class="seg a" style="flex:${wa}">${d.parts[0]}</div><div class="seg q" style="flex:${84 - wa}">?</div></div></div>`;
+    } else if (d.kind === 'units') {
+      svgBars = `<div class="bm"><div class="brace"><span>${esc(d.label)}</span></div><div class="bars">${Array.from({ length: d.n }, (_, i) => `<div class="seg ${i < d.shade ? 'a' : 'b'}" style="flex:1">${i < d.shade ? '' : ''}</div>`).join('')}</div><p class="bmq">? = ${esc(d.q)}</p></div>`;
     } else {
       const tot = d.a + d.b, wa = Math.round(80 * d.a / tot);
       svgBars = `<div class="bm cmp"><div class="row"><span class="nm">${esc(d.name)}</span><div class="bars"><div class="seg a" style="flex:0 0 ${wa}%">${d.a}</div></div></div>

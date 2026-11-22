@@ -1,5 +1,5 @@
 {
- "version": "0.5-logic",
+ "version": "0.6-explorers",
  "skills": [
   {
    "id": "ll-count5",
@@ -1389,6 +1389,7 @@
    "id": "ac-lineq",
    "track": "school",
    "modes": [
+    "explore",
     "achieve",
     "adult"
    ],
@@ -1403,6 +1404,7 @@
    "id": "ac-simplify",
    "track": "school",
    "modes": [
+    "explore",
     "achieve",
     "adult"
    ],
@@ -1434,6 +1436,7 @@
    "id": "m-speed11",
    "track": "method",
    "modes": [
+    "explore",
     "achieve",
     "adult"
    ],
@@ -2492,6 +2495,1159 @@
    "prereq": [
     "lc-bin4"
    ]
+  },
+  {
+   "id": "e-pv",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "placeValue",
+   "items": 6,
+   "title": "Place value to lakhs",
+   "params": {
+    "digits": 5
+   }
+  },
+  {
+   "id": "e-indian",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "indianSystem",
+   "items": 6,
+   "title": "Lakhs and crores",
+   "prereq": [
+    "e-pv"
+   ]
+  },
+  {
+   "id": "e-round",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Number",
+   "icon": "numline",
+   "gen": "rounding",
+   "items": 6,
+   "title": "Rounding to 10, 100, 1000",
+   "params": {
+    "to": "pick"
+   }
+  },
+  {
+   "id": "e-roman",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "roman",
+   "items": 6,
+   "title": "Roman numerals"
+  },
+  {
+   "id": "e-neg",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Number",
+   "icon": "numline",
+   "gen": "negatives",
+   "items": 6,
+   "title": "Negative numbers"
+  },
+  {
+   "id": "e-factors",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Number",
+   "icon": "array",
+   "gen": "factors",
+   "items": 6,
+   "title": "Factors"
+  },
+  {
+   "id": "e-primes",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Number",
+   "icon": "array",
+   "gen": "primes",
+   "items": 6,
+   "title": "Prime numbers",
+   "prereq": [
+    "e-factors"
+   ]
+  },
+  {
+   "id": "e-hcf",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Number",
+   "icon": "array",
+   "gen": "hcf",
+   "items": 6,
+   "title": "HCF",
+   "prereq": [
+    "e-factors"
+   ]
+  },
+  {
+   "id": "e-lcm",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Number",
+   "icon": "array",
+   "gen": "lcm",
+   "items": 6,
+   "title": "LCM",
+   "prereq": [
+    "e-factors"
+   ]
+  },
+  {
+   "id": "e-divis",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Number",
+   "icon": "array",
+   "gen": "divisibility",
+   "items": 6,
+   "title": "Divisibility rules"
+  },
+  {
+   "id": "e-powers",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Number",
+   "icon": "times",
+   "gen": "powers",
+   "items": 6,
+   "title": "Powers"
+  },
+  {
+   "id": "e-sci",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "sciNotation",
+   "items": 6,
+   "title": "Standard form"
+  },
+  {
+   "id": "e-add3",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Operations",
+   "icon": "plus",
+   "gen": "add3",
+   "items": 6,
+   "title": "Adding 3-digit numbers"
+  },
+  {
+   "id": "e-sub3",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Operations",
+   "icon": "minus",
+   "gen": "sub3",
+   "items": 6,
+   "title": "Subtracting 3-digit numbers"
+  },
+  {
+   "id": "e-mul2x1",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Operations",
+   "icon": "times",
+   "gen": "mul2x1",
+   "items": 6,
+   "title": "2-digit × 1-digit"
+  },
+  {
+   "id": "e-mul2x2",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Operations",
+   "icon": "times",
+   "gen": "mul2x2",
+   "items": 6,
+   "title": "Long multiplication",
+   "prereq": [
+    "e-mul2x1"
+   ]
+  },
+  {
+   "id": "e-divrem",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Operations",
+   "icon": "cookie",
+   "gen": "divRemainder",
+   "items": 6,
+   "title": "Division with remainders"
+  },
+  {
+   "id": "e-longdiv",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Operations",
+   "icon": "cookie",
+   "gen": "longDiv",
+   "items": 6,
+   "title": "Long division",
+   "prereq": [
+    "e-divrem"
+   ]
+  },
+  {
+   "id": "e-bodmas",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Operations",
+   "icon": "expr",
+   "gen": "bodmas",
+   "items": 6,
+   "title": "Order of operations (BODMAS)"
+  },
+  {
+   "id": "e-fequiv",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracEquiv",
+   "items": 6,
+   "title": "Equivalent fractions"
+  },
+  {
+   "id": "e-fsimp",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracSimplify",
+   "items": 6,
+   "title": "Simplifying fractions",
+   "prereq": [
+    "e-fequiv"
+   ]
+  },
+  {
+   "id": "e-fadd",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracAdd",
+   "items": 6,
+   "title": "Adding fractions (same bottom)",
+   "params": {
+    "same": true
+   }
+  },
+  {
+   "id": "e-fadd2",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracAdd",
+   "items": 6,
+   "title": "Adding fractions (different bottoms)",
+   "params": {
+    "same": false
+   },
+   "prereq": [
+    "e-fadd",
+    "e-lcm"
+   ]
+  },
+  {
+   "id": "e-fof",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracOf",
+   "items": 6,
+   "title": "Fraction of an amount"
+  },
+  {
+   "id": "e-mixed",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "mixed",
+   "items": 6,
+   "title": "Mixed numbers"
+  },
+  {
+   "id": "e-decpv",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Decimals",
+   "icon": "numeral",
+   "gen": "decPlace",
+   "items": 6,
+   "title": "Decimal place value"
+  },
+  {
+   "id": "e-decadd",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Decimals",
+   "icon": "plus",
+   "gen": "decAdd",
+   "items": 6,
+   "title": "Adding and subtracting decimals",
+   "prereq": [
+    "e-decpv"
+   ]
+  },
+  {
+   "id": "e-decmul",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Decimals",
+   "icon": "times",
+   "gen": "decMul",
+   "items": 6,
+   "title": "× and ÷ by 10, 100, 1000"
+  },
+  {
+   "id": "e-fdp",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Percentages",
+   "icon": "fraction",
+   "gen": "convertFDP",
+   "items": 6,
+   "title": "Fractions, decimals, percentages"
+  },
+  {
+   "id": "e-pct",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Percentages",
+   "icon": "fraction",
+   "gen": "pctOf",
+   "items": 6,
+   "title": "Percentage of an amount"
+  },
+  {
+   "id": "e-pctch",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Percentages",
+   "icon": "fraction",
+   "gen": "pctChange",
+   "items": 6,
+   "title": "Percentage increase and decrease",
+   "prereq": [
+    "e-pct"
+   ]
+  },
+  {
+   "id": "e-ratio",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Ratio",
+   "icon": "balance",
+   "gen": "ratioSimplify",
+   "items": 6,
+   "title": "Ratios"
+  },
+  {
+   "id": "e-share",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Ratio",
+   "icon": "balance",
+   "gen": "ratioShare",
+   "items": 6,
+   "title": "Sharing in a ratio",
+   "prereq": [
+    "e-ratio"
+   ]
+  },
+  {
+   "id": "e-unit",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Ratio",
+   "icon": "coin",
+   "gen": "unitRate",
+   "items": 6,
+   "title": "Unitary method"
+  },
+  {
+   "id": "e-sdt",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Ratio",
+   "icon": "speed",
+   "gen": "sdt",
+   "items": 6,
+   "title": "Speed, distance, time"
+  },
+  {
+   "id": "e-missing",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Algebra",
+   "icon": "eq",
+   "gen": "missingNum",
+   "items": 6,
+   "title": "Missing numbers"
+  },
+  {
+   "id": "e-eval",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "evalExpr",
+   "items": 6,
+   "title": "Substitution"
+  },
+  {
+   "id": "e-nth",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Algebra",
+   "icon": "series",
+   "gen": "nthTerm",
+   "items": 6,
+   "title": "Sequences: the nth term"
+  },
+  {
+   "id": "e-angtype",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "angleType",
+   "items": 6,
+   "title": "Types of angles"
+  },
+  {
+   "id": "e-angest",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "angleEstimate",
+   "items": 6,
+   "title": "Estimating angles",
+   "prereq": [
+    "e-angtype"
+   ]
+  },
+  {
+   "id": "e-angline",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "angleLine",
+   "items": 6,
+   "title": "Angles on a straight line",
+   "prereq": [
+    "e-angtype"
+   ]
+  },
+  {
+   "id": "e-angtri",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "angleTri",
+   "items": 6,
+   "title": "Angles in a triangle",
+   "prereq": [
+    "e-angline"
+   ]
+  },
+  {
+   "id": "e-poly",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G8",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "polygonAngles",
+   "items": 6,
+   "title": "Angles in polygons",
+   "prereq": [
+    "e-angtri"
+   ]
+  },
+  {
+   "id": "e-circle",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "circleParts",
+   "items": 6,
+   "title": "Radius and diameter"
+  },
+  {
+   "id": "e-coord",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "graph",
+   "gen": "coordinates",
+   "items": 6,
+   "title": "Coordinates",
+   "params": {
+    "quads": 1
+   }
+  },
+  {
+   "id": "e-coord4",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Geometry",
+   "icon": "graph",
+   "gen": "coordinates",
+   "items": 6,
+   "title": "Coordinates in four quadrants",
+   "params": {
+    "quads": 4
+   },
+   "prereq": [
+    "e-coord",
+    "e-neg"
+   ]
+  },
+  {
+   "id": "e-solids",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "solid",
+   "gen": "solidFEV",
+   "items": 6,
+   "title": "Faces, edges, vertices"
+  },
+  {
+   "id": "e-symlines",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "mirror",
+   "gen": "symmetryLines",
+   "items": 6,
+   "title": "Lines of symmetry"
+  },
+  {
+   "id": "e-units",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Measurement",
+   "icon": "ruler",
+   "gen": "units",
+   "items": 6,
+   "title": "Converting units"
+  },
+  {
+   "id": "e-perim",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Measurement",
+   "icon": "ruler",
+   "gen": "perimeter",
+   "items": 6,
+   "title": "Perimeter"
+  },
+  {
+   "id": "e-area",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Measurement",
+   "icon": "ruler",
+   "gen": "areaRect",
+   "items": 6,
+   "title": "Area of rectangles",
+   "prereq": [
+    "e-perim"
+   ]
+  },
+  {
+   "id": "e-areas",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Measurement",
+   "icon": "ruler",
+   "gen": "areaShapes",
+   "items": 6,
+   "title": "Area of triangles and more",
+   "prereq": [
+    "e-area"
+   ]
+  },
+  {
+   "id": "e-circm",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Measurement",
+   "icon": "shapes",
+   "gen": "circleMeasure",
+   "items": 6,
+   "title": "Circumference and area of circles",
+   "prereq": [
+    "e-circle"
+   ]
+  },
+  {
+   "id": "e-vol",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Measurement",
+   "icon": "solid",
+   "gen": "volume",
+   "items": 6,
+   "title": "Volume and surface area",
+   "prereq": [
+    "e-area"
+   ]
+  },
+  {
+   "id": "e-time",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Measurement",
+   "icon": "clock",
+   "gen": "time24",
+   "items": 6,
+   "title": "24-hour time and durations"
+  },
+  {
+   "id": "e-profit",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "profitLoss",
+   "items": 6,
+   "title": "Profit and loss"
+  },
+  {
+   "id": "e-si",
+   "track": "school",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "simpleInterest",
+   "items": 6,
+   "title": "Simple interest"
+  },
+  {
+   "id": "e-mean",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "meanMedian",
+   "items": 6,
+   "title": "Mean, median, mode, range"
+  },
+  {
+   "id": "e-bar",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "readBar",
+   "items": 6,
+   "title": "Reading bar graphs"
+  },
+  {
+   "id": "e-pie",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "pieRead",
+   "items": 6,
+   "title": "Pie charts"
+  },
+  {
+   "id": "e-chance",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Probability",
+   "icon": "dots",
+   "gen": "chanceWords",
+   "items": 6,
+   "title": "How likely?"
+  },
+  {
+   "id": "e-prob",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Probability",
+   "icon": "dots",
+   "gen": "probability",
+   "items": 6,
+   "title": "Probability",
+   "prereq": [
+    "e-chance"
+   ]
+  },
+  {
+   "id": "v-yava",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Sutra 10",
+   "strand": "Yavadunam",
+   "icon": "vedic",
+   "gen": "yavadunam",
+   "items": 4,
+   "title": "Squaring near 100 (Yavadunam)"
+  },
+  {
+   "id": "v-ekan",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Sutra 14",
+   "strand": "Ekanyunena Purvena",
+   "icon": "vedic",
+   "gen": "ekanyunena",
+   "items": 4,
+   "title": "Multiplying by 99 (Ekanyunena)"
+  },
+  {
+   "id": "v-beej",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Beejank",
+   "strand": "Beejank",
+   "icon": "vedic",
+   "gen": "beejank",
+   "items": 5,
+   "title": "Checking with digit sums (Beejank)"
+  },
+  {
+   "id": "m-abacus3",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Abacus L3",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusFriends",
+   "items": 6,
+   "title": "Abacus: small friends",
+   "params": {
+    "kind": "small"
+   },
+   "prereq": [
+    "m-abacus2"
+   ]
+  },
+  {
+   "id": "m-abacus4",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Abacus L4",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusFriends",
+   "items": 6,
+   "title": "Abacus: big friends",
+   "params": {
+    "kind": "big"
+   },
+   "prereq": [
+    "m-abacus3"
+   ]
+  },
+  {
+   "id": "m-abacus5",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Abacus L5",
+   "strand": "Abacus",
+   "icon": "abacus",
+   "gen": "abacusFriends",
+   "items": 5,
+   "title": "Abacus: 3-digit numbers",
+   "params": {
+    "kind": "mixed"
+   },
+   "prereq": [
+    "m-abacus4"
+   ]
+  },
+  {
+   "id": "m-flash1",
+   "track": "method",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "Abacus L6",
+   "strand": "Anzan",
+   "icon": "abacus",
+   "gen": "flash",
+   "items": 5,
+   "title": "Flash maths: 1-digit",
+   "params": {
+    "count": 4,
+    "digits": 1,
+    "ms": 1200
+   }
+  },
+  {
+   "id": "m-flash2",
+   "track": "method",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "Abacus L7",
+   "strand": "Anzan",
+   "icon": "abacus",
+   "gen": "flash",
+   "items": 5,
+   "title": "Flash maths: 2-digit",
+   "params": {
+    "count": 4,
+    "digits": 2,
+    "ms": 1500
+   },
+   "prereq": [
+    "m-flash1"
+   ]
+  },
+  {
+   "id": "m-flash3",
+   "track": "method",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "Abacus L8",
+   "strand": "Anzan",
+   "icon": "abacus",
+   "gen": "flash",
+   "items": 5,
+   "title": "Anzan: add and take away",
+   "params": {
+    "count": 5,
+    "digits": 2,
+    "ms": 1300,
+    "minus": true
+   },
+   "prereq": [
+    "m-flash2"
+   ]
+  },
+  {
+   "id": "m-bar3",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Bar models",
+   "strand": "Singapore bar models",
+   "icon": "bar",
+   "gen": "barUnits",
+   "items": 5,
+   "title": "Bar models: fractions, ratio, before and after",
+   "prereq": [
+    "m-bar2"
+   ]
+  },
+  {
+   "id": "m-speed12",
+   "track": "method",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Speed maths",
+   "strand": "Speed Arena",
+   "icon": "speed",
+   "gen": "mulDrill",
+   "items": 6,
+   "title": "Speed Arena: × 12",
+   "params": {
+    "gen": "mul12",
+    "seconds": 60
+   }
+  },
+  {
+   "id": "m-speedsq",
+   "track": "method",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "Speed maths",
+   "strand": "Speed Arena",
+   "icon": "speed",
+   "gen": "mulDrill",
+   "items": 6,
+   "title": "Speed Arena: squares 11–30",
+   "params": {
+    "gen": "sqDrill",
+    "seconds": 60
+   }
+  },
+  {
+   "id": "m-speedas",
+   "track": "method",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "Speed maths",
+   "strand": "Speed Arena",
+   "icon": "speed",
+   "gen": "mulDrill",
+   "items": 6,
+   "title": "Speed Arena: add and subtract",
+   "params": {
+    "gen": "addSubDrill",
+    "seconds": 60
+   }
+  },
+  {
+   "id": "m-magic",
+   "track": "method",
+   "modes": [
+    "explore"
+   ],
+   "level": "Puzzles",
+   "strand": "Puzzles",
+   "icon": "puzzle",
+   "gen": "magicSquare",
+   "items": 4,
+   "title": "Magic squares"
   }
  ]
 }

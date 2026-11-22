@@ -81,10 +81,10 @@ const HEAD = '<svg viewBox="0 0 100 100"><path d="M36 22 26 2M64 22 74 2" stroke
 export const pattern = {
   render(host, act, ctx) {
     const { seq, miss, options } = act.data;
-    host.innerHTML = `<div class="t-pat"><div class="cater-wrap"><div class="cater" style="--n:${seq.length + 1}">${seq.map((v, j) => j === miss ? '<div class="seg gap"></div>' : `<div class="seg">${segSvg(v)}</div>`).join('')}<div class="seg head">${HEAD}</div></div></div>
+    host.innerHTML = `<div class="t-pat"><div class="cater-wrap"><div class="cater" style="--n:${seq.length + 1}">${seq.map((v, j) => j === miss ? '<div class="cseg gap"></div>' : `<div class="cseg">${segSvg(v)}</div>`).join('')}<div class="cseg head">${HEAD}</div></div></div>
       <div class="dock">${options.map(v => `<button class="tile" data-v="${v}" aria-label="Piece">${segSvg(v)}</button>`).join('')}</div></div>`;
-    const segs = $$('.seg', host); segs.forEach((g, j) => g.style.animationDelay = (j * .12) + 's');
-    const slot = host.querySelector('.seg.gap'); let busy = false;
+    const segs = $$('.cseg', host); segs.forEach((g, j) => g.style.animationDelay = (j * .12) + 's');
+    const slot = host.querySelector('.cseg.gap'); let busy = false;
     $$('.tile', host).forEach((el, i) => { popIn(el, i * 80); draggable(el, { targets: () => [slot], canStart: () => !busy, onDrop: async (el, tg) => {
       busy = true; await flyTo(el, tg);
       if (+el.dataset.v === act.answer) { el.dataset.used = 1; el.style.visibility = 'hidden'; slot.innerHTML = segSvg(act.answer); slot.classList.add('filled'); squash(slot); ctx.submit(act.answer); }

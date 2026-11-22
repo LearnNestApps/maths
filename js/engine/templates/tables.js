@@ -30,3 +30,22 @@ export const tablechart = {
     return { hint() { assisted = true; const r = rows[open[k]]; slot().textContent = r.ans; cur().classList.add('glow'); } };
   }
 };
+
+// Flash mental arithmetic (Anzan): numbers appear one at a time, then type the total.
+export const flash = {
+  render(host, act, ctx) {
+    const { nums, ms } = act.data; let ni;
+    host.innerHTML = `<div class="t-flash"><div class="fnum" aria-live="polite"></div><button class="btn primary huge fgo">${ICON.play}<span>${t('drill.go')}</span></button><div class="io"></div></div>`;
+    const box = host.querySelector('.fnum'), io = host.querySelector('.io');
+    const run = async () => {
+      host.querySelector('.fgo').hidden = true; io.innerHTML = ''; ni?.destroy();
+      for (const v of nums) { box.textContent = v < 0 ? '− ' + -v : (box.dataset.first ? '+ ' : '') + v; box.dataset.first = 1; squash(box); sfx.tick(); say(v < 0 ? 'minus ' + -v : String(v)); await new Promise(r => setTimeout(r, ms)); box.textContent = ''; await new Promise(r => setTimeout(r, 180)); }
+      delete box.dataset.first; box.textContent = '?';
+      ni = numInput(io, { neg: true, onSubmit: v => { const r = ctx.submit(Number(v)); if (!r.ok) { ni.shake(); ni.clear(); } } });
+      ctx.onCleanup(() => ni.destroy());
+      host.querySelector('.fgo').hidden = false; host.querySelector('.fgo span').textContent = t('flash.again');
+    };
+    host.querySelector('.fgo').onclick = run;
+    return { hint() { box.textContent = nums.map((v, i) => i && v > 0 ? '+ ' + v : v < 0 ? '− ' + -v : v).join(' '); } };
+  }
+};

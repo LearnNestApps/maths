@@ -168,4 +168,5 @@ import { GEN_TABLES } from './generators_tables.js';
 import { GEN_REASON } from './generators_reason.js';
 import { GEN_TRICKS } from './generators_tricks.js';
 import { GEN_LOGIC } from './generators_logic.js';
-Object.assign(GEN, GEN_LITTLE, GEN_TABLES, GEN_REASON, GEN_TRICKS, GEN_LOGIC);
+import { GEN_EXPLORE } from './generators_explore.js';
+Object.assign(GEN, GEN_LITTLE, GEN_TABLES, GEN_REASON, GEN_TRICKS, GEN_LOGIC, GEN_EXPLORE);

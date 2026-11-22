@@ -4,7 +4,7 @@ import { drag, balance } from './drag.js';
 import { abacus, numline, clock, bar } from './manip.js';
 import { steps, graph, drill, mock, explainer } from './advanced.js';
 import { pick, sort, pattern, build, share, feed } from './little.js';
-import { tablechart } from './tables.js';
+import { tablechart, flash } from './tables.js';
 import { venn, gates, robot, order, binary } from './logic.js';
 
 export const TEMPLATES = {
@@ -20,7 +20,7 @@ export const TEMPLATES = {
   drill,          // 10 timed drill
   mock,           // 11 mock test runner
   pick, sort, pattern, build, share, feed, // Little Learners extras
-  tablechart,     // multiplication tables, squares, cubes
+  tablechart, flash, // tables, squares, cubes; flash mental arithmetic
   venn, gates, robot, order, binary // Logic & coding
 };
 export { explainer }; // 12 animated explainer

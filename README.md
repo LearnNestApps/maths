@@ -30,6 +30,8 @@ js/main.js              onboarding, mode homes, grown-ups area, admin "All topic
 js/core/                store (profiles, progress), mastery engine, strings, audio, drawings, helpers
 js/content/generators.js question generators (each returns one activity)
 js/content/generators_little.js  JK–Grade 2 generators
+js/content/generators_explore.js Grades 3–8 generators
+js/content/generators_tables.js, _tricks.js, _reason.js (Buddhimatta), _logic.js (Logic & coding)
 js/content/expr.js      algebra answer checker for the maths keyboard
 js/engine/player.js     lesson player: hint ladder, mastery recording, results
 js/engine/templates/    the activity templates (tap, drag, balance, number pad, maths keyboard,
@@ -65,4 +67,5 @@ js/engine/templates/    the activity templates (tap, drag, balance, number pad, 
 - **Buddhimatta (intelligence test):** 16 topic lessons (number and letter series, analogies, odd one out, coding-decoding, alphabet positions, directions, ranking, calendar, clocks and mirror time, mirror and water images, counting figures, missing numbers in figures, family relations) and a 25-question practice test.
 - **Mental maths tricks:** 14 tricks, each with a short animation and step-by-step practice (make 10, near doubles, round and adjust, adding 9, split into tens and ones, take away 19, count up to subtract, × 5, × 4/× 8 by doubling, 9s on your fingers, × 25, halve and double, × 9/× 99, percentages from 10%).
 - **Logic & coding:** algorithms (steps in order), robot programming with sequences, turns and repeat loops, sorting, Venn diagrams (sorting and AND/OR/NOT), logic gates with lamps (AND, OR, NOT, XOR, NAND), reading if/else and loop code, binary bulbs.
-- **Next:** Step 3, Explorers (Grades 3–8).
+- **Step 3, Explorers (Grades 3–8):** done. Number (place value, lakhs and crores, rounding, Roman numerals, negatives, factors, primes, HCF, LCM, divisibility, powers, standard form), operations (3-digit adding and subtracting, long multiplication and division, remainders, BODMAS), fractions, decimals and percentages, ratio (unitary method, sharing, speed-distance-time), algebra (missing numbers, substitution, nth term, equations, simplifying), geometry (angles, triangles, polygons, circles, coordinates, 3D shapes, symmetry), measurement (units, perimeter, area, circles, volume, 24-hour time), money (profit and loss, simple interest), data (mean/median/mode/range, bar graphs, pie charts) and probability. Plus Vedic sutras 10 and 14 and Beejank checking, abacus levels 3–8 with flash Anzan, bar models with units, Speed Arena drills and magic squares.
+- **Next:** Step 4, the Exam Centre (full-length mocks), then Achievers (Grades 9–12) and Adults.
