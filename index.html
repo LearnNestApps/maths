@@ -27,16 +27,16 @@
 // If the app cannot start (very old browser or a script error), say so instead of showing a blank screen.
 (function () {
   function fail(msg) {
-    if (window.__pipStarted && !msg) return;
-    var b = document.querySelector('#app .boot'); if (!b) return;
+    var b = document.querySelector('#app .boot'); if (!b) return; // the app has drawn a screen: nothing to do
     b.innerHTML = '<div style="max-width:30em;margin:auto;padding:24px;font:16px/1.5 system-ui,sans-serif;text-align:center">' +
       '<b style="font-size:22px">Pip Maths could not start</b><br>Please update this device (Settings → General → Software Update) or try another browser.' +
       (msg ? '<br><small style="color:#666">Details: ' + String(msg).replace(/</g, '&lt;') + '</small>' : '') + '</div>';
   }
-  window.onerror = function (m, src, line) { if (!window.__pipStarted) fail(m + ' (' + (src || '').split('/').pop() + ':' + line + ')'); };
-  setTimeout(function () { if (!window.__pipStarted) fail(''); }, 12000);
+  window.onerror = function (m, src, line) { fail(m + ' (' + (src || '').split('/').pop().split('?')[0] + ':' + line + ')'); };
+  window.addEventListener('unhandledrejection', function (e) { fail(e.reason && (e.reason.message || e.reason)); });
+  setTimeout(function () { fail(''); }, 12000);
 })();
 </script>
-<script src="js/app.js?v=1795374448"></script>
+<script src="js/app.js?v=1795374878"></script>
 </body>
 </html>

@@ -1,3 +1,11 @@
+// Small stand-ins for browser features that older iPads (Safari 12–13) do not have.
+if (typeof Element !== 'undefined') {
+  // Safari 14+: replace all children of an element.
+  if (!Element.prototype.replaceChildren) Element.prototype.replaceChildren = function (...nodes) { while (this.lastChild) this.removeChild(this.lastChild); this.append(...nodes); };
+  // Web Animations: without them, skip the animation but keep the code working.
+  if (!Element.prototype.animate) Element.prototype.animate = function () { const a = { onfinish: null, cancel() {}, play() {}, finish() {}, finished: Promise.resolve() }; setTimeout(() => a.onfinish && a.onfinish(), 0); return a; };
+}
+
 // Older iPads (Safari before 13) have no pointer events. This turns touch and mouse events into
 // pointerdown / pointermove / pointerup so dragging, the abacus and hold-to-open buttons still work.
 if (typeof window !== 'undefined' && !window.PointerEvent) {
