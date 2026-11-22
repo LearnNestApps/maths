@@ -10,7 +10,7 @@ import { playSkill } from './engine/player.js';
 const app = $('#app');
 let content = { skills: [], explainers: {} };
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
-const TRACKS = ['school', 'tables', 'vedic', 'exam', 'method'];
+const TRACKS = ['school', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
 let tab = null;
 
 const mount = el => { app.replaceChildren(el); window.scrollTo(0, 0); };

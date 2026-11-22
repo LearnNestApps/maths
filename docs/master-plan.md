@@ -12,7 +12,7 @@
 One app, **Pip Maths**, that takes a learner from their first counting game at age 3 to adult brush-up and university topics. It has:
 
 - **4 modes**, one per age band. Each mode changes the look, the voice, how lessons are taught and how rewards work.
-- **4 tracks**, which run across the modes: School Curriculum, Vedic Maths, Indian Exams, and Other Methods.
+- **7 tracks**, which run across the modes: School Curriculum, Tables, Mental Maths Tricks, Vedic Maths, Logic & Coding, Indian Exams (including Buddhimatta), and Other Methods.
 - **One shared lesson engine**, so each new topic is data, not new code.
 - **An admin view** listing every lesson in every mode, with search, filters by mode, and a "Try" button.
 
@@ -96,9 +96,16 @@ Each pack: topic-wise question bank, sectional tests, full mocks in the real for
 
 ---
 
+## 6b. Tables, Tricks, Logic & Coding (added 22 Nov 2026 at the owner's request)
+
+- **Tables:** one lesson per table 2–20 (fill the chart, facts, missing factor, division), tables 21–30, squares 11–30, cubes 1–15, 60-second sprints.
+- **Mental maths tricks:** 14 tricks, each with an animated explainer and step-by-step practice, from "make 10" (Grade 1) to "percentages from 10%" (Grade 6).
+- **Buddhimatta (intelligence test):** 16 reasoning topics plus a 25-question practice test, under Exam prep.
+- **Logic & coding:** algorithms in order, robot programming (sequences, turns, repeat loops), sorting, Venn diagrams (AND, OR, NOT), logic gates with lamps, reading if/else and loop code, binary numbers. Code is shown in simple Python-style pseudo-code.
+
 ## 7. Lesson engine (12 templates)
 
-Tap-to-select, drag-and-drop, balance, number pad, maths keyboard, multiple choice, worked steps, manipulatives (abacus, number line, clock, bar model), graph plotter, timed drill, mock test runner, animated explainer. Step 2 adds picture-pick, sorting bins, pattern caterpillar, place-value builder and sharing.
+Tap-to-select, drag-and-drop, balance, number pad, maths keyboard, multiple choice, worked steps, manipulatives (abacus, number line, clock, bar model), graph plotter, timed drill, mock test runner, animated explainer. Step 2 adds picture-pick, sorting bins, pattern caterpillar, place-value builder and sharing. Later additions: table chart, Venn sorting, logic gates, robot programming, put-in-order, binary bulbs.
 
 Content model: `Track → Level → Unit → Skill → Activity`. Skills live in `content/skills.json`; questions come from generators so practice never runs out.
 

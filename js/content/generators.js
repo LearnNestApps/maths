@@ -166,4 +166,6 @@ export const GEN = {
 import { GEN_LITTLE } from './generators_little.js';
 import { GEN_TABLES } from './generators_tables.js';
 import { GEN_REASON } from './generators_reason.js';
-Object.assign(GEN, GEN_LITTLE, GEN_TABLES, GEN_REASON);
+import { GEN_TRICKS } from './generators_tricks.js';
+import { GEN_LOGIC } from './generators_logic.js';
+Object.assign(GEN, GEN_LITTLE, GEN_TABLES, GEN_REASON, GEN_TRICKS, GEN_LOGIC);

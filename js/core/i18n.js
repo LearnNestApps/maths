@@ -9,7 +9,7 @@ en: {
   'ui.reset': 'Reset progress', 'ui.resetConfirm': 'Tap again to reset', 'ui.delete': 'Remove learner', 'ui.deleteConfirm': 'Tap again to remove',
   'ui.upNext': 'Up next', 'ui.listen': 'Hear it again', 'ui.skip': 'Skip', 'ui.coins': 'coins', 'ui.stickers': 'stickers', 'ui.all': 'All',
   'ui.sampleNote': 'Sample lessons for this age group. The full set arrives in the next build steps.',
-  'track.school': 'School maths', 'track.tables': 'Tables', 'track.vedic': 'Vedic maths', 'track.exam': 'Exam prep', 'track.method': 'Other methods',
+  'track.school': 'School maths', 'track.tables': 'Tables', 'track.tricks': 'Tricks', 'track.logic': 'Logic & coding', 'track.vedic': 'Vedic maths', 'track.exam': 'Exam prep', 'track.method': 'Other methods',
   'mode.little': 'Little Learners', 'mode.explore': 'Explorers', 'mode.achieve': 'Achievers', 'mode.adult': 'Adults', 'mode.auto': 'Auto (from age)',
   'status.new': 'New', 'status.learning': 'Learning', 'status.mastered': 'Mastered', 'status.review': 'Review due',
   'ob.lang': 'Choose a language', 'ob.who': 'Who is learning?', 'ob.name': 'Name', 'ob.namePh': 'Type a name', 'ob.age': 'Age', 'ob.adult': 'Adult',
@@ -35,7 +35,7 @@ en: {
   'mock.yes': 'Submit', 'mock.no': 'Keep going', 'mock.result': 'Your score', 'mock.marks': '{m} of {t} marks', 'mock.section': 'Section',
   'mock.note': 'Sample mock: original questions in the exam’s four-section pattern. Real-length mocks come with the Exam Centre build.',
   'ex.start': 'Start practice',
-  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'share.reset': 'Start again', 'pv.h': 'Hundreds', 'pv.t': 'Tens', 'pv.o': 'Ones', 'lvl.JK': 'Junior KG', 'lvl.SK': 'Senior KG', 'lvl.G1': 'Grade 1', 'lvl.G2': 'Grade 2', 'lvl.other': 'More games', 'book.title': 'My sticker book', 'book.empty': 'Finish a game to win your first sticker!',
+  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'venn.key': 'Middle = A AND B · Outside = NOT A and NOT B', 'gate.out': 'Lamp', 'gate.ask': 'Will the lamp be…', 'gate.on': 'ON', 'gate.off': 'OFF', 'rob.F': 'Forward', 'rob.L': 'Turn left', 'rob.R': 'Turn right', 'rob.run': 'Run', 'rob.clear': 'Clear', 'rob.empty': 'Tap the commands above to build your program.', 'rob.limit': 'Use at most {n} blocks.', 'rob.loops': 'Tap × on a block to repeat it.', 'bin.total': 'Total:', 'share.reset': 'Start again', 'pv.h': 'Hundreds', 'pv.t': 'Tens', 'pv.o': 'Ones', 'lvl.JK': 'Junior KG', 'lvl.SK': 'Senior KG', 'lvl.G1': 'Grade 1', 'lvl.G2': 'Grade 2', 'lvl.other': 'More games', 'book.title': 'My sticker book', 'book.empty': 'Finish a game to win your first sticker!',
   'adm.open': 'All topics (admin) · {n} lessons', 'adm.title': 'All topics', 'adm.sub': 'Every lesson in every mode. Try any lesson in the look of the mode it belongs to. Practice here is saved to the current learner.',
   'adm.search': 'Search lessons, levels, strands', 'adm.level': 'Level', 'adm.modes': 'Modes', 'adm.type': 'Generator', 'adm.try': 'Try', 'adm.none': 'No lessons match.'
 }

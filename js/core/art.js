@@ -94,3 +94,14 @@ Object.assign(SKILL_ICON, {
   pairs: S('<g fill="#51cf66"><circle cx="26" cy="26" r="9"/><circle cx="50" cy="26" r="9"/><circle cx="26" cy="52" r="9"/><circle cx="50" cy="52" r="9"/><circle cx="26" cy="78" r="9"/></g><circle cx="50" cy="78" r="9" fill="none" stroke="#1d2b5355" stroke-width="3" stroke-dasharray="4 3"/><text x="80" y="62" text-anchor="middle" font-size="26" font-weight="800" fill="#1d2b53">?</text>'),
   mirror: S('<ellipse cx="32" cy="42" rx="18" ry="22" fill="#9775fa"/><ellipse cx="68" cy="42" rx="18" ry="22" fill="#9775fa"/><ellipse cx="34" cy="72" rx="13" ry="12" fill="#da77f2"/><ellipse cx="66" cy="72" rx="13" ry="12" fill="#da77f2"/><path d="M50 6v88" stroke="#e03131" stroke-width="3" stroke-dasharray="6 5"/>')
 });
+
+// Icons for Tricks and Logic & coding.
+Object.assign(SKILL_ICON, {
+  bulb: S('<path d="M50 10a28 28 0 0 0-16 51c4 3 6 7 6 12h20c0-5 2-9 6-12a28 28 0 0 0-16-51z" fill="#ffd23f"/><rect x="38" y="76" width="24" height="12" rx="4" fill="#868e96"/><path d="M42 44l8 10 8-10" fill="none" stroke="#e0a800" stroke-width="4" stroke-linecap="round"/>'),
+  venn: S('<circle cx="38" cy="52" r="28" fill="#4dabf7" fill-opacity=".55"/><circle cx="62" cy="52" r="28" fill="#ff6b6b" fill-opacity=".55"/>'),
+  gate: S('<path d="M8 38h20M8 62h20M78 50h14" stroke="#1d2b53" stroke-width="4"/><path d="M28 28h22a22 22 0 0 1 0 44H28z" fill="#9775fa"/><circle cx="88" cy="50" r="8" fill="#ffd23f"/>'),
+  code: S('<rect x="8" y="14" width="84" height="72" rx="10" fill="#1d2b53"/><path d="M30 38 20 50l10 12M70 38l10 12-10 12M56 32 44 68" fill="none" stroke="#69db7c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'),
+  robot: S('<rect x="22" y="30" width="56" height="50" rx="12" fill="#4dabf7"/><rect x="32" y="42" width="36" height="18" rx="9" fill="#fff"/><circle cx="42" cy="51" r="4" fill="#1d2b53"/><circle cx="58" cy="51" r="4" fill="#1d2b53"/><path d="M50 30V16" stroke="#1d2b53" stroke-width="4"/><circle cx="50" cy="13" r="6" fill="#ff6b4a"/>'),
+  binary: S('<g font-size="26" font-weight="800" text-anchor="middle"><text x="22" y="62" fill="#1d2b53">1</text><text x="50" y="62" fill="#adb5bd">0</text><text x="78" y="62" fill="#1d2b53">1</text></g><circle cx="22" cy="24" r="10" fill="#ffd23f"/><circle cx="50" cy="24" r="10" fill="#dee2e6"/><circle cx="78" cy="24" r="10" fill="#ffd23f"/>'),
+  order: S('<g font-size="18" font-weight="800" fill="#fff" text-anchor="middle"><rect x="10" y="12" width="80" height="20" rx="6" fill="#4dabf7"/><text x="22" y="28">1</text><rect x="10" y="40" width="80" height="20" rx="6" fill="#51cf66"/><text x="22" y="56">2</text><rect x="10" y="68" width="80" height="20" rx="6" fill="#ff8a3d"/><text x="22" y="84">3</text></g>')
+});

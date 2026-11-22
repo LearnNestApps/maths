@@ -1,5 +1,5 @@
 {
- "version": "0.3-tables-buddhimatta",
+ "version": "0.5-logic",
  "skills": [
   {
    "id": "ll-count5",
@@ -2018,6 +2018,479 @@
    "title": "Sprint: tables 11–20",
    "prereq": [
     "t-sprint10"
+   ]
+  },
+  {
+   "id": "k-maketen",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G1",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "makeTen",
+   "items": 5,
+   "intro": "makeTen",
+   "title": "Make 10"
+  },
+  {
+   "id": "k-neardbl",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G1",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "nearDoubles",
+   "items": 5,
+   "intro": "nearDoubles",
+   "title": "Near doubles"
+  },
+  {
+   "id": "k-round",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "roundAdjust",
+   "items": 5,
+   "intro": "roundAdjust",
+   "title": "Round and adjust (19 + 6 = 20 + 5)",
+   "prereq": [
+    "k-maketen"
+   ]
+  },
+  {
+   "id": "k-add9",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "addNine",
+   "items": 5,
+   "intro": "addNine",
+   "title": "Adding 9, 19, 29"
+  },
+  {
+   "id": "k-split",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "partition",
+   "items": 5,
+   "intro": "partition",
+   "title": "Split into tens and ones"
+  },
+  {
+   "id": "k-subround",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore",
+    "adult"
+   ],
+   "level": "G2",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "subRound",
+   "items": 5,
+   "intro": "subRound",
+   "title": "Take away 19, 29…",
+   "prereq": [
+    "k-add9"
+   ]
+  },
+  {
+   "id": "k-countup",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "countUp",
+   "items": 5,
+   "intro": "countUp",
+   "title": "Count up to subtract"
+  },
+  {
+   "id": "k-x5",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "timesFive",
+   "items": 5,
+   "intro": "timesFive",
+   "title": "× 5: times 10, then halve"
+  },
+  {
+   "id": "k-x4",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "doubleDouble",
+   "items": 5,
+   "intro": "doubleDouble",
+   "title": "× 4 and × 8 by doubling"
+  },
+  {
+   "id": "k-x9",
+   "track": "tricks",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "nineFingers",
+   "items": 5,
+   "intro": "nineFingers",
+   "title": "9 times table on your fingers"
+  },
+  {
+   "id": "k-x25",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "adult"
+   ],
+   "level": "G4",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "timesTwentyFive",
+   "items": 5,
+   "intro": "timesTwentyFive",
+   "title": "× 25: times 100, divide by 4",
+   "prereq": [
+    "k-x4"
+   ]
+  },
+  {
+   "id": "k-halvedbl",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G4",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "halveDouble",
+   "items": 5,
+   "intro": "halveDouble",
+   "title": "Halve and double"
+  },
+  {
+   "id": "k-x99",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "times99",
+   "items": 5,
+   "intro": "times99",
+   "title": "× 9 and × 99"
+  },
+  {
+   "id": "k-pct",
+   "track": "tricks",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Mental maths",
+   "icon": "bulb",
+   "gen": "percentTrick",
+   "items": 5,
+   "intro": "percentTrick",
+   "title": "Percentages from 10%"
+  },
+  {
+   "id": "lc-order",
+   "track": "logic",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Logic & coding",
+   "icon": "order",
+   "gen": "orderSteps",
+   "items": 4,
+   "title": "Algorithms: steps in order"
+  },
+  {
+   "id": "lc-robot1",
+   "track": "logic",
+   "modes": [
+    "little",
+    "explore"
+   ],
+   "level": "G2",
+   "strand": "Logic & coding",
+   "icon": "robot",
+   "gen": "robot",
+   "params": {
+    "n": 4,
+    "segs": 1
+   },
+   "items": 4,
+   "title": "Robot: first programs"
+  },
+  {
+   "id": "lc-robot2",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Logic & coding",
+   "icon": "robot",
+   "gen": "robot",
+   "params": {
+    "n": 5,
+    "segs": 2,
+    "rocks": 3
+   },
+   "items": 4,
+   "title": "Robot: turns and rocks",
+   "prereq": [
+    "lc-robot1"
+   ]
+  },
+  {
+   "id": "lc-robot3",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G4",
+   "strand": "Logic & coding",
+   "icon": "robot",
+   "gen": "robot",
+   "params": {
+    "n": 6,
+    "segs": 3,
+    "rocks": 4,
+    "loops": true
+   },
+   "items": 4,
+   "title": "Robot: loops (repeat)",
+   "prereq": [
+    "lc-robot2"
+   ]
+  },
+  {
+   "id": "lc-sort",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Logic & coding",
+   "icon": "order",
+   "gen": "sortNumbers",
+   "items": 4,
+   "title": "Sorting like a computer"
+  },
+  {
+   "id": "lc-venn",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Logic & coding",
+   "icon": "venn",
+   "gen": "vennSort",
+   "items": 3,
+   "title": "Venn diagrams: sort the numbers"
+  },
+  {
+   "id": "lc-vennread",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G4",
+   "strand": "Logic & coding",
+   "icon": "venn",
+   "gen": "vennRead",
+   "items": 5,
+   "title": "Venn diagrams: AND, OR, NOT",
+   "prereq": [
+    "lc-venn"
+   ]
+  },
+  {
+   "id": "lc-gates",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Logic & coding",
+   "icon": "gate",
+   "gen": "gateTable",
+   "params": {
+    "gates": [
+     "AND",
+     "OR",
+     "NOT"
+    ]
+   },
+   "items": 3,
+   "title": "Logic gates: AND, OR, NOT",
+   "prereq": [
+    "lc-vennread"
+   ]
+  },
+  {
+   "id": "lc-gates2",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Logic & coding",
+   "icon": "gate",
+   "gen": "gateTable",
+   "params": {
+    "gates": [
+     "XOR",
+     "NAND",
+     "A AND NOT B",
+     "NOT A OR B"
+    ]
+   },
+   "items": 3,
+   "title": "Logic gates: XOR, NAND and mixes",
+   "prereq": [
+    "lc-gates"
+   ]
+  },
+  {
+   "id": "lc-if",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Logic & coding",
+   "icon": "code",
+   "gen": "codeIf",
+   "items": 5,
+   "title": "Code: if and else"
+  },
+  {
+   "id": "lc-loop",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Logic & coding",
+   "icon": "code",
+   "gen": "codeLoop",
+   "items": 5,
+   "title": "Code: loops",
+   "prereq": [
+    "lc-if"
+   ]
+  },
+  {
+   "id": "lc-bin4",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Logic & coding",
+   "icon": "binary",
+   "gen": "binary",
+   "params": {
+    "bits": 4
+   },
+   "items": 4,
+   "title": "Binary: 4 bulbs (0–15)"
+  },
+  {
+   "id": "lc-bin8",
+   "track": "logic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Logic & coding",
+   "icon": "binary",
+   "gen": "binary",
+   "params": {
+    "bits": 8
+   },
+   "items": 4,
+   "title": "Binary: 8 bulbs (0–255)",
+   "prereq": [
+    "lc-bin4"
    ]
   }
  ]

@@ -2,7 +2,7 @@
 
 A maths learning app that grows with the learner: playful voice-led games for ages 3–7, an island adventure for 8–13, a study desk for 14–18, and a calm dark tool for adults.
 
-It covers four tracks: **school maths** (JK to university), **Vedic maths** (the 16 sutras), **Indian exam prep** (Maharashtra scholarship, NMMS, SOF IMO) and **other methods** (abacus, Singapore bar models, speed maths, puzzles).
+It covers seven tracks: **school maths** (JK to university), **tables**, **mental maths tricks**, **Vedic maths** (the 16 sutras), **logic & coding**, **Indian exam prep** (Maharashtra scholarship incl. Buddhimatta, NMMS, SOF IMO) and **other methods** (abacus, Singapore bar models, speed maths, puzzles).
 
 **Live site:** https://learnnestapps.github.io/maths/ (GitHub Pages, updates automatically from `main`).
 
@@ -63,4 +63,6 @@ js/engine/templates/    the activity templates (tap, drag, balance, number pad, 
 - **Step 2, Little Learners (JK–Grade 2):** done. 57 lessons from first counting to Grade 2 (place value to 1000, adding and taking away to 100, sharing, fractions, time to the quarter hour, money to ₹100, graphs, symmetry), abacus levels 1–2, picture puzzles, and a sticker book.
 - **Tables:** tables 2–20 (one lesson each: fill the chart, then facts, missing numbers and division), tables 21–30, squares 11–30, cubes 1–15, and 60-second sprints.
 - **Buddhimatta (intelligence test):** 16 topic lessons (number and letter series, analogies, odd one out, coding-decoding, alphabet positions, directions, ranking, calendar, clocks and mirror time, mirror and water images, counting figures, missing numbers in figures, family relations) and a 25-question practice test.
-- **Next:** mental maths tricks, Logic & coding, then Step 3, Explorers (Grades 3–8).
+- **Mental maths tricks:** 14 tricks, each with a short animation and step-by-step practice (make 10, near doubles, round and adjust, adding 9, split into tens and ones, take away 19, count up to subtract, × 5, × 4/× 8 by doubling, 9s on your fingers, × 25, halve and double, × 9/× 99, percentages from 10%).
+- **Logic & coding:** algorithms (steps in order), robot programming with sequences, turns and repeat loops, sorting, Venn diagrams (sorting and AND/OR/NOT), logic gates with lamps (AND, OR, NOT, XOR, NAND), reading if/else and loop code, binary bulbs.
+- **Next:** Step 3, Explorers (Grades 3–8).

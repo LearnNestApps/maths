@@ -1,26 +1,324 @@
 {
-  "sq5": { "title": "Ekadhikena Purvena · squares ending in 5", "frames": [
-    { "html": "<div class='big'>35² = ?</div><p>Numbers ending in 5 have a quick way to square them.</p>", "say": "Numbers ending in 5 have a quick way to square them." },
-    { "html": "<div class='big'><mark>3</mark>5²</div><p>Take the first digit, <b>3</b>. Multiply it by <b>one more</b> than itself: 3 × 4 = <mark>12</mark>.</p>", "say": "Take the first digit, 3. Multiply it by one more than itself. 3 times 4 is 12." },
-    { "html": "<div class='big'><mark>12</mark><span class='alt'>25</span></div><p>Write <b>25</b> on the end. So 35² = <b>1225</b>.</p>", "say": "Write 25 on the end. So 35 squared is 1225." },
-    { "html": "<div class='big small'>(10a + 5)² = 100·a(a + 1) + 25</div><p><b>Why it works:</b> expanding gives 100a² + 100a + 25, which is 100 × a(a + 1), plus 25.</p>", "say": "Why it works: expanding gives 100 a squared plus 100 a plus 25." }
-  ]},
-  "nikhilam": { "title": "Nikhilam · multiplying near 100", "frames": [
-    { "html": "<div class='big'>97 × 96</div><p>Both numbers are close to <b>100</b>.</p>", "say": "Both numbers are close to 100." },
-    { "html": "<div class='cols'><div>97 <mark>−3</mark></div><div>96 <mark>−4</mark></div></div><p>Write how far each is below 100: <b>3</b> and <b>4</b>.</p>", "say": "Write how far each is below 100: 3 and 4." },
-    { "html": "<div class='big'><mark>93</mark> | <span class='alt'>12</span></div><p>Left: cross-subtract, 97 − 4 = <b>93</b>. Right: multiply the gaps, 3 × 4 = <b>12</b>.</p>", "say": "Left: cross subtract, 97 minus 4 is 93. Right: multiply the gaps, 3 times 4 is 12." },
-    { "html": "<div class='big'>97 × 96 = 9312</div><p><b>Why it works:</b> (100 − a)(100 − b) = 100(100 − a − b) + ab.</p>", "say": "So 97 times 96 is 9312." }
-  ]},
-  "urdhva": { "title": "Urdhva-Tiryagbhyam · vertically and crosswise", "frames": [
-    { "html": "<div class='grid2'><span>2</span><span>3</span><span>4</span><span>1</span></div><p>Write 23 above 41, tens on the left.</p>", "say": "Write 23 above 41." },
-    { "html": "<div class='grid2'><span>2</span><span class='hl'>3</span><span>4</span><span class='hl'>1</span></div><p><b>Vertical, right:</b> 3 × 1 = <mark>3</mark>.</p>", "say": "Vertical, right: 3 times 1 is 3." },
-    { "html": "<div class='grid2 x'><span class='hl'>2</span><span class='hl2'>3</span><span class='hl2'>4</span><span class='hl'>1</span></div><p><b>Crosswise:</b> 2 × 1 + 3 × 4 = <mark>14</mark>. Keep 4, carry 1.</p>", "say": "Crosswise: 2 times 1 plus 3 times 4 is 14. Keep 4, carry 1." },
-    { "html": "<div class='grid2'><span class='hl'>2</span><span>3</span><span class='hl'>4</span><span>1</span></div><p><b>Vertical, left:</b> 2 × 4 = 8, plus the carried 1 = <mark>9</mark>.</p>", "say": "Vertical, left: 2 times 4 is 8, plus the carried 1 is 9." },
-    { "html": "<div class='big'>23 × 41 = 943</div><p>Read the parts left to right: 9 | 4 | 3.</p>", "say": "So 23 times 41 is 943." }
-  ]},
-  "x11": { "title": "Speed maths · multiplying by 11", "frames": [
-    { "html": "<div class='big'>43 × 11</div><p>Split the digits apart: <b>4 _ 3</b>.</p>", "say": "Split the digits apart." },
-    { "html": "<div class='big'>4 <mark>7</mark> 3</div><p>Put their sum in the middle: 4 + 3 = 7. So 43 × 11 = <b>473</b>.</p>", "say": "Put their sum in the middle. 43 times 11 is 473." },
-    { "html": "<div class='big'>78 × 11 → 7 <mark>15</mark> 8 → 858</div><p>If the sum is 10 or more, carry the 1 to the left digit.</p>", "say": "If the sum is 10 or more, carry the 1 to the left." }
-  ]}
+ "sq5": {
+  "title": "Ekadhikena Purvena · squares ending in 5",
+  "frames": [
+   {
+    "html": "<div class='big'>35² = ?</div><p>Numbers ending in 5 have a quick way to square them.</p>",
+    "say": "Numbers ending in 5 have a quick way to square them."
+   },
+   {
+    "html": "<div class='big'><mark>3</mark>5²</div><p>Take the first digit, <b>3</b>. Multiply it by <b>one more</b> than itself: 3 × 4 = <mark>12</mark>.</p>",
+    "say": "Take the first digit, 3. Multiply it by one more than itself. 3 times 4 is 12."
+   },
+   {
+    "html": "<div class='big'><mark>12</mark><span class='alt'>25</span></div><p>Write <b>25</b> on the end. So 35² = <b>1225</b>.</p>",
+    "say": "Write 25 on the end. So 35 squared is 1225."
+   },
+   {
+    "html": "<div class='big small'>(10a + 5)² = 100·a(a + 1) + 25</div><p><b>Why it works:</b> expanding gives 100a² + 100a + 25, which is 100 × a(a + 1), plus 25.</p>",
+    "say": "Why it works: expanding gives 100 a squared plus 100 a plus 25."
+   }
+  ]
+ },
+ "nikhilam": {
+  "title": "Nikhilam · multiplying near 100",
+  "frames": [
+   {
+    "html": "<div class='big'>97 × 96</div><p>Both numbers are close to <b>100</b>.</p>",
+    "say": "Both numbers are close to 100."
+   },
+   {
+    "html": "<div class='cols'><div>97 <mark>−3</mark></div><div>96 <mark>−4</mark></div></div><p>Write how far each is below 100: <b>3</b> and <b>4</b>.</p>",
+    "say": "Write how far each is below 100: 3 and 4."
+   },
+   {
+    "html": "<div class='big'><mark>93</mark> | <span class='alt'>12</span></div><p>Left: cross-subtract, 97 − 4 = <b>93</b>. Right: multiply the gaps, 3 × 4 = <b>12</b>.</p>",
+    "say": "Left: cross subtract, 97 minus 4 is 93. Right: multiply the gaps, 3 times 4 is 12."
+   },
+   {
+    "html": "<div class='big'>97 × 96 = 9312</div><p><b>Why it works:</b> (100 − a)(100 − b) = 100(100 − a − b) + ab.</p>",
+    "say": "So 97 times 96 is 9312."
+   }
+  ]
+ },
+ "urdhva": {
+  "title": "Urdhva-Tiryagbhyam · vertically and crosswise",
+  "frames": [
+   {
+    "html": "<div class='grid2'><span>2</span><span>3</span><span>4</span><span>1</span></div><p>Write 23 above 41, tens on the left.</p>",
+    "say": "Write 23 above 41."
+   },
+   {
+    "html": "<div class='grid2'><span>2</span><span class='hl'>3</span><span>4</span><span class='hl'>1</span></div><p><b>Vertical, right:</b> 3 × 1 = <mark>3</mark>.</p>",
+    "say": "Vertical, right: 3 times 1 is 3."
+   },
+   {
+    "html": "<div class='grid2 x'><span class='hl'>2</span><span class='hl2'>3</span><span class='hl2'>4</span><span class='hl'>1</span></div><p><b>Crosswise:</b> 2 × 1 + 3 × 4 = <mark>14</mark>. Keep 4, carry 1.</p>",
+    "say": "Crosswise: 2 times 1 plus 3 times 4 is 14. Keep 4, carry 1."
+   },
+   {
+    "html": "<div class='grid2'><span class='hl'>2</span><span>3</span><span class='hl'>4</span><span>1</span></div><p><b>Vertical, left:</b> 2 × 4 = 8, plus the carried 1 = <mark>9</mark>.</p>",
+    "say": "Vertical, left: 2 times 4 is 8, plus the carried 1 is 9."
+   },
+   {
+    "html": "<div class='big'>23 × 41 = 943</div><p>Read the parts left to right: 9 | 4 | 3.</p>",
+    "say": "So 23 times 41 is 943."
+   }
+  ]
+ },
+ "x11": {
+  "title": "Speed maths · multiplying by 11",
+  "frames": [
+   {
+    "html": "<div class='big'>43 × 11</div><p>Split the digits apart: <b>4 _ 3</b>.</p>",
+    "say": "Split the digits apart."
+   },
+   {
+    "html": "<div class='big'>4 <mark>7</mark> 3</div><p>Put their sum in the middle: 4 + 3 = 7. So 43 × 11 = <b>473</b>.</p>",
+    "say": "Put their sum in the middle. 43 times 11 is 473."
+   },
+   {
+    "html": "<div class='big'>78 × 11 → 7 <mark>15</mark> 8 → 858</div><p>If the sum is 10 or more, carry the 1 to the left digit.</p>",
+    "say": "If the sum is 10 or more, carry the 1 to the left."
+   }
+  ]
+ },
+ "roundAdjust": {
+  "title": "Trick · round and adjust",
+  "frames": [
+   {
+    "html": "<div class='big'>19 + 6</div><p>19 is <b>almost 20</b>. 20 is much easier to add to.</p>",
+    "say": "19 is almost 20. 20 is much easier to add to."
+   },
+   {
+    "html": "<div class='seq'><span>19 <mark>+1</mark> → 20</span><span>6 <mark>−1</mark> → 5</span></div>",
+    "say": "Give 1 to the 19 to make 20. Take that 1 from the 6, leaving 5."
+   },
+   {
+    "html": "<div class='big'>20 + 5 = <span class='alt'>25</span></div><p>Same total, easier sum. So 19 + 6 = 25.</p>",
+    "say": "20 plus 5 is 25. So 19 plus 6 is 25."
+   }
+  ]
+ },
+ "makeTen": {
+  "title": "Trick · make 10",
+  "frames": [
+   {
+    "html": "<div class='big'>8 + 5</div><p>8 is close to 10.</p>",
+    "say": "8 is close to 10."
+   },
+   {
+    "html": "<div class='seq'><span>8 + <mark>2</mark> = 10</span><span>5 = <mark>2</mark> + 3</span></div>",
+    "say": "8 needs 2 more to make 10. Split 5 into 2 and 3."
+   },
+   {
+    "html": "<div class='big'>10 + 3 = <span class='alt'>13</span></div>",
+    "say": "10 plus 3 is 13."
+   }
+  ]
+ },
+ "nearDoubles": {
+  "title": "Trick · near doubles",
+  "frames": [
+   {
+    "html": "<div class='big'>7 + 8</div><p>7 and 8 are next to each other.</p>",
+    "say": "7 and 8 are next to each other."
+   },
+   {
+    "html": "<div class='seq'><span>7 + 7 = <mark>14</mark></span><span>8 is 1 more than 7</span></div>",
+    "say": "Double 7 is 14. 8 is one more than 7."
+   },
+   {
+    "html": "<div class='big'>14 + 1 = <span class='alt'>15</span></div>",
+    "say": "14 plus 1 is 15."
+   }
+  ]
+ },
+ "addNine": {
+  "title": "Trick · adding 9",
+  "frames": [
+   {
+    "html": "<div class='big'>46 + 9</div><p>9 is just 1 less than 10.</p>",
+    "say": "9 is just 1 less than 10."
+   },
+   {
+    "html": "<div class='seq'><span>46 + 10 = <mark>56</mark></span><span>56 − 1 = <mark>55</mark></span></div>",
+    "say": "Add 10 to get 56, then take away the extra 1."
+   },
+   {
+    "html": "<div class='big'>46 + 9 = <span class='alt'>55</span></div><p>Works for 19, 29, 99 too: add 20, 30, 100, then take 1.</p>",
+    "say": "46 plus 9 is 55."
+   }
+  ]
+ },
+ "subRound": {
+  "title": "Trick · take away a round number",
+  "frames": [
+   {
+    "html": "<div class='big'>52 − 19</div><p>Taking away 20 is easier than 19.</p>",
+    "say": "Taking away 20 is easier than 19."
+   },
+   {
+    "html": "<div class='seq'><span>52 − 20 = <mark>32</mark></span><span>we took 1 too many → +1</span></div>",
+    "say": "52 minus 20 is 32. We took away one too many, so add 1 back."
+   },
+   {
+    "html": "<div class='big'>32 + 1 = <span class='alt'>33</span></div>",
+    "say": "So 52 minus 19 is 33."
+   }
+  ]
+ },
+ "countUp": {
+  "title": "Trick · count up to subtract",
+  "frames": [
+   {
+    "html": "<div class='big'>62 − 38</div><p>Think: how far is it from 38 up to 62?</p>",
+    "say": "How far is it from 38 up to 62?"
+   },
+   {
+    "html": "<div class='seq'><span>38 → 40: <mark>2</mark></span><span>40 → 62: <mark>22</mark></span></div>",
+    "say": "From 38 to 40 is 2. From 40 to 62 is 22."
+   },
+   {
+    "html": "<div class='big'>2 + 22 = <span class='alt'>24</span></div><p>This is how shopkeepers count change.</p>",
+    "say": "2 plus 22 is 24."
+   }
+  ]
+ },
+ "partition": {
+  "title": "Trick · split into tens and ones",
+  "frames": [
+   {
+    "html": "<div class='big'>34 + 25</div>",
+    "say": "34 plus 25."
+   },
+   {
+    "html": "<div class='seq'><span>30 + 20 = <mark>50</mark></span><span>4 + 5 = <mark>9</mark></span></div>",
+    "say": "Add the tens: 30 plus 20 is 50. Add the ones: 4 plus 5 is 9."
+   },
+   {
+    "html": "<div class='big'>50 + 9 = <span class='alt'>59</span></div>",
+    "say": "50 plus 9 is 59."
+   }
+  ]
+ },
+ "timesFive": {
+  "title": "Trick · × 5",
+  "frames": [
+   {
+    "html": "<div class='big'>24 × 5</div><p>5 is half of 10.</p>",
+    "say": "5 is half of 10."
+   },
+   {
+    "html": "<div class='seq'><span>24 × 10 = <mark>240</mark></span><span>half of 240 = <mark>120</mark></span></div>",
+    "say": "24 times 10 is 240. Half of 240 is 120."
+   },
+   {
+    "html": "<div class='big'>24 × 5 = <span class='alt'>120</span></div>",
+    "say": "24 times 5 is 120."
+   }
+  ]
+ },
+ "doubleDouble": {
+  "title": "Trick · × 4 and × 8 by doubling",
+  "frames": [
+   {
+    "html": "<div class='big'>23 × 4</div><p>× 4 means double, then double again.</p>",
+    "say": "Times 4 means double, then double again."
+   },
+   {
+    "html": "<div class='seq'><span>23 → <mark>46</mark></span><span>46 → <mark>92</mark></span></div>",
+    "say": "Double 23 is 46. Double 46 is 92."
+   },
+   {
+    "html": "<div class='big'>23 × 4 = <span class='alt'>92</span></div><p>For × 8, double three times.</p>",
+    "say": "23 times 4 is 92. For times 8, double three times."
+   }
+  ]
+ },
+ "nineFingers": {
+  "title": "Trick · the 9 times table on your fingers",
+  "frames": [
+   {
+    "html": "<div class='hands'><i class='fg'>1</i><i class='fg'>2</i><i class='fg'>3</i><i class='fg down'>4</i><i class='fg'>5</i><i class='fg'>6</i><i class='fg'>7</i><i class='fg'>8</i><i class='fg'>9</i><i class='fg'>10</i></div><p>Hold up 10 fingers. For 9 × 4, fold down finger <b>4</b>.</p>",
+    "say": "Hold up 10 fingers. For 9 times 4, fold down finger 4."
+   },
+   {
+    "html": "<div class='hands'><i class='fg l'>1</i><i class='fg l'>2</i><i class='fg l'>3</i><i class='fg down'>4</i><i class='fg r'>5</i><i class='fg r'>6</i><i class='fg r'>7</i><i class='fg r'>8</i><i class='fg r'>9</i><i class='fg r'>10</i></div><p><mark>3</mark> fingers on the left = tens. <span class='alt'>6</span> on the right = ones.</p>",
+    "say": "3 fingers on the left are the tens. 6 on the right are the ones."
+   },
+   {
+    "html": "<div class='big'>9 × 4 = <span class='alt'>36</span></div>",
+    "say": "9 times 4 is 36."
+   }
+  ]
+ },
+ "timesTwentyFive": {
+  "title": "Trick · × 25",
+  "frames": [
+   {
+    "html": "<div class='big'>16 × 25</div><p>25 is a quarter of 100.</p>",
+    "say": "25 is a quarter of 100."
+   },
+   {
+    "html": "<div class='seq'><span>16 × 100 = <mark>1600</mark></span><span>1600 ÷ 4 = <mark>400</mark></span></div>",
+    "say": "16 times 100 is 1600. Divide by 4 to get 400."
+   },
+   {
+    "html": "<div class='big'>16 × 25 = <span class='alt'>400</span></div>",
+    "say": "16 times 25 is 400."
+   }
+  ]
+ },
+ "halveDouble": {
+  "title": "Trick · halve and double",
+  "frames": [
+   {
+    "html": "<div class='big'>14 × 15</div><p>Halve one number, double the other: the answer doesn't change.</p>",
+    "say": "Halve one number and double the other. The answer does not change."
+   },
+   {
+    "html": "<div class='seq'><span>14 → <mark>7</mark></span><span>15 → <mark>30</mark></span></div>",
+    "say": "Half of 14 is 7. Double 15 is 30."
+   },
+   {
+    "html": "<div class='big'>7 × 30 = <span class='alt'>210</span></div>",
+    "say": "7 times 30 is 210."
+   }
+  ]
+ },
+ "times99": {
+  "title": "Trick · × 9 and × 99",
+  "frames": [
+   {
+    "html": "<div class='big'>23 × 99</div><p>99 is 1 less than 100.</p>",
+    "say": "99 is 1 less than 100."
+   },
+   {
+    "html": "<div class='seq'><span>23 × 100 = <mark>2300</mark></span><span>2300 − 23 = <mark>2277</mark></span></div>",
+    "say": "23 times 100 is 2300. Take away one 23: 2277."
+   },
+   {
+    "html": "<div class='big'>23 × 99 = <span class='alt'>2277</span></div>",
+    "say": "23 times 99 is 2277."
+   }
+  ]
+ },
+ "percentTrick": {
+  "title": "Trick · percentages from 10%",
+  "frames": [
+   {
+    "html": "<div class='big'>15% of 80</div><p>10% means divide by 10.</p>",
+    "say": "10 percent means divide by 10."
+   },
+   {
+    "html": "<div class='seq'><span>10% = <mark>8</mark></span><span>5% = half = <mark>4</mark></span></div>",
+    "say": "10 percent of 80 is 8. 5 percent is half of that: 4."
+   },
+   {
+    "html": "<div class='big'>8 + 4 = <span class='alt'>12</span></div><p>20% = double 10%. 25% = a quarter.</p>",
+    "say": "8 plus 4 is 12."
+   }
+  ]
+ }
 }
