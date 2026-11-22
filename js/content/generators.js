@@ -164,4 +164,6 @@ export const GEN = {
 
 // Little Learners (JK–Grade 2) generators live in their own file.
 import { GEN_LITTLE } from './generators_little.js';
-Object.assign(GEN, GEN_LITTLE);
+import { GEN_TABLES } from './generators_tables.js';
+import { GEN_REASON } from './generators_reason.js';
+Object.assign(GEN, GEN_LITTLE, GEN_TABLES, GEN_REASON);

@@ -60,7 +60,7 @@ function fracHtml(s) {
 export const mcq = {
   render(host, act, ctx) {
     const { options, fractions } = act.data;
-    host.innerHTML = `<div class="t-mcq${fractions ? ' fr' : ''}${options.length === 2 ? ' two' : ''}"><div class="opts">${options.map((o, i) => `<button class="opt" data-i="${i}">${fractions ? fracHtml(o) : esc(o)}</button>`).join('')}</div></div>`;
+    host.innerHTML = `<div class="t-mcq${fractions ? ' fr' : ''}${options.length === 2 ? ' two' : ''}"><div class="opts">${options.map((o, i) => `<button class="opt" data-i="${i}">${fractions ? fracHtml(o) : act.data.html ? o : esc(o)}</button>`).join('')}</div></div>`;
     host.querySelector('.opts').addEventListener('click', e => {
       const b = e.target.closest('.opt'); if (!b || b.disabled) return;
       const r = ctx.submit(+b.dataset.i);

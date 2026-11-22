@@ -61,4 +61,6 @@ js/engine/templates/    the activity templates (tap, drag, balance, number pad, 
 
 - **Step 1, foundation:** done. 23 sample lessons across all modes and tracks.
 - **Step 2, Little Learners (JK–Grade 2):** done. 57 lessons from first counting to Grade 2 (place value to 1000, adding and taking away to 100, sharing, fractions, time to the quarter hour, money to ₹100, graphs, symmetry), abacus levels 1–2, picture puzzles, and a sticker book.
-- **Next:** Step 3, Explorers (Grades 3–8).
+- **Tables:** tables 2–20 (one lesson each: fill the chart, then facts, missing numbers and division), tables 21–30, squares 11–30, cubes 1–15, and 60-second sprints.
+- **Buddhimatta (intelligence test):** 16 topic lessons (number and letter series, analogies, odd one out, coding-decoding, alphabet positions, directions, ranking, calendar, clocks and mirror time, mirror and water images, counting figures, missing numbers in figures, family relations) and a 25-question practice test.
+- **Next:** mental maths tricks, Logic & coding, then Step 3, Explorers (Grades 3–8).

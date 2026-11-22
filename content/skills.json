@@ -1,5 +1,5 @@
 {
- "version": "0.2-little",
+ "version": "0.3-tables-buddhimatta",
  "skills": [
   {
    "id": "ll-count5",
@@ -1002,23 +1002,6 @@
    "title": "Number line to 100"
   },
   {
-   "id": "ex-tables",
-   "track": "school",
-   "modes": [
-    "explore",
-    "adult"
-   ],
-   "level": "G3",
-   "strand": "Operations",
-   "icon": "times",
-   "gen": "mulDrill",
-   "params": {
-    "gen": "mulFact",
-    "seconds": 60
-   },
-   "title": "Times tables sprint"
-  },
-  {
    "id": "ex-frac",
    "track": "school",
    "modes": [
@@ -1143,6 +1126,249 @@
    "title": "Vertically and crosswise"
   },
   {
+   "id": "b-numseries",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "seriesNext",
+   "items": 6,
+   "title": "Number series",
+   "params": {
+    "hard": true
+   }
+  },
+  {
+   "id": "b-letseries",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "letterSeries",
+   "items": 6,
+   "title": "Letter series"
+  },
+  {
+   "id": "b-anum",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "analogyNum",
+   "items": 6,
+   "title": "Number analogies"
+  },
+  {
+   "id": "b-alet",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "analogyLetter",
+   "items": 6,
+   "title": "Letter analogies"
+  },
+  {
+   "id": "b-odd",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "oddOneOut",
+   "items": 6,
+   "title": "Odd one out: numbers"
+  },
+  {
+   "id": "b-oddlet",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "oddGroup",
+   "items": 6,
+   "title": "Odd one out: letters"
+  },
+  {
+   "id": "b-code",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "coding",
+   "items": 6,
+   "title": "Coding and decoding"
+  },
+  {
+   "id": "b-alpha",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "alphabetPos",
+   "items": 6,
+   "title": "Alphabet positions"
+  },
+  {
+   "id": "b-dir",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "directions",
+   "items": 6,
+   "title": "Directions"
+  },
+  {
+   "id": "b-rank",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "ranking",
+   "items": 6,
+   "title": "Ranking and order"
+  },
+  {
+   "id": "b-cal",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "calendar",
+   "items": 6,
+   "title": "Calendar"
+  },
+  {
+   "id": "b-clock",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "clockAngle",
+   "items": 6,
+   "title": "Clock angles and mirror time"
+  },
+  {
+   "id": "b-mirror",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "mirrorWord",
+   "items": 6,
+   "title": "Mirror and water images"
+  },
+  {
+   "id": "b-count",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "countFigures",
+   "items": 6,
+   "title": "Counting figures"
+  },
+  {
+   "id": "b-miss",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "missingFigure",
+   "items": 6,
+   "title": "Missing numbers in figures"
+  },
+  {
+   "id": "b-rel",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "puzzle",
+   "gen": "relations",
+   "items": 6,
+   "title": "Family relations"
+  },
+  {
+   "id": "b-test",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "MSCE · NMMS",
+   "strand": "Buddhimatta",
+   "icon": "mock",
+   "gen": "intelligenceMock",
+   "params": {
+    "n": 25
+   },
+   "title": "Buddhimatta practice test (25 questions)"
+  },
+  {
    "id": "x-imo",
    "track": "exam",
    "modes": [
@@ -1158,26 +1384,6 @@
     "klass": 6
    },
    "title": "IMO sample mock (Class 6)"
-  },
-  {
-   "id": "x-mat",
-   "track": "exam",
-   "modes": [
-    "explore",
-    "achieve"
-   ],
-   "level": "NMMS · MSCE",
-   "strand": "Mental ability",
-   "icon": "puzzle",
-   "mix": [
-    "seriesNext",
-    "oddOneOut"
-   ],
-   "params": {
-    "hard": true
-   },
-   "items": 8,
-   "title": "Mental ability practice"
   },
   {
    "id": "ac-lineq",
@@ -1241,6 +1447,578 @@
    },
    "intro": "x11",
    "title": "Speed Arena: × 11"
+  },
+  {
+   "id": "t-2",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 2
+   },
+   "items": 6,
+   "title": "Table of 2"
+  },
+  {
+   "id": "t-5",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 5
+   },
+   "items": 6,
+   "title": "Table of 5"
+  },
+  {
+   "id": "t-10",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 10
+   },
+   "items": 6,
+   "title": "Table of 10"
+  },
+  {
+   "id": "t-3",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 3
+   },
+   "items": 6,
+   "title": "Table of 3"
+  },
+  {
+   "id": "t-4",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 4
+   },
+   "items": 6,
+   "title": "Table of 4"
+  },
+  {
+   "id": "t-6",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 6
+   },
+   "items": 6,
+   "title": "Table of 6"
+  },
+  {
+   "id": "t-7",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 7
+   },
+   "items": 6,
+   "title": "Table of 7"
+  },
+  {
+   "id": "t-8",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 8
+   },
+   "items": 6,
+   "title": "Table of 8"
+  },
+  {
+   "id": "t-9",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 9
+   },
+   "items": 6,
+   "title": "Table of 9"
+  },
+  {
+   "id": "t-11",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 11
+   },
+   "items": 6,
+   "title": "Table of 11"
+  },
+  {
+   "id": "t-12",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 12
+   },
+   "items": 6,
+   "title": "Table of 12"
+  },
+  {
+   "id": "t-13",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 13
+   },
+   "items": 6,
+   "title": "Table of 13"
+  },
+  {
+   "id": "t-14",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 14
+   },
+   "items": 6,
+   "title": "Table of 14"
+  },
+  {
+   "id": "t-15",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 15
+   },
+   "items": 6,
+   "title": "Table of 15"
+  },
+  {
+   "id": "t-16",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 16
+   },
+   "items": 6,
+   "title": "Table of 16"
+  },
+  {
+   "id": "t-17",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 17
+   },
+   "items": 6,
+   "title": "Table of 17"
+  },
+  {
+   "id": "t-18",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 18
+   },
+   "items": 6,
+   "title": "Table of 18"
+  },
+  {
+   "id": "t-19",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 19
+   },
+   "items": 6,
+   "title": "Table of 19"
+  },
+  {
+   "id": "t-20",
+   "track": "tables",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": 20
+   },
+   "items": 6,
+   "title": "Table of 20"
+  },
+  {
+   "id": "t-21-30",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Times tables",
+   "icon": "times",
+   "seq": [
+    "tableChart",
+    "tableFact",
+    "tableMissing",
+    "tableFact",
+    "tableDivide",
+    "tableFact"
+   ],
+   "params": {
+    "n": [
+     21,
+     30
+    ]
+   },
+   "items": 6,
+   "title": "Tables 21 to 30",
+   "prereq": [
+    "t-20"
+   ]
+  },
+  {
+   "id": "t-sq",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Squares",
+   "icon": "times",
+   "seq": [
+    "powerChart",
+    "powerFact",
+    "rootFact",
+    "powerFact",
+    "powerFact",
+    "rootFact"
+   ],
+   "params": {
+    "p": 2,
+    "from": 11,
+    "to": 30,
+    "blanks": 5
+   },
+   "items": 6,
+   "title": "Squares 11 to 30"
+  },
+  {
+   "id": "t-cube",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Cubes",
+   "icon": "times",
+   "seq": [
+    "powerChart",
+    "powerFact",
+    "rootFact",
+    "powerFact",
+    "rootFact"
+   ],
+   "params": {
+    "p": 3,
+    "from": 1,
+    "to": 15,
+    "blanks": 5
+   },
+   "items": 5,
+   "title": "Cubes 1 to 15",
+   "prereq": [
+    "t-sq"
+   ]
+  },
+  {
+   "id": "t-sprint10",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G3",
+   "strand": "Speed",
+   "icon": "speed",
+   "gen": "tableDrill",
+   "params": {
+    "lo": 2,
+    "hi": 10,
+    "seconds": 60
+   },
+   "title": "Sprint: tables 2–10"
+  },
+  {
+   "id": "t-sprint20",
+   "track": "tables",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G5",
+   "strand": "Speed",
+   "icon": "speed",
+   "gen": "tableDrill",
+   "params": {
+    "lo": 11,
+    "hi": 20,
+    "seconds": 60
+   },
+   "title": "Sprint: tables 11–20",
+   "prereq": [
+    "t-sprint10"
+   ]
   }
  ]
 }

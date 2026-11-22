@@ -103,12 +103,12 @@ export const mock = {
       <div class="mbody"><div class="mq"></div><div class="mopts"></div></div>
       <div class="mnav"><button class="btn mprev">${t('mock.prev')}</button><button class="btn mflag">${ICON.flag}<span>${t('mock.mark')}</span></button><button class="btn mnext">${t('mock.next')}</button></div>
       <div class="pal">${qs.map((_, i) => `<button class="pq" data-q="${i}">${i + 1}</button>`).join('')}</div>
-      <button class="btn primary msub">${t('mock.submit')}</button><p class="mnote">${t('mock.note')}</p><div class="msheet"></div></div>`;
+      <button class="btn primary msub">${t('mock.submit')}</button><p class="mnote">${esc(act.data.note || t('mock.note'))}</p><div class="msheet"></div></div>`;
     const $ = s => host.querySelector(s);
     function show(i) {
       cur = i; const q = qs[i];
       $('.mq').innerHTML = `<span class="qn">Q${i + 1} · ${esc(sections[q.si].name)} · ${q.marks} ${q.marks > 1 ? 'marks' : 'mark'}</span><div>${q.stem}</div>`;
-      $('.mopts').innerHTML = q.options.map((o, k) => `<button class="mo${q.pick === k ? ' sel' : ''}" data-k="${k}"><b>${'ABCD'[k]}</b>${esc(o)}</button>`).join('');
+      $('.mopts').innerHTML = q.options.map((o, k) => `<button class="mo${q.pick === k ? ' sel' : ''}" data-k="${k}"><b>${'ABCD'[k]}</b>${q.html ? o : esc(o)}</button>`).join('');
       host.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', +c.dataset.s === q.si));
       host.querySelectorAll('.pq').forEach((p, k) => { p.className = 'pq' + (qs[k].pick != null ? ' pa' : '') + (qs[k].flag ? ' flag' : '') + (k === i ? ' cur' : ''); });
       $('.mflag').classList.toggle('on', q.flag);
@@ -132,7 +132,7 @@ export const mock = {
       const M = per.reduce((a, p) => a + p.m, 0), T = per.reduce((a, p) => a + p.t, 0), right = per.reduce((a, p) => a + p.right, 0);
       host.innerHTML = `<div class="t-mock res"><h3>${t('mock.result')}</h3><div class="mbig">${t('mock.marks', { m: M, t: T })}</div>
         <table class="mtab"><thead><tr><th>${t('mock.section')}</th><th class="r">✓</th><th class="r">Marks</th></tr></thead><tbody>${per.map(p => `<tr><td>${esc(p.name)}</td><td class="r">${p.right}/${p.n}</td><td class="r">${p.m}/${p.t}</td></tr>`).join('')}</tbody></table>
-        <ol class="review">${qs.map((q, i) => `<li class="${q.pick === q.answer ? 'ok' : 'no'}"><span>${q.stem}</span><em>${q.pick == null ? '—' : esc(q.options[q.pick])} → ${esc(q.options[q.answer])}</em></li>`).join('')}</ol>
+        <ol class="review">${qs.map((q, i) => `<li class="${q.pick === q.answer ? 'ok' : 'no'}"><span>${q.stem}</span><em>${q.pick == null ? '—' : q.html ? q.options[q.pick] : esc(q.options[q.pick])} → ${q.html ? q.options[q.answer] : esc(q.options[q.answer])}</em></li>`).join('')}</ol>
         <button class="btn primary mdone">${t('ui.continue')}</button></div>`;
       host.querySelector('.mdone').onclick = () => ctx.finish({ correct: right, total: qs.length, score: M });
     }

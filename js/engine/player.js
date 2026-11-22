@@ -39,7 +39,8 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
     if (exited) return;
   }
 
-  const genOf = () => skill.mix ? skill.mix[Math.floor(Math.random() * skill.mix.length)] : skill.gen;
+  let seqI = 0;
+  const genOf = () => skill.seq ? skill.seq[seqI++ % skill.seq.length] : skill.mix ? skill.mix[Math.floor(Math.random() * skill.mix.length)] : skill.gen;
   const firstAct = GEN[genOf()](skill.params || {});
   const T = TEMPLATES[firstAct.template];
 
