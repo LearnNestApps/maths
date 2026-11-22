@@ -4,6 +4,8 @@ A maths learning app that grows with the learner: playful voice-led games for ag
 
 It covers four tracks: **school maths** (JK to university), **Vedic maths** (the 16 sutras), **Indian exam prep** (Maharashtra scholarship, NMMS, SOF IMO) and **other methods** (abacus, Singapore bar models, speed maths, puzzles).
 
+**Live site:** https://learnnestapps.github.io/maths/ (GitHub Pages, updates automatically from `main`).
+
 See [`docs/master-plan.md`](docs/master-plan.md) for the full plan and build order.
 
 ## Run it

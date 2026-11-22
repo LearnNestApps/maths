@@ -119,7 +119,7 @@ English only, with spoken prompts in an Indian English voice where the device ha
 - **App:** plain JavaScript modules, HTML and CSS; no build step. Runs as a web page today; can become an installable offline app (PWA) and be wrapped for app stores later.
 - **Why no React yet:** package installs are switched off in Claude's network settings. Lessons are data files, so a move to React later reuses all content.
 - **Data:** progress saved in the browser on one device; account sync later.
-- **Code:** GitHub repository [LearnNestApps/maths](https://github.com/LearnNestApps/maths), under the LearnNestApps organisation (kept separate from the FrenchStudy account).
+- **Code:** GitHub repository [LearnNestApps/maths](https://github.com/LearnNestApps/maths), under the LearnNestApps organisation (kept separate from the FrenchStudy account). Public website via GitHub Pages: https://learnnestapps.github.io/maths/ (updates automatically from `main`).
 
 ## 12. Build order
 
