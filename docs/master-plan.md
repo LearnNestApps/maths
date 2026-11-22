@@ -119,7 +119,7 @@ English only, with spoken prompts in an Indian English voice where the device ha
 - **App:** plain JavaScript modules, HTML and CSS; no build step. Runs as a web page today; can become an installable offline app (PWA) and be wrapped for app stores later.
 - **Why no React yet:** package installs are switched off in Claude's network settings. Lessons are data files, so a move to React later reuses all content.
 - **Data:** progress saved in the browser on one device; account sync later.
-- **Code:** GitHub repository (owner: FrenchStudy account).
+- **Code:** GitHub repository [LearnNestApps/maths](https://github.com/LearnNestApps/maths), under the LearnNestApps organisation (kept separate from the FrenchStudy account).
 
 ## 12. Build order
 
@@ -143,4 +143,4 @@ English only, with spoken prompts in an Indian English voice where the device ha
 | Other methods | Abacus, bar models, speed maths, puzzles |
 | Name | Working title "Pip Maths"; check trademark before launch |
 | Pricing | Free school lessons; paid family plan for exams, Speed Arena, adult courses |
-| Code | GitHub repository |
+| Code | GitHub: LearnNestApps/maths |
