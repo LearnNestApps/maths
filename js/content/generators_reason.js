@@ -104,7 +104,7 @@ export const GEN_REASON = {
   missingFigure() {
     const rule = pick(['sum', 'prod']), sets = Array.from({ length: 3 }, () => { const a = rnd(2, 9), b = rnd(2, 9); return [a, b, rnd(1, Math.min(9, a * b - 1))]; });
     const f = ([a, b, c]) => rule === 'sum' ? a + b + c : a * b - c, ans = f(sets[2]);
-    const tri = (s, i) => `<svg viewBox="0 0 100 92" class="tri"><path d="M50 6 94 86H6z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><g font-size="17" font-weight="800" text-anchor="middle" fill="currentColor"><text x="50" y="30">${s[0]}</text><text x="22" y="80">${s[1]}</text><text x="78" y="80">${s[2]}</text><text x="50" y="64" fill="var(--acc)">${i === 2 ? '?' : f(s)}</text></g></svg>`;
+    const tri = (s, i) => `<svg viewBox="0 0 100 92" class="tri"><path d="M50 6 94 86H6z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><g font-size="17" font-weight="800" text-anchor="middle" fill="currentColor"><text x="50" y="30">${s[0]}</text><text x="22" y="80">${s[1]}</text><text x="78" y="80">${s[2]}</text><text style="fill:var(--acc)" x="50" y="64">${i === 2 ? '?' : f(s)}</text></g></svg>`;
     return numMc(`Find the missing number. <span class="tris">${sets.map(tri).join('')}</span>`, ans, Math.max(0, ans - 10), ans + 10, 'Find one rule that works for the first two triangles.', [rule === 'sum' ? 'Middle = top + left + right' : 'Middle = top × left − right', `${rule === 'sum' ? sets[2].join(' + ') : `${sets[2][0]} × ${sets[2][1]} − ${sets[2][2]}`} = ${ans}`]);
   },
   relations() {

@@ -42,7 +42,7 @@ export const numline = {
     host.innerHTML = `<div class="t-nl"><svg class="nl" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
       <line x1="40" y1="120" x2="960" y2="120" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
       ${Array.from({ length: n + 1 }, (_, i) => { const x = 40 + 920 * i / n, lab = i % every === 0; return `<line class="tk" data-i="${i}" x1="${x}" y1="${lab ? 98 : 106}" x2="${x}" y2="${lab ? 142 : 134}" stroke="currentColor" stroke-width="${lab ? 5 : 3}"/>${lab ? `<text x="${x}" y="182" text-anchor="middle" font-size="30" font-weight="700" fill="currentColor">${min + i * step}</text>` : `<text class="ghost" data-i="${i}" x="${x}" y="182" text-anchor="middle" font-size="22" fill="currentColor">${min + i * step}</text>`}`; }).join('')}
-      <g class="mk"><path d="M0 -6 L22 -46 L-22 -46Z" fill="var(--acc)"/><circle cy="-58" r="22" fill="var(--acc)"/><text class="mv" y="-50" text-anchor="middle" font-size="22" font-weight="800" fill="#fff"></text></g>
+      <g class="mk"><path style="fill:var(--acc)" d="M0 -6 L22 -46 L-22 -46Z"/><circle style="fill:var(--acc)" cy="-58" r="22"/><text class="mv" y="-50" text-anchor="middle" font-size="22" font-weight="800" fill="#fff"></text></g>
       <rect class="hitbox" x="0" y="20" width="1000" height="180" fill="transparent"/></svg>${checkBtn()}</div>`;
     const svg = host.querySelector('svg'), mk = host.querySelector('.mk'), mv = host.querySelector('.mv');
     const place = v => { val = v; const i = (v - min) / step; mk.setAttribute('transform', `translate(${40 + 920 * i / n} 114)`); mv.textContent = String(v).length > 3 ? '' : v; };
@@ -65,7 +65,7 @@ export const clock = {
   render(host, act, ctx) {
     const half = act.data.half; let hr = 12, m = 0, grab = null;
     host.innerHTML = `<div class="t-clock"><svg class="clk" viewBox="-110 -110 220 220">
-      <circle r="102" fill="#fff" stroke="var(--acc)" stroke-width="8"/>
+      <circle style="stroke:var(--acc)" r="102" fill="#fff" stroke-width="8"/>
       ${Array.from({ length: 60 }, (_, i) => { const a = i * 6 * Math.PI / 180, r1 = i % 5 ? 92 : 86; return `<line x1="${Math.sin(a) * r1}" y1="${-Math.cos(a) * r1}" x2="${Math.sin(a) * 97}" y2="${-Math.cos(a) * 97}" stroke="#1d2b53" stroke-width="${i % 5 ? 1.5 : 3.5}"/>`; }).join('')}
       ${Array.from({ length: 12 }, (_, i) => { const a = (i + 1) * 30 * Math.PI / 180; return `<text x="${Math.sin(a) * 70}" y="${-Math.cos(a) * 70 + 9}" text-anchor="middle" font-size="26" font-weight="800" fill="#1d2b53">${i + 1}</text>`; }).join('')}
       <g class="mh${half ? '' : ' fixed'}"><line y2="-82" stroke="#4dabf7" stroke-width="7" stroke-linecap="round"/><circle cy="-82" r="${half ? 12 : 0}" fill="#4dabf7" opacity=".35"/></g>
