@@ -7,6 +7,7 @@ import { record, pct } from '../core/mastery.js';
 import { profile, effectiveMode, save } from '../core/store.js';
 import { TEMPLATES, explainer } from './templates/index.js';
 import { GEN } from '../content/generators.js';
+import { loc } from '../core/region.js';
 
 const PRAISE = ['fb.great', 'fb.correct', 'fb.wellDone'];
 
@@ -41,7 +42,7 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
 
   let seqI = 0;
   const genOf = () => skill.seq ? skill.seq[seqI++ % skill.seq.length] : skill.mix ? skill.mix[Math.floor(Math.random() * skill.mix.length)] : skill.gen;
-  const firstAct = GEN[genOf()](skill.params || {});
+  const firstAct = loc(GEN[genOf()](skill.params || {}));
   const T = TEMPLATES[firstAct.template];
 
   // ----- Session templates (drill, mock) run once and report a score -----
@@ -61,7 +62,7 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   const n = skill.items || (mode === 'little' ? 5 : 8);
   let correct = 0;
   for (let i = 0; i < n && !exited; i++) {
-    const act = i === 0 ? firstAct : GEN[genOf()](skill.params || {});
+    const act = i === 0 ? firstAct : loc(GEN[genOf()](skill.params || {}));
     progress(i / n);
     const first = await runItem(act);
     runCleanups();

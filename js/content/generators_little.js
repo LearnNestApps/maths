@@ -145,7 +145,8 @@ export const GEN_LITTLE = {
     const pool = notes ? [...r.coins.filter(v => v >= 100), ...r.notes] : (r.minor ? r.coins.filter(v => v < 100) : r.coins.filter(v => v <= 1000));
     const cap = notes ? max * 100 : r.minor ? 99 : max * 100;
     let items = [], total = 0;
-    while (items.length < 6) { const v = pick(pool); if (total + v > cap) { if (items.length >= 2) break; continue; } items.push(v); total += v; if (Math.random() < .15 && items.length >= 3) break; }
+    for (let tries = 0; items.length < 6 && tries < 60; tries++) { const v = pick(pool); if (total + v > cap) { if (items.length >= 2) break; continue; } items.push(v); total += v; if (Math.random() < .15 && items.length >= 3) break; }
+    if (items.length < 2) return GEN_LITTLE.coins({ max, notes });
     items.sort((x, y) => y - x);
     const o = choices(total / step, 3, 1, cap / step + 5).map(x => x * step), isNote = v => r.notes.includes(v) && (notes || v >= 1000);
     const scene = `<div class="money">${items.map(v => isNote(v) ? c(NOTE(coinLabel(v), r.notes.indexOf(v)), 'note') : c(COIN(coinLabel(v), r.coins.indexOf(v) / Math.max(1, r.coins.length - 1), r.gold.includes(v) || ((r.copper || []).includes(v) && 'copper')), 'coin')).join('')}</div>`;

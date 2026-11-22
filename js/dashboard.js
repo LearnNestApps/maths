@@ -4,7 +4,7 @@ import { t } from './core/i18n.js';
 import { profiles, effectiveMode } from './core/store.js';
 import { status, pct } from './core/mastery.js';
 import { ICON, SKILL_ICON } from './core/art.js';
-import { dateFmt } from './core/region.js';
+import { dateFmt, lvShort } from './core/region.js';
 
 const DAY = 864e5, today = () => Math.floor(Date.now() / DAY);
 const MODES = ['little', 'explore', 'achieve', 'adult'];
@@ -77,7 +77,7 @@ export function dashboard({ content, mount, onBack, onTry, pid }) {
         <tr class="tot"><td>${t('dash.total')}</td>${MODES.map(m => `<td class="r">${content.skills.filter(s => s.modes.includes(m)).length}</td>`).join('')}<td class="r"><b>${content.skills.length}</b></td></tr></tbody></table></div>
       <p class="note left">${t('dash.multi')}</p>
       <h3 class="dh">${t('dash.byLevel')}</h3>
-      <div class="lvls">${[...new Set(content.skills.map(s => s.level))].sort(lvSort).map(lv => `<span class="chip">${esc(lv)} <b>${content.skills.filter(s => s.level === lv).length}</b></span>`).join('')}</div>
+      <div class="lvls">${[...new Set(content.skills.map(s => s.level))].sort(lvSort).map(lv => `<span class="chip">${esc(lvShort(lv))} <b>${content.skills.filter(s => s.level === lv).length}</b></span>`).join('')}</div>
     </div></section>`);
   mount(el);
   $('.aback', el).onclick = onBack; $('.dhome', el).onclick = onBack;

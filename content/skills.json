@@ -899,7 +899,7 @@
    "modes": [
     "little"
    ],
-   "level": "Abacus L1",
+   "level": "SK",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusShow",
@@ -907,7 +907,8 @@
     "max": 9
    },
    "items": 5,
-   "title": "Abacus: 1 to 9"
+   "title": "Abacus: 1 to 9",
+   "tag": "Abacus L1"
   },
   {
    "id": "ll-abacus2",
@@ -915,7 +916,7 @@
    "modes": [
     "little"
    ],
-   "level": "Abacus L2",
+   "level": "G1",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusDirect",
@@ -923,7 +924,8 @@
    "prereq": [
     "ll-abacus"
    ],
-   "title": "Abacus: add and take away"
+   "title": "Abacus: add and take away",
+   "tag": "Abacus L2"
   },
   {
    "id": "ll-odd",
@@ -931,12 +933,13 @@
    "modes": [
     "little"
    ],
-   "level": "Puzzles",
+   "level": "SK",
    "strand": "Puzzles",
    "icon": "puzzle",
    "gen": "oddOnePic",
    "items": 5,
-   "title": "Odd one out"
+   "title": "Odd one out",
+   "tag": "Puzzles"
   },
   {
    "id": "ll-patpuz",
@@ -944,7 +947,7 @@
    "modes": [
     "little"
    ],
-   "level": "Puzzles",
+   "level": "G1",
    "strand": "Puzzles",
    "icon": "pattern",
    "gen": "pattern",
@@ -955,7 +958,8 @@
    "prereq": [
     "ll-patabc"
    ],
-   "title": "Pattern puzzles"
+   "title": "Pattern puzzles",
+   "tag": "Puzzles"
   },
   {
    "id": "ex-clock",
@@ -1020,7 +1024,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Abacus L2",
+   "level": "G3",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusShow",
@@ -1031,7 +1035,8 @@
    "prereq": [
     "ll-abacus"
    ],
-   "title": "Abacus: tens and ones"
+   "title": "Abacus: tens and ones",
+   "tag": "Abacus L2"
   },
   {
    "id": "m-bar1",
@@ -1039,12 +1044,13 @@
    "modes": [
     "explore"
    ],
-   "level": "Bar models",
+   "level": "G3",
    "strand": "Singapore bar models",
    "icon": "bar",
    "gen": "barPartWhole",
    "items": 5,
-   "title": "Bar models: part and whole"
+   "title": "Bar models: part and whole",
+   "tag": "Bar models"
   },
   {
    "id": "m-bar2",
@@ -1052,7 +1058,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Bar models",
+   "level": "G4",
    "strand": "Singapore bar models",
    "icon": "bar",
    "gen": "barCompare",
@@ -1060,7 +1066,8 @@
    "prereq": [
     "m-bar1"
    ],
-   "title": "Bar models: comparing"
+   "title": "Bar models: comparing",
+   "tag": "Bar models"
   },
   {
    "id": "m-series",
@@ -1070,12 +1077,13 @@
     "achieve",
     "adult"
    ],
-   "level": "Puzzles",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "series",
    "gen": "seriesNext",
    "items": 6,
-   "title": "Number series puzzles"
+   "title": "Number series puzzles",
+   "tag": "Puzzles"
   },
   {
    "id": "v-sq5",
@@ -1085,13 +1093,19 @@
     "achieve",
     "adult"
    ],
-   "level": "Sutra 1",
+   "level": "G5",
    "strand": "Ekadhikena Purvena",
    "icon": "vedic",
    "gen": "sq5",
    "items": 5,
    "intro": "sq5",
-   "title": "Squares ending in 5"
+   "title": "Squares ending in 5",
+   "tag": "Vedic sutra 1",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Squares ending in 5"
+   }
   },
   {
    "id": "v-nikhilam",
@@ -1101,13 +1115,19 @@
     "achieve",
     "adult"
    ],
-   "level": "Sutra 2",
+   "level": "G5",
    "strand": "Nikhilam",
    "icon": "vedic",
    "gen": "nikhilam",
    "items": 4,
    "intro": "nikhilam",
-   "title": "Multiplying near 100"
+   "title": "Multiplying near 100",
+   "tag": "Vedic sutra 2",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Multiplying near 100"
+   }
   },
   {
    "id": "v-urdhva",
@@ -1117,13 +1137,19 @@
     "achieve",
     "adult"
    ],
-   "level": "Sutra 3",
+   "level": "G6",
    "strand": "Urdhva-Tiryagbhyam",
    "icon": "cross",
    "gen": "urdhva2",
    "items": 4,
    "intro": "urdhva",
-   "title": "Vertically and crosswise"
+   "title": "Vertically and crosswise",
+   "tag": "Vedic sutra 3",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Vertically and crosswise"
+   }
   },
   {
    "id": "b-numseries",
@@ -1132,7 +1158,7 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "seriesNext",
@@ -1142,8 +1168,9 @@
     "hard": true
    },
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-letseries",
@@ -1152,15 +1179,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "letterSeries",
    "items": 6,
    "title": "Letter series",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-anum",
@@ -1169,15 +1197,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "analogyNum",
    "items": 6,
    "title": "Number analogies",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-alet",
@@ -1186,15 +1215,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "analogyLetter",
    "items": 6,
    "title": "Letter analogies",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-odd",
@@ -1203,15 +1233,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "oddOneOut",
    "items": 6,
    "title": "Odd one out: numbers",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-oddlet",
@@ -1220,15 +1251,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "oddGroup",
    "items": 6,
    "title": "Odd one out: letters",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-code",
@@ -1237,15 +1269,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "coding",
    "items": 6,
    "title": "Coding and decoding",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-alpha",
@@ -1254,15 +1287,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G4",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "alphabetPos",
    "items": 6,
    "title": "Alphabet positions",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-dir",
@@ -1271,15 +1305,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "directions",
    "items": 6,
    "title": "Directions",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-rank",
@@ -1288,15 +1323,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "ranking",
    "items": 6,
    "title": "Ranking and order",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-cal",
@@ -1305,15 +1341,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G6",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "calendar",
    "items": 6,
    "title": "Calendar",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-clock",
@@ -1322,15 +1359,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G6",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "clockAngle",
    "items": 6,
    "title": "Clock angles and mirror time",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-mirror",
@@ -1339,15 +1377,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "mirrorWord",
    "items": 6,
    "title": "Mirror and water images",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-count",
@@ -1356,15 +1395,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G6",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "countFigures",
    "items": 6,
    "title": "Counting figures",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-miss",
@@ -1373,15 +1413,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G5",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "missingFigure",
    "items": 6,
    "title": "Missing numbers in figures",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-rel",
@@ -1390,15 +1431,16 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G6",
    "strand": "Reasoning",
    "icon": "puzzle",
    "gen": "relations",
    "items": 6,
    "title": "Family relations",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "b-test",
@@ -1407,7 +1449,7 @@
     "explore",
     "achieve"
    ],
-   "level": "MSCE · NMMS",
+   "level": "G7",
    "strand": "Reasoning",
    "icon": "mock",
    "gen": "intelligenceMock",
@@ -1416,8 +1458,9 @@
    },
    "title": "Reasoning practice test (25 questions)",
    "intl": {
-    "level": "Reasoning"
-   }
+    "tag": "Reasoning"
+   },
+   "tag": "MSCE · NMMS"
   },
   {
    "id": "x-imo",
@@ -1426,7 +1469,7 @@
     "explore",
     "achieve"
    ],
-   "level": "SOF IMO",
+   "level": "G6",
    "strand": "Mock test",
    "icon": "mock",
    "gen": "mockMini",
@@ -1434,7 +1477,12 @@
     "exam": "SOF IMO",
     "klass": 6
    },
-   "title": "IMO sample mock (Class 6)"
+   "title": "IMO sample mock (Class 6)",
+   "tag": "SOF IMO",
+   "intl": {
+    "tag": "Olympiad style",
+    "title": "Olympiad-style sample test (Grade 6)"
+   }
   },
   {
    "id": "ac-lineq",
@@ -1491,7 +1539,7 @@
     "achieve",
     "adult"
    ],
-   "level": "Speed maths",
+   "level": "G4",
    "strand": "Speed Arena",
    "icon": "speed",
    "gen": "mulDrill",
@@ -1500,7 +1548,8 @@
     "seconds": 60
    },
    "intro": "x11",
-   "title": "Speed Arena: × 11"
+   "title": "Speed Arena: × 11",
+   "tag": "Speed maths"
   },
   {
    "id": "t-2",
@@ -2561,6 +2610,9 @@
    "title": "Place value to lakhs",
    "params": {
     "digits": 5
+   },
+   "intl": {
+    "title": "Place value to millions"
    }
   },
   {
@@ -3481,12 +3533,18 @@
     "achieve",
     "adult"
    ],
-   "level": "Sutra 10",
+   "level": "G6",
    "strand": "Yavadunam",
    "icon": "vedic",
    "gen": "yavadunam",
    "items": 4,
-   "title": "Squaring near 100 (Yavadunam)"
+   "title": "Squaring near 100 (Yavadunam)",
+   "tag": "Vedic sutra 10",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Squaring near 100"
+   }
   },
   {
    "id": "v-ekan",
@@ -3496,12 +3554,18 @@
     "achieve",
     "adult"
    ],
-   "level": "Sutra 14",
+   "level": "G5",
    "strand": "Ekanyunena Purvena",
    "icon": "vedic",
    "gen": "ekanyunena",
    "items": 4,
-   "title": "Multiplying by 99 (Ekanyunena)"
+   "title": "Multiplying by 99 (Ekanyunena)",
+   "tag": "Vedic sutra 14",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Multiplying by 99"
+   }
   },
   {
    "id": "v-beej",
@@ -3511,12 +3575,18 @@
     "achieve",
     "adult"
    ],
-   "level": "Beejank",
+   "level": "G5",
    "strand": "Beejank",
    "icon": "vedic",
    "gen": "beejank",
    "items": 5,
-   "title": "Checking with digit sums (Beejank)"
+   "title": "Checking with digit sums (Beejank)",
+   "tag": "Beejank",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Checking with digit sums"
+   }
   },
   {
    "id": "m-abacus3",
@@ -3524,7 +3594,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Abacus L3",
+   "level": "G3",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusFriends",
@@ -3535,7 +3605,8 @@
    },
    "prereq": [
     "m-abacus2"
-   ]
+   ],
+   "tag": "Abacus L3"
   },
   {
    "id": "m-abacus4",
@@ -3543,7 +3614,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Abacus L4",
+   "level": "G3",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusFriends",
@@ -3554,7 +3625,8 @@
    },
    "prereq": [
     "m-abacus3"
-   ]
+   ],
+   "tag": "Abacus L4"
   },
   {
    "id": "m-abacus5",
@@ -3562,7 +3634,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Abacus L5",
+   "level": "G4",
    "strand": "Abacus",
    "icon": "abacus",
    "gen": "abacusFriends",
@@ -3573,7 +3645,8 @@
    },
    "prereq": [
     "m-abacus4"
-   ]
+   ],
+   "tag": "Abacus L5"
   },
   {
    "id": "m-flash1",
@@ -3582,7 +3655,7 @@
     "explore",
     "adult"
    ],
-   "level": "Abacus L6",
+   "level": "G4",
    "strand": "Anzan",
    "icon": "abacus",
    "gen": "flash",
@@ -3592,7 +3665,8 @@
     "count": 4,
     "digits": 1,
     "ms": 1200
-   }
+   },
+   "tag": "Abacus L6"
   },
   {
    "id": "m-flash2",
@@ -3601,7 +3675,7 @@
     "explore",
     "adult"
    ],
-   "level": "Abacus L7",
+   "level": "G5",
    "strand": "Anzan",
    "icon": "abacus",
    "gen": "flash",
@@ -3614,7 +3688,8 @@
    },
    "prereq": [
     "m-flash1"
-   ]
+   ],
+   "tag": "Abacus L7"
   },
   {
    "id": "m-flash3",
@@ -3623,7 +3698,7 @@
     "explore",
     "adult"
    ],
-   "level": "Abacus L8",
+   "level": "G5",
    "strand": "Anzan",
    "icon": "abacus",
    "gen": "flash",
@@ -3637,7 +3712,8 @@
    },
    "prereq": [
     "m-flash2"
-   ]
+   ],
+   "tag": "Abacus L8"
   },
   {
    "id": "m-bar3",
@@ -3645,7 +3721,7 @@
    "modes": [
     "explore"
    ],
-   "level": "Bar models",
+   "level": "G5",
    "strand": "Singapore bar models",
    "icon": "bar",
    "gen": "barUnits",
@@ -3653,7 +3729,8 @@
    "title": "Bar models: fractions, ratio, before and after",
    "prereq": [
     "m-bar2"
-   ]
+   ],
+   "tag": "Bar models"
   },
   {
    "id": "m-speed12",
@@ -3663,7 +3740,7 @@
     "achieve",
     "adult"
    ],
-   "level": "Speed maths",
+   "level": "G4",
    "strand": "Speed Arena",
    "icon": "speed",
    "gen": "mulDrill",
@@ -3672,7 +3749,8 @@
    "params": {
     "gen": "mul12",
     "seconds": 60
-   }
+   },
+   "tag": "Speed maths"
   },
   {
    "id": "m-speedsq",
@@ -3682,7 +3760,7 @@
     "achieve",
     "adult"
    ],
-   "level": "Speed maths",
+   "level": "G6",
    "strand": "Speed Arena",
    "icon": "speed",
    "gen": "mulDrill",
@@ -3691,7 +3769,8 @@
    "params": {
     "gen": "sqDrill",
     "seconds": 60
-   }
+   },
+   "tag": "Speed maths"
   },
   {
    "id": "m-speedas",
@@ -3700,7 +3779,7 @@
     "explore",
     "adult"
    ],
-   "level": "Speed maths",
+   "level": "G3",
    "strand": "Speed Arena",
    "icon": "speed",
    "gen": "mulDrill",
@@ -3709,7 +3788,8 @@
    "params": {
     "gen": "addSubDrill",
     "seconds": 60
-   }
+   },
+   "tag": "Speed maths"
   },
   {
    "id": "m-magic",
@@ -3717,12 +3797,13 @@
    "modes": [
     "explore"
    ],
-   "level": "Puzzles",
+   "level": "G5",
    "strand": "Puzzles",
    "icon": "puzzle",
    "gen": "magicSquare",
    "items": 4,
-   "title": "Magic squares"
+   "title": "Magic squares",
+   "tag": "Puzzles"
   }
  ]
 }

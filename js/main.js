@@ -1,3 +1,4 @@
+import './core/compat.js';
 // App shell: boot, onboarding, mode homes, grown-ups area.
 import { $, $$, h, esc, holdButton, squash, popIn, toast } from './core/ui.js';
 import { t, tr, setLang, lang, LANGS } from './core/i18n.js';
@@ -7,12 +8,12 @@ import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
-import { REGIONS, regionId, setRegion, hasRegion } from './core/region.js';
+import { REGIONS, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
 const app = $('#app');
 let content = { skills: [], explainers: {} }, RAW = [];
 // Lessons for this country: drop ones marked for other countries, use international names outside India.
-function applyRegion() { const id = regionId(); content.skills = RAW.filter(s => !s.regions || s.regions.includes(id)).map(s => id !== 'india' && s.intl ? { ...s, ...s.intl } : s); }
+function applyRegion() { const id = regionId(); content.skills = RAW.filter(s => !s.regions || s.regions.includes(id)).map(s => loc(id !== 'india' && s.intl ? { ...s, ...s.intl } : { ...s })); }
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
 const TRACKS = ['school', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
 let tab = null;
@@ -22,6 +23,7 @@ const applyMode = () => { const p = profile(); document.documentElement.dataset.
 const skillsFor = p => content.skills.filter(s => s.modes.includes(effectiveMode(p)));
 
 async function boot() {
+  window.__pipStarted = true;
   document.addEventListener('pointerdown', unlockAudio, { once: true });
   try {
     const [s, e] = await Promise.all([fetch('content/skills.json').then(r => r.json()), fetch('content/explainers.json').then(r => r.json())]);
@@ -102,9 +104,9 @@ function home() {
     <header class="htop"><button class="who" aria-label="${t('ui.switch')}"><span class="av" style="--c:${p.color}">${esc(p.name[0] || '?').toUpperCase()}</span><span class="nm">${esc(p.name)}</span></button>
       <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="btn grownbtn gear" aria-label="${t('ui.grownups')}">${ICON.gear}<span>${t('ui.grownups')}</span></button></header>
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
-      <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(up.level)} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
+      <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
-    ${mode === 'little' ? groupByLevel(shown).map(([lv, l]) => `<h2 class="lvlh">${t('lvl.' + lv)} <small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small></h2><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div>`).join('')
+    ${mode === 'little' ? groupByLevel(shown).map(([lv, l]) => `<h2 class="lvlh">${lv === 'other' ? t('lvl.other') : lvLong(lv)} <small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small></h2><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div>`).join('')
       : `<div class="skills">${shown.map(s => card(p, s, mode)).join('')}</div>`}
     ${mode === 'little' ? '' : `<p class="note">${t('ui.sampleNote')}</p>`}</section>`);
   mount(el);
@@ -139,7 +141,7 @@ function stickerBook() {
 function card(p, s, mode) {
   const r = p.progress[s.id], st = status(r), m = pct(r);
   return `<button class="skill st-${st}" data-id="${s.id}"><span class="ring" style="--p:${m}">${SKILL_ICON[s.icon] || ''}</span>
-    <span class="sk"><b>${esc(tr(s.title))}</b>${mode === 'little' ? '' : `<small>${esc(s.level)} · ${esc(s.strand)}</small>`}</span>
+    <span class="sk"><b>${esc(tr(s.title))}</b>${mode === 'little' ? '' : `<small>${esc(lvShort(s.level))} · ${esc(s.tag || s.strand)}</small>`}</span>
     ${mode === 'little' ? (st === 'mastered' ? `<span class="done">${ICON.star}</span>` : '') : `<span class="chip s-${st}">${t('status.' + st)}</span>`}</button>`;
 }
 
@@ -198,7 +200,7 @@ function grownups() {
     </div>
     <h4>${t('g.progress')}</h4>
     <div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('g.status')}</th><th class="r">%</th></tr></thead>
-      <tbody>${list.map(s => { const r = p.progress[s.id]; return `<tr><td>${esc(tr(s.title))}<small>${t('track.' + s.track)} · ${esc(s.level)}</small></td><td><span class="chip s-${status(r)}">${t('status.' + status(r))}</span></td><td class="r">${pct(r)}</td></tr>`; }).join('')}</tbody></table></div>
+      <tbody>${list.map(s => { const r = p.progress[s.id]; return `<tr><td>${esc(tr(s.title))}<small>${t('track.' + s.track)} · ${esc(lvShort(s.level))}</small></td><td><span class="chip s-${status(r)}">${t('status.' + status(r))}</span></td><td class="r">${pct(r)}</td></tr>`; }).join('')}</tbody></table></div>
     <p class="gnote">${t('g.note')}</p>
     <div class="row"><button class="btn glogout">${t('ui.logout')}</button><button class="btn ghost greset">${t('ui.reset')}</button><button class="btn ghost gdel">${t('ui.delete')}</button></div></div></div>`);
   document.body.append(el);
@@ -232,7 +234,7 @@ let admFilter = 'all', admQuery = '';
 function admin() {
   document.documentElement.dataset.mode = 'achieve';
   const all = content.skills, q = admQuery.trim().toLowerCase();
-  const match = s => (admFilter === 'all' || s.modes.includes(admFilter)) && (!q || [s.title, s.level, s.strand, s.track, s.gen || (s.seq || s.mix || []).join(' ')].join(' ').toLowerCase().includes(q));
+  const match = s => (admFilter === 'all' || s.modes.includes(admFilter)) && (!q || [s.title, s.level, lvLong(s.level), lvShort(s.level), s.tag || '', s.strand, s.track, s.gen || (s.seq || s.mix || []).join(' ')].join(' ').toLowerCase().includes(q));
   const shown = all.filter(match);
   const groups = TRACKS.map(tk => [tk, shown.filter(s => s.track === tk)]).filter(([, l]) => l.length);
   const el = h(`<section class="home admin">
@@ -242,7 +244,7 @@ function admin() {
       <div class="tabs">${['all', ...MODES].map(m => `<button class="tab${m === admFilter ? ' on' : ''}" data-m="${m}">${m === 'all' ? t('ui.all') : t('mode.' + m)} <small>${m === 'all' ? all.length : all.filter(s => s.modes.includes(m)).length}</small></button>`).join('')}</div></div>
     ${groups.map(([tk, l]) => `<h2 class="admg">${t('track.' + tk)} <small>${l.length}</small></h2>
       <div class="scroll"><table class="ptab admtab"><thead><tr><th>${t('g.skill')}</th><th>${t('adm.level')}</th><th>${t('adm.modes')}</th><th>${t('adm.type')}</th><th></th></tr></thead><tbody>
-      ${l.map(s => `<tr><td><span class="admic">${SKILL_ICON[s.icon] || ''}</span><b>${esc(tr(s.title))}</b><small>${esc(s.strand)}</small></td><td>${esc(s.level)}</td>
+      ${l.map(s => `<tr><td><span class="admic">${SKILL_ICON[s.icon] || ''}</span><b>${esc(tr(s.title))}</b><small>${esc(s.strand)}</small></td><td>${esc(lvShort(s.level))}${s.tag ? `<small>${esc(s.tag)}</small>` : ''}</td>
         <td>${s.modes.map(m => `<span class="chip">${t('mode.' + m)}</span>`).join(' ')}</td><td><code>${esc(s.gen || (s.seq || s.mix || []).join(' + '))}</code></td>
         <td class="r"><button class="btn primary aplay" data-id="${s.id}">${ICON.play}<span>${t('adm.try')}</span></button></td></tr>`).join('')}
       </tbody></table></div>`).join('') || `<p class="note">${t('adm.none')}</p>`}

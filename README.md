@@ -8,6 +8,16 @@ It covers seven tracks: **school maths** (JK to university), **tables**, **menta
 
 See [`docs/master-plan.md`](docs/master-plan.md) for the full plan and build order.
 
+## Building
+
+The page loads one packed file, `js/app.js`, so it also runs on older iPads (Safari 12 and up). After changing anything in `js/` or `css/app.css`, run:
+
+```
+./build.sh
+```
+
+This rebuilds `js/app.js` (with esbuild, converted to ES2017) and `css/compat.css` (fallbacks for older Safari), and bumps the version in `index.html` so browsers fetch the new file.
+
 ## Run it
 
 No build step and no installs. Serve the folder with any static web server and open it:

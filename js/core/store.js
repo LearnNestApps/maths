@@ -3,7 +3,13 @@ const KEY = 'pipmaths.v1';
 const blank = () => ({ profiles: [], active: null, settings: { sound: true, voice: true } });
 let S = load();
 function load() {
-  try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); return d ? { ...blank(), ...d } : blank(); } catch (e) { return blank(); }
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (!d) return blank();
+    const out = { ...blank(), ...d, settings: { ...blank().settings, ...(d.settings || {}) } };
+    // Fill in fields that older saves (or damaged data) may be missing, so screens never show "undefined".
+    out.profiles = (Array.isArray(d.profiles) ? d.profiles : []).filter(p => p && p.id).map(p => ({ modeOverride: null, progress: {}, bests: {}, coins: 0, stickers: [], sessions: [], color: '#4dabf7', age: 8, ...p, name: p.name || 'Learner' }));
+    return out;
+  } catch (e) { return blank(); }
 }
 export function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 export const settings = () => S.settings;

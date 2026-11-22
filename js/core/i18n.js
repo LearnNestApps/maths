@@ -1,3 +1,4 @@
+import { locText } from './region.js';
 // Interface + prompt strings (English). The t() lookup keeps the door open for other languages later.
 const D = {
 en: {
@@ -55,7 +56,7 @@ export const lang = () => L;
 export function setLang(l) { L = D[l] ? l : 'en'; document.documentElement.lang = L; }
 export function t(k, v = {}) {
   const s = (D[L] && D[L][k]) ?? D.en[k] ?? k;
-  return s.replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
+  return locText(s.replace(/\{(\w+)\}/g, (_, x) => v[x] ?? ''));
 }
 // Content fields may be a plain string or {en, hi, mr}.
 export const tr = o => (o && typeof o === 'object') ? (o[L] ?? o.en) : (o ?? '');

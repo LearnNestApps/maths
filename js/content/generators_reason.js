@@ -85,7 +85,7 @@ export const GEN_REASON = {
     return mc(`Today is ${DAYS[d]}. What day will it be after ${n} days?`, ans, DAYS.filter(x => x !== ans).sort(() => Math.random() - .5), 'Divide the days by 7 and use the remainder.', [`${n} ÷ 7 = ${Math.floor(n / 7)} weeks, remainder ${n % 7}`, ans]);
   },
   clockAngle() {
-    if (Math.random() < .6) { const hr = rnd(1, 11), a = Math.min(30 * hr, 360 - 30 * hr); return numMc(`What is the smaller angle between the hands of a clock at ${hr} o'clock?`, a, 0, 180, 'Each hour mark is 30° apart (360° ÷ 12).', [`${Math.min(hr, 12 - hr)} × 30° = ${a}°`]); }
+    if (Math.random() < .6) { const hr = rnd(1, 11), a = Math.min(30 * hr, 360 - 30 * hr); return mc(`What is the smaller angle between the hands of a clock at ${hr} o'clock?`, a + '°', shuffle([30, 60, 90, 120, 150, 180].filter(x => x !== a)).slice(0, 3).map(x => x + '°'), 'Each hour mark is 30° apart (360° ÷ 12).', [`${Math.min(hr, 12 - hr)} × 30° = ${a}°`]); }
     const hr = rnd(1, 11), m = pick([0, 30]), rh = m ? (11 - hr + 12) % 12 || 12 : (12 - hr) % 12 || 12, rm = m ? 30 : 0, fmt = (h, mm) => `${h}:${String(mm).padStart(2, '0')}`;
     return mc(`A clock seen in a mirror shows ${fmt(hr, m)}. What is the real time?`, fmt(rh, rm), [fmt(hr, m), fmt((rh % 12) + 1, rm), fmt(rh, rm ? 0 : 30)], 'Mirror time + real time = 12:00 (or 11:60).', [`12:00 − ${fmt(hr, m)} = ${fmt(rh, rm)}`]);
   },
