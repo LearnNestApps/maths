@@ -8,7 +8,8 @@ import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
-import { REGIONS, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
+import { signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
+import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
 const app = $('#app');
 let content = { skills: [], explainers: {} }, RAW = [];
@@ -29,10 +30,89 @@ async function boot() {
     const [s, e] = await Promise.all([fetch('content/skills.json').then(r => r.json()), fetch('content/explainers.json').then(r => r.json())]);
     RAW = s.skills; content = { skills: [], explainers: e }; applyRegion();
   } catch (err) { app.innerHTML = '<p class="err">Could not load lessons. Please reload the page.</p>'; return; }
+  // Family account: finish an email link (confirm / reset password), then sync in the background.
+  const auth = handleAuthRedirect();
+  if (signedIn()) syncNow().then(ok => { if (ok) afterSync(); });
+  if (auth) setTimeout(() => { if (auth.error) toast(auth.error); else if (auth.type === 'recovery') accountSheet('newpw', home); else toast(t('acc.confirmed')); }, 700);
+  window.addEventListener('pip-synced', afterSync);
   const wantAdmin = location.hash === '#admin';
-  if (!profiles().length) { onboarding(); if (wantAdmin) toast(t('pgate.makeFirst')); return; }
-  if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); gate(admin); return; }
+  if (!profiles().length) { onboarding(); if (wantAdmin) ownerGate(admin); return; }
+  if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); ownerGate(admin); return; }
   if (!profile() || profiles().length > 1) picker(); else { setLang(profile().lang); applyMode(); home(); }
+}
+
+// ---------- Owner lock: the admin page needs the owner's passcode (remembered on the owner's device) ----------
+async function ownerGate(next) {
+  if (signedIn() && await isAdmin()) return next();
+  const out = !signedIn();
+  const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="ownh"><div class="ghead"><h3 id="ownh">${t('own.title')}</h3><button class="icon ownno" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <p>${t(out ? 'own.signin' : 'own.notadmin')}</p>
+    <div class="row" style="justify-content:flex-start">${out ? `<button class="btn primary ownin">${t('acc.signin')}</button>` : ''}<button class="btn ownok">${t('ui.ok')}</button></div></div></div>`);
+  document.body.append(el);
+  const close = () => { el.remove(); if (location.hash === '#admin') history.replaceState(null, '', location.pathname); };
+  $('.ownno', el).onclick = close; $('.ownok', el).onclick = close;
+  if (out) $('.ownin', el).onclick = () => { close(); accountSheet('signin', () => ownerGate(next)); };
+}
+
+// ---------- Family account: sign up, sign in, forgot password, new password ----------
+function accountSheet(kind, after) {
+  const titles = { signup: 'acc.create', signin: 'acc.signin', forgot: 'acc.forgot', newpw: 'acc.newpw' };
+  const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="acch"><div class="ghead"><h3 id="acch">${t(titles[kind])}</h3><button class="icon accx" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <p class="accintro">${t('acc.intro.' + kind)}</p>
+    <form class="form accform" novalidate>
+      ${kind !== 'newpw' ? `<label><span>${t('acc.email')}</span><input id="accemail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" required></label>` : ''}
+      ${kind !== 'forgot' ? `<label><span>${t(kind === 'newpw' ? 'acc.newpw' : 'acc.password')}</span><input id="accpw" type="password" autocomplete="${kind === 'signin' ? 'current-password' : 'new-password'}" minlength="8" required></label>` : ''}
+      ${kind === 'signup' ? `<label class="acccons"><input id="acccons" type="checkbox"> <span>${t('acc.consent')}</span></label>` : ''}
+      <p class="accmsg" role="alert"></p>
+      <div class="row" style="justify-content:flex-start"><button class="btn primary accgo" type="submit">${t(titles[kind])}</button></div>
+    </form>
+    <div class="row acclinks" style="justify-content:flex-start">
+      ${kind === 'signin' ? `<button class="btn ghost" data-k="forgot">${t('acc.forgotQ')}</button><button class="btn ghost" data-k="signup">${t('acc.noAccount')}</button>` : ''}
+      ${kind === 'signup' || kind === 'forgot' ? `<button class="btn ghost" data-k="signin">${t('acc.haveAccount')}</button>` : ''}
+    </div></div></div>`);
+  document.body.append(el);
+  const msg = $('.accmsg', el), go = $('.accgo', el), close = () => el.remove();
+  $('.accx', el).onclick = close;
+  $$('[data-k]', el).forEach(b => b.onclick = () => { close(); accountSheet(b.dataset.k, after); });
+  const first = $('input', el); if (first) setTimeout(() => first.focus(), 50);
+  $('.accform', el).onsubmit = async e => {
+    e.preventDefault(); msg.textContent = ''; msg.className = 'accmsg';
+    const email = $('#accemail', el) ? $('#accemail', el).value.trim() : '', pw = $('#accpw', el) ? $('#accpw', el).value : '';
+    if (kind !== 'newpw' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = t('acc.badEmail'); return; }
+    if (kind !== 'forgot' && pw.length < 8) { msg.textContent = t('acc.shortPw'); return; }
+    if (kind === 'signup' && !$('#acccons', el).checked) { msg.textContent = t('acc.needConsent'); return; }
+    go.disabled = true; go.textContent = t('acc.wait');
+    try {
+      if (kind === 'signup') {
+        const r = await signUp(email, pw);
+        if (r.confirm) { $('.accform', el).innerHTML = `<p class="accok">${t('acc.checkEmail', { email: esc(email) })}</p>`; $('.acclinks', el).innerHTML = ''; return; }
+      } else if (kind === 'signin') await signIn(email, pw);
+      else if (kind === 'forgot') { await resetPassword(email); $('.accform', el).innerHTML = `<p class="accok">${t('acc.resetSent', { email: esc(email) })}</p>`; $('.acclinks', el).innerHTML = ''; return; }
+      else await setPassword(pw);
+      close(); afterSync(); toast(t(kind === 'newpw' ? 'acc.pwSaved' : 'acc.welcome'));
+      if (after) after(); else grownups();
+    } catch (err) { msg.textContent = err.message; go.disabled = false; go.textContent = t(titles[kind]); }
+  };
+}
+// After a sync, other devices' learners and settings may have arrived: refresh the screen.
+function afterSync() {
+  applyRegion();
+  const q = sel => document.querySelector(sel);
+  const onSetup = q('#app > section.ob'), onHome = q('#app > section.home:not(.admin):not(.dash)'), onPicker = q('#app > .picker');
+  if (!profiles().length) { if (!onSetup) onboarding(); return; }
+  // Only redraw the first screen, the picker or the main page (never admin, the dashboard, a lesson or an open panel).
+  if (q('.sheet.on') || !(onSetup || onHome || onPicker)) return;
+  if (!profile()) { picker(); return; }
+  applyMode(); tab = null; home();
+}
+function accountBlock() {
+  const st = cloudStatus();
+  if (!signedIn()) return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.why')}</p>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gsignup">${t('acc.create')}</button><button class="btn gsignin">${t('acc.signin')}</button><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a></div></div>`;
+  const when = st.at ? new Date(st.at).toLocaleTimeString(R().locale, { hour: 'numeric', minute: '2-digit' }) : '';
+  const line = st.state === 'syncing' ? t('acc.syncing') : st.state === 'offline' ? t('acc.offline') : st.error ? esc(st.error) : when ? t('acc.savedAt', { time: when }) : t('acc.auto');
+  return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.as', { email: esc(userEmail() || '') })}<br><small class="accst">${line}</small></p>
+    <div class="row" style="justify-content:flex-start"><button class="btn gsync">${t('acc.syncNow')}</button><button class="btn gsignout">${t('acc.signout')}</button><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a><button class="btn ghost gdelacct">${t('acc.delete')}</button></div></div>`;
 }
 
 // ---------- Grown-ups gate: a quick sum instead of a hidden press-and-hold ----------
@@ -60,7 +140,7 @@ function picker() {
   mount(el);
   $$('[data-p]', el).forEach(b => b.onclick = () => { sfx.pop(); setActive(b.dataset.p); tab = null; home(); say(t('ob.hello', { name: profile().name })); });
   $('.pcard.add', el).onclick = () => onboarding({ cancel: picker });
-  $('.pgrown', el).onclick = () => gate(() => { if (!profile()) setActive(profiles()[0].id); admin(); });
+  $('.pgrown', el).onclick = () => gate(() => { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); grownups(); });
 }
 
 // ---------- Onboarding ----------
@@ -71,6 +151,7 @@ function onboarding({ cancel } = {}) {
   const ages = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   const el = h(`<section class="ob scene"><div class="obpip">${PIP()}</div><div class="obcard">
     <h1>${t('ob.who')}</h1>
+    ${!signedIn() && !profiles().length ? `<button class="btn ghost obsignin">${t('acc.haveFamily')}</button>` : ''}
     ${hasRegion() ? '' : `<div class="fl"><span>${t('ob.country')}</span><div class="boards">${Object.entries(REGIONS).map(([k, r]) => `<button class="bb rg${k === draft.region ? ' on' : ''}" data-r="${k}">${r.name}</button>`).join('')}</div></div>`}
     <label class="fl"><span>${t('ob.name')}</span><input id="obname" maxlength="20" autocomplete="off" placeholder="${t('ob.namePh')}"></label>
     <div class="colors">${COLORS.map(c => `<button class="sw${c === draft.color ? ' on' : ''}" data-c="${c}" style="--c:${c}" aria-label="Colour"></button>`).join('')}</div>
@@ -83,6 +164,7 @@ function onboarding({ cancel } = {}) {
   $$('.sw').forEach(b => b.onclick = () => { draft.color = b.dataset.c; $$('.sw').forEach(x => x.classList.toggle('on', x === b)); });
   $$('.ab').forEach(b => b.onclick = () => { draft.age = +b.dataset.a; $$('.ab').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); sync(); });
   $$('.rg').forEach(b => b.onclick = () => { draft.region = b.dataset.r; $$('.rg').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); });
+  if ($('.obsignin', el)) $('.obsignin', el).onclick = () => accountSheet('signin', () => { if (!profiles().length) toast(t('acc.noLearnersYet')); afterSync(); });
   if (cancel) $('.obback').onclick = cancel;
   go.onclick = () => { if (!hasRegion()) { setRegion(draft.region); applyRegion(); } const p = addProfile({ ...draft, name: draft.name.trim() }); sfx.fanfare(); applyMode(); tab = null; home(); say(t('ob.hello', { name: p.name })); };
   $('#obname').focus();
@@ -190,7 +272,8 @@ function grownups() {
     <h4>${t('g.learners')}</h4>
     <div class="lrs">${profiles().map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.age > 18 ? t('ob.adult') : q.age} · ${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
       <button class="lr add">+ ${t('ui.addLearner')}</button></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button><a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button>${isAdminCached() ? `<button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button>` : ''}<a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
+    ${accountBlock()}
     <h4>${esc(p.name)}</h4><div class="row" style="justify-content:flex-start"><button class="btn gedit">${t('ui.editProfile', { name: esc(p.name) })}</button></div>
     <div class="form">
       <label><span>${t('ui.country')}</span>${sel('gregion', Object.entries(REGIONS).map(([k, r]) => [k, r.name]), regionId())}</label>
@@ -209,7 +292,13 @@ function grownups() {
   el.addEventListener('click', e => { if (e.target === el) close(); });
   $$('[data-p]', el).forEach(b => b.onclick = () => { setActive(b.dataset.p); tab = null; el.remove(); home(); grownups(); });
   $('.lr.add', el).onclick = () => { el.remove(); onboarding({ cancel: home }); };
-  $('.gadmin', el).onclick = () => { el.remove(); admin(); };
+  if ($('.gadmin', el)) $('.gadmin', el).onclick = () => { el.remove(); ownerGate(admin); };
+  else if (signedIn()) isAdmin().then(yes => { if (yes && el.isConnected) { el.remove(); grownups(); } });
+  if ($('.gsignup', el)) $('.gsignup', el).onclick = () => { el.remove(); accountSheet('signup'); };
+  if ($('.gsignin', el)) $('.gsignin', el).onclick = () => { el.remove(); accountSheet('signin'); };
+  if ($('.gsync', el)) $('.gsync', el).onclick = async () => { const st = $('.accst', el); st.textContent = t('acc.syncing'); const ok = await syncNow(); el.remove(); afterSync(); grownups(); toast(ok ? t('acc.synced') : cloudStatus().error); };
+  if ($('.gsignout', el)) $('.gsignout', el).onclick = async () => { await signOut(); el.remove(); grownups(); toast(t('acc.signedOut')); };
+  if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } try { await deleteAccount(); el.remove(); grownups(); toast(t('acc.deleted')); } catch (e) { toast(e.message); } }; }
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
   $('.glogout', el).onclick = () => { el.remove(); setActive(null); picker(); };
@@ -224,7 +313,7 @@ function grownups() {
 
 // ---------- Dashboard ----------
 function openDash(pid) {
-  dashboard({ content, mount, pid, onBack: home,
+  dashboard({ owner: isAdminCached(), content, mount, pid, onBack: home,
     onTry: (id, who) => { setActive(who); const s = content.skills.find(x => x.id === id), m = effectiveMode(profile()); document.documentElement.dataset.mode = m; playSkill(s, content, { mount, onExit: () => openDash(who) }); } });
 }
 
@@ -232,6 +321,7 @@ function openDash(pid) {
 const MODES = ['little', 'explore', 'achieve', 'adult'];
 let admFilter = 'all', admQuery = '';
 function admin() {
+  if (!isAdminCached()) return ownerGate(admin);
   document.documentElement.dataset.mode = 'achieve';
   const all = content.skills, q = admQuery.trim().toLowerCase();
   const match = s => (admFilter === 'all' || s.modes.includes(admFilter)) && (!q || [s.title, s.level, lvLong(s.level), lvShort(s.level), s.tag || '', s.strand, s.track, s.gen || (s.seq || s.mix || []).join(' ')].join(' ').toLowerCase().includes(q));
@@ -240,6 +330,7 @@ function admin() {
   const el = h(`<section class="home admin">
     <header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('adm.title')}</h1><button class="btn adash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn ahome">${ICON.home}<span>${t('ui.home')}</span></button><span class="pill">${shown.length} / ${all.length}</span></header>
     <p class="admsub">${t('adm.sub')}</p>
+    <div class="famov"><h2 class="admg">${t('adm.families')}</h2><div class="famgrid">${t('acc.wait')}</div></div>
     <div class="admbar"><input class="admq" type="search" placeholder="${t('adm.search')}" value="${esc(admQuery)}">
       <div class="tabs">${['all', ...MODES].map(m => `<button class="tab${m === admFilter ? ' on' : ''}" data-m="${m}">${m === 'all' ? t('ui.all') : t('mode.' + m)} <small>${m === 'all' ? all.length : all.filter(s => s.modes.includes(m)).length}</small></button>`).join('')}</div></div>
     ${groups.map(([tk, l]) => `<h2 class="admg">${t('track.' + tk)} <small>${l.length}</small></h2>
@@ -251,6 +342,15 @@ function admin() {
   </section>`);
   mount(el);
   $('.aback', el).onclick = home;
+  adminOverview().then(o => {
+    const box = $('.famgrid', el); if (!box) return;
+    const tile = (n, label) => `<div class="kpi"><b>${n}</b><span>${label}</span></div>`;
+    const list = obj => Object.entries(obj || {}).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${esc(REGIONS[k] ? REGIONS[k].name : k === 'unknown' ? '–' : t('mode.' + k))} ${n}`).join(' · ');
+    const top = (o.topLessons || []).map(x => { const s = RAW.find(y => y.id === x.id); return `<li>${esc(s ? tr(s.title) : x.id)} <small>${x.learners}</small></li>`; }).join('');
+    box.innerHTML = tile(o.families, t('adm.f.families')) + tile(o.learners, t('adm.f.learners')) + tile(o.active7, t('adm.f.active7')) + tile(o.newFamilies30, t('adm.f.new30'))
+      + `<p class="famline"><b>${t('adm.f.country')}</b> ${list(o.byCountry) || '–'}<br><b>${t('adm.f.mode')}</b> ${list(o.byMode) || '–'}</p>`
+      + (top ? `<div class="famtop"><b>${t('adm.f.top')}</b><ol>${top}</ol></div>` : '');
+  }).catch(e => { const box = $('.famgrid', el); if (box) box.textContent = e.message; });
   $('.adash', el).onclick = () => openDash(profile()?.id);
   $('.ahome', el).onclick = home;
   $$('[data-m]', el).forEach(b => b.onclick = () => { admFilter = b.dataset.m; admin(); });

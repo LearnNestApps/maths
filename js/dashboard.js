@@ -38,7 +38,7 @@ function activityChart(perDay) {
   return `<div class="dchart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Questions answered per day, last 14 days">${grid}${bars}</svg><div class="dtip" hidden></div></div>`;
 }
 
-export function dashboard({ content, mount, onBack, onTry, pid }) {
+export function dashboard({ content, mount, onBack, onTry, pid, owner = false }) {
   const all = profiles(), p = all.find(x => x.id === pid) || all[0];
   document.documentElement.dataset.mode = 'achieve';
   if (!p) { mount(h(`<section class="home"><p class="note">${t('dash.none')}</p></section>`)); return; }
@@ -46,7 +46,7 @@ export function dashboard({ content, mount, onBack, onTry, pid }) {
   const tile = (label, value, sub = '') => `<div class="kpi"><span>${label}</span><b>${value}</b>${sub ? `<small>${sub}</small>` : ''}</div>`;
   const el = h(`<section class="home dash">
     <header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('dash.title')}</h1><button class="btn dhome">${ICON.home}<span>${t('ui.home')}</span></button></header>
-    <div class="tabs dtabs"><button class="tab on" data-v="learners">${t('dash.learners')}</button><button class="tab" data-v="content">${t('dash.content')}</button></div>
+    <div class="tabs dtabs"><button class="tab on" data-v="learners">${t('dash.learners')}</button>${owner ? `<button class="tab" data-v="content">${t('dash.content')}</button>` : ''}</div>
     <div class="dview" data-view="learners">
       <div class="lrs">${all.map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${t('mode.' + effectiveMode(q))}</small></button>`).join('')}</div>
       <h2 class="dh">${esc(p.name)} · ${t('mode.' + effectiveMode(p))}</h2>
@@ -82,7 +82,7 @@ export function dashboard({ content, mount, onBack, onTry, pid }) {
   mount(el);
   $('.aback', el).onclick = onBack; $('.dhome', el).onclick = onBack;
   $$('.dtabs .tab', el).forEach(b => b.onclick = () => { $$('.dtabs .tab', el).forEach(x => x.classList.toggle('on', x === b)); $$('.dview', el).forEach(v => v.hidden = v.dataset.view !== b.dataset.v); });
-  $$('[data-p]', el).forEach(b => b.onclick = () => dashboard({ content, mount, onBack, onTry, pid: b.dataset.p }));
+  $$('[data-p]', el).forEach(b => b.onclick = () => dashboard({ content, mount, onBack, onTry, owner, pid: b.dataset.p }));
   $$('.dtry', el).forEach(b => b.onclick = () => onTry(b.dataset.id, p.id));
   const tip = $('.dtip', el), chart = $('.dchart', el);
   $$('.dbar', el).forEach(g => {

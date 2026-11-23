@@ -11,7 +11,14 @@ function load() {
     return out;
   } catch (e) { return blank(); }
 }
-export function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const listeners = [];
+// Other parts (cloud sync) can listen for changes.
+export const onSave = fn => { listeners.push(fn); };
+function write() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+export function save() { write(); listeners.forEach(f => { try { f(); } catch (e) {} }); }
+// Replace the learner list after a sync (no change event, so it does not echo back).
+export function setProfiles(list) { S.profiles = list; if (!list.some(p => p.id === S.active)) S.active = list.length === 1 ? list[0].id : null; write(); }
+export const activeId = () => S.active;
 export const settings = () => S.settings;
 export const profiles = () => S.profiles;
 export const profile = () => S.profiles.find(p => p.id === S.active) || null;

@@ -8,6 +8,17 @@ It covers seven tracks: **school maths** (JK to university), **tables**, **menta
 
 See [`docs/master-plan.md`](docs/master-plan.md) for the full plan and build order.
 
+## Family accounts (Supabase)
+
+Accounts are optional: without one, everything stays on the device. With a family account, learners and progress sync across devices.
+
+- Project: `https://kafkrkcuogvurfhigksk.supabase.co` (publishable key in `js/core/cloud.js`; it is public by design: the database rules protect the data).
+- Database: run `supabase/setup.sql` once in Supabase → SQL Editor. It creates `families`, `learners` and `admins` with row-level security (each family sees only its own rows) and the functions `is_admin`, `admin_overview` and `delete_my_account`.
+- Auth settings (Supabase → Authentication → URL Configuration): Site URL `https://learnnestapps.github.io/maths/`, and add that URL under Redirect URLs, so confirmation and password-reset emails open the app.
+- Admin: the admin page opens only for accounts listed in `public.admins` (checked by the server). Add the owner after signing up:
+  `insert into public.admins (user_id) select id from auth.users where email = 'owner@example.com';`
+- Privacy notes for parents: `privacy.html`.
+
 ## Building
 
 The page loads one packed file, `js/app.js`, so it also runs on older iPads (Safari 12 and up). After changing anything in `js/` or `css/app.css`, run:

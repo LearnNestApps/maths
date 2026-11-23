@@ -589,3 +589,15 @@ sup{font-size:.6em}
 .pcard{display:flex;flex-direction:column;align-items:center;gap:6px;width:150px;padding:16px 10px;border-radius:24px;background:#fff;box-shadow:0 6px 0 #1d2b5322;font-size:20px;color:#1d2b53}
 .pcard small{font-size:13px;color:#1d2b53aa}.av.big{width:76px;height:76px;font-size:34px}.av.plus{background:#e9ecef;color:#1d2b53}
 .picker .pgrown{background:#fff}
+
+/* Family account */
+.acct { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin: 12px 0; }
+.acct p { margin: 4px 0 8px; } .acct small { color: var(--muted); }
+.accform input[type=email], .accform input[type=password] { width: 100%; font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.acccons { display: flex; gap: 8px; align-items: flex-start; font-size: .92em; } .acccons input { margin-top: 4px; width: 20px; height: 20px; }
+.accmsg { color: #c92a2a; min-height: 1.2em; margin: 6px 0; } .accok { background: #2f9e4422; border-radius: 10px; padding: 12px; }
+.obsignin { margin: 0 0 8px; }
+.famov { margin: 8px 0 16px; } .famgrid { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.famgrid .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; min-width: 120px; }
+.famgrid .kpi b { display: block; font-size: 1.6em; } .famgrid .kpi span { color: var(--muted); font-size: .9em; }
+.famline { flex-basis: 100%; margin: 4px 0; } .famtop { flex-basis: 100%; } .famtop ol { margin: 4px 0; padding-left: 1.4em; columns: 2; } .famtop small { color: var(--muted); }
