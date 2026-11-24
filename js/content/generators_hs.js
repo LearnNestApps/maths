@@ -152,3 +152,105 @@ export const GEN_HS = {
     return MC(`Which of these is a factor of ${E(G)}?`, `(x ${sg(-p)})`, wrong, 'Factor theorem: (x − a) is a factor if f(a) = 0.', [`f(${p}) = ${g(p)} → (x ${sg(-p)}) is a factor`]);
   }
 };
+
+// ================= Geometry and trigonometry =================
+const D2R = Math.PI / 180, r1 = x => Math.round(x * 10) / 10;
+const fig = svg => `<div class="efig">${svg}</div>`;
+const SVG = (vb, body) => `<svg viewBox="${vb}" class="mfig" role="img">${body}</svg>`;
+const TX = (x, y, s, size = 15, anchor = 'middle') => `<text x="${x}" y="${y}" font-size="${size}" text-anchor="${anchor}" fill="currentColor" font-weight="800">${s}</text>`;
+const SHAPE = 'style="fill:var(--acc);fill-opacity:.18;stroke:currentColor" stroke-width="3" stroke-linejoin="round"';
+// Numbers to 1 decimal place: accept anything within 0.1 (rounding at different steps).
+const NP1 = (prompt, answer, hint, solution) => ({ template: 'numpad', prompt, answer: r1(answer), data: { expr: '', dot: true }, hint, solution: [].concat(solution),
+  check: v => Math.abs(Number(v) - answer) <= 0.1 + 1e-9 });
+// Right-angled triangle: right angle bottom-left; labels for the two legs (a vertical, b horizontal), hypotenuse c, angle θ at bottom-right.
+function rightTri({ a = '', b = '', c = '', ang = '' } = {}) {
+  const A = [30, 20], B = [30, 150], Cc = [230, 150];
+  return SVG('-60 0 330 180', `<polygon points="${[A, B, Cc].map(p => p.join(',')).join(' ')}" ${SHAPE}/><path d="M30 136H44V150" stroke="currentColor" stroke-width="2.5" fill="none"/>`
+    + (a ? TX(14, 90, a, 15, 'end') : '') + (b ? TX(130, 172, b) : '') + (c ? TX(140, 76, c, 15, 'start') : '')
+    + (ang ? `<path d="M200 150A30 30 0 0 0 205 135" stroke="var(--acc)" stroke-width="3" fill="none"/>${TX(188, 142, ang, 14, 'end')}` : ''));
+}
+const TRIPLES = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [6, 8, 10], [9, 12, 15], [20, 21, 29], [12, 16, 20]];
+
+Object.assign(GEN_HS, {
+  pythag() {
+    const [a, b, c] = pick(TRIPLES), u = U('len'), hyp = Math.random() < .5;
+    if (hyp) return NP(`Find the hypotenuse (${u}). ${fig(rightTri({ a: `${a} ${u}`, b: `${b} ${u}`, c: '?' }))}`, c, '', 'a² + b² = c²: square, add, square root.', [`${a}² + ${b}² = ${a * a} + ${b * b} = ${c * c}`, `√${c * c} = ${c}`]);
+    return NP(`Find the missing side (${u}). ${fig(rightTri({ a: '?', b: `${b} ${u}`, c: `${c} ${u}` }))}`, a, '', 'For a shorter side: c² − b².', [`${c}² − ${b}² = ${c * c} − ${b * b} = ${a * a}`, `√${a * a} = ${a}`]);
+  },
+  pythagWord() {
+    const [a, b, c] = pick(TRIPLES), u = isUSu() ? 'ft' : 'm', k = pick(['ladder', 'rect', 'walk']);
+    if (k === 'ladder') return NP(`A ${c} ${u} ladder leans against a wall. Its foot is ${a} ${u} from the wall. How high up the wall does it reach (${u})?`, b, '', 'The ladder is the hypotenuse.', [`${c}² − ${a}² = ${b * b}`, `√${b * b} = ${b} ${u}`]);
+    if (k === 'rect') return NP(`A rectangle is ${a} ${u} by ${b} ${u}. How long is its diagonal (${u})?`, c, '', 'The diagonal makes a right-angled triangle with two sides.', [`${a}² + ${b}² = ${c * c}`, `√${c * c} = ${c} ${u}`]);
+    return NP(`Mia walks ${a * 10} ${u} north, then ${b * 10} ${u} east. How far is she from her start in a straight line (${u})?`, c * 10, '', 'North and east are at right angles.', [`${a * 10}² + ${b * 10}² = ${(c * 10) ** 2}`, `√ = ${c * 10} ${u}`]);
+  },
+  trigSide() {
+    const th = pick([25, 30, 35, 40, 50, 55, 60, 65]), H = rnd(5, 20), u = U('len'), k = pick(['opp', 'adj', 'hypFromOpp']);
+    if (k === 'opp') return NP1(`Find x to 1 decimal place. ${fig(rightTri({ a: 'x', c: `${H} ${u}`, ang: th + '°' }))}`, H * Math.sin(th * D2R), 'x is opposite the angle; you know the hypotenuse: use SIN.', [`sin ${th}° = x / ${H}`, `x = ${H} × sin ${th}° = ${r1(H * Math.sin(th * D2R))}`]);
+    if (k === 'adj') return NP1(`Find x to 1 decimal place. ${fig(rightTri({ b: 'x', c: `${H} ${u}`, ang: th + '°' }))}`, H * Math.cos(th * D2R), 'x is next to the angle; you know the hypotenuse: use COS.', [`cos ${th}° = x / ${H}`, `x = ${H} × cos ${th}° = ${r1(H * Math.cos(th * D2R))}`]);
+    return NP1(`Find x to 1 decimal place. ${fig(rightTri({ a: `${H} ${u}`, b: 'x', ang: th + '°' }))}`, H / Math.tan(th * D2R), 'You know the opposite and want the adjacent: use TAN.', [`tan ${th}° = ${H} / x`, `x = ${H} ÷ tan ${th}° = ${r1(H / Math.tan(th * D2R))}`]);
+  },
+  trigAngle() {
+    const a = rnd(3, 12), c = a + rnd(2, 10), b = rnd(3, 15), u = U('len'), k = pick(['sin', 'tan']);
+    if (k === 'sin') { const v = Math.asin(a / c) / D2R; return NP(`Find the angle θ to the nearest degree. ${fig(rightTri({ a: `${a} ${u}`, c: `${c} ${u}`, ang: 'θ' }))}`, Math.round(v), '', 'Opposite and hypotenuse: use sin⁻¹.', [`sin θ = ${a}/${c}`, `θ = sin⁻¹(${a}/${c}) = ${r1(v)}° ≈ ${Math.round(v)}°`]); }
+    const v = Math.atan(a / b) / D2R; return NP(`Find the angle θ to the nearest degree. ${fig(rightTri({ a: `${a} ${u}`, b: `${b} ${u}`, ang: 'θ' }))}`, Math.round(v), '', 'Opposite and adjacent: use tan⁻¹.', [`tan θ = ${a}/${b}`, `θ = tan⁻¹(${a}/${b}) = ${r1(v)}° ≈ ${Math.round(v)}°`]);
+  },
+  trigExact() {
+    const T = [['sin 30°', '1/2'], ['cos 60°', '1/2'], ['sin 90°', '1'], ['cos 0°', '1'], ['tan 45°', '1'], ['sin 0°', '0'], ['cos 90°', '0'], ['sin 60°', '√3/2'], ['cos 30°', '√3/2'], ['sin 45°', '√2/2'], ['cos 45°', '√2/2'], ['tan 60°', '√3'], ['tan 30°', '1/√3']];
+    const [q, a] = pick(T); return MC(`What is the exact value of ${E(q)}?`, a, shuffle(['1/2', '√3/2', '√2/2', '1', '0', '√3', '1/√3'].filter(x => x !== a)), 'Picture the 30-60-90 and 45-45-90 triangles.', [`${q} = ${a}`]);
+  },
+  sineRule() {
+    const A = rnd(35, 75), B = rnd(35, 75), a = rnd(6, 15), b = a * Math.sin(B * D2R) / Math.sin(A * D2R), u = U('len');
+    const body = `<polygon points="20,150 250,150 150,25" ${SHAPE}/>${TX(135, 172, '')}${TX(70, 82, `${a} ${u}`, 14, 'end')}${TX(214, 82, 'x', 15, 'start')}${TX(42, 142, B + '°', 13, 'start')}${TX(150, 52, '', 13)}${TX(228, 142, A + '°', 13, 'end')}`;
+    return NP1(`Find x to 1 decimal place. ${fig(SVG('0 0 280 180', body))}`, b, 'Sine rule: a / sin A = b / sin B. Each side goes with the angle opposite it.', [`x / sin ${B}° = ${a} / sin ${A}°`, `x = ${a} × sin ${B}° ÷ sin ${A}° = ${r1(b)}`]);
+  },
+  cosineRule() {
+    const b = rnd(5, 14), c = rnd(5, 14), A = rnd(40, 120), a = Math.sqrt(b * b + c * c - 2 * b * c * Math.cos(A * D2R)), u = U('len');
+    const body = `<polygon points="20,150 250,150 110,30" ${SHAPE}/>${TX(135, 172, `${b} ${u}`)}${TX(56, 86, `${c} ${u}`, 14, 'end')}${TX(190, 86, 'x', 15, 'start')}${TX(44, 142, A + '°', 13, 'start')}`;
+    return NP1(`Find x to 1 decimal place. ${fig(SVG('0 0 280 180', body))}`, a, 'Cosine rule: a² = b² + c² − 2bc cos A.', [`x² = ${b}² + ${c}² − 2 × ${b} × ${c} × cos ${A}°`, `x² = ${r1(a * a)}`, `x = ${r1(a)}`]);
+  },
+  triArea() {
+    const a = rnd(4, 15), b = rnd(4, 15), Cg = rnd(30, 140), ar = .5 * a * b * Math.sin(Cg * D2R);
+    return NP1(`A triangle has sides ${a} ${U('len')} and ${b} ${U('len')} with ${Cg}° between them. Find its area to 1 decimal place (${U('area')}).`, ar, 'Area = ½ab sin C.', [`½ × ${a} × ${b} × sin ${Cg}° = ${r1(ar)}`]);
+  },
+  circleThm() {
+    const k = pick(['centre', 'semi', 'cyclic', 'tangent', 'segment']);
+    const circ = extra => fig(SVG('0 0 220 200', `<circle cx="110" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="110" cy="100" r="4" fill="currentColor"/>${TX(118, 96, 'O', 13, 'start')}${extra}`));
+    if (k === 'centre') { const x = rnd(20, 80); return NP(`The angle at the circumference is ${x}°. What is the angle at the centre, standing on the same arc? ${circ(`<path d="M40 140L110 100L180 140M40 140L110 20L180 140" stroke="var(--acc)" stroke-width="2.5" fill="none"/>${TX(110, 44, x + '°', 13)}${TX(110, 124, '?', 15)}`)}`, 2 * x, '', 'The angle at the centre is twice the angle at the circumference.', [`2 × ${x}° = ${2 * x}°`]); }
+    if (k === 'semi') { const x = rnd(20, 70); return NP(`AC is a diameter and B is on the circle. Angle A is ${x}°. Find angle C (°). ${circ(`<path d="M30 100H190L80 28Z" stroke="var(--acc)" stroke-width="2.5" fill="none"/>${TX(22, 104, 'A', 13, 'end')}${TX(198, 104, 'C', 13, 'start')}${TX(76, 22, 'B', 13)}${TX(48, 94, x + '°', 12, 'start')}`)}`, 90 - x, '', 'An angle in a semicircle is 90°, so angle B = 90°.', [`Angle B = 90°`, `Angle C = 180 − 90 − ${x} = ${90 - x}°`]); }
+    if (k === 'cyclic') { const x = rnd(50, 130); return NP(`ABCD is a cyclic quadrilateral (all corners on the circle). Angle A = ${x}°. What is angle C (°)? ${circ(`<path d="M44 66L150 28L186 128L70 166Z" stroke="var(--acc)" stroke-width="2.5" fill="none"/>${TX(36, 64, 'A', 13, 'end')}${TX(154, 22, 'B', 13, 'start')}${TX(194, 134, 'C', 13, 'start')}${TX(64, 182, 'D', 13, 'end')}${TX(62, 80, x + '°', 12, 'start')}${TX(168, 122, '?', 14, 'end')}`)}`, 180 - x, '', 'Opposite angles in a cyclic quadrilateral add up to 180°.', [`180 − ${x} = ${180 - x}°`]); }
+    if (k === 'tangent') { const x = rnd(20, 70); return NP(`A tangent touches a circle at T. A line from the centre O to a point P on the tangent makes angle OPT = ${x}°. Find angle TOP (°).`, 90 - x, '', 'A tangent meets the radius at 90°.', [`Angle OTP = 90°`, `180 − 90 − ${x} = ${90 - x}°`]); }
+    const x = rnd(25, 75); return NP(`Two angles stand on the same arc, from different points on the circle. One is ${x}°. What is the other (°)?`, x, '', 'Angles in the same segment are equal.', [`both are ${x}°`]);
+  },
+  arcSector() {
+    const r = rnd(3, 12), th = pick([30, 45, 60, 72, 90, 120, 135, 150]), u = U('len'), arc = Math.random() < .5;
+    if (arc) return NP1(`A sector has radius ${r} ${u} and angle ${th}°. Find the arc length to 1 decimal place (${u}).`, th / 360 * 2 * Math.PI * r, 'Arc = (angle/360) × 2πr.', [`${th}/360 × 2 × π × ${r} = ${r1(th / 360 * 2 * Math.PI * r)}`]);
+    return NP1(`A sector has radius ${r} ${u} and angle ${th}°. Find its area to 1 decimal place (${U('area')}).`, th / 360 * Math.PI * r * r, 'Sector area = (angle/360) × πr².', [`${th}/360 × π × ${r}² = ${r1(th / 360 * Math.PI * r * r)}`]);
+  },
+  solids3d() {
+    const k = pick(['cone', 'sphere', 'pyramid', 'hemi']), u = U('len'), V = U('vol');
+    if (k === 'pyramid') { const s = rnd(2, 10), h = rnd(3, 12) * 3; return NP(`A square-based pyramid has base ${s} ${u} by ${s} ${u} and height ${h} ${u}. Find its volume (${V}).`, s * s * h / 3, '', 'Volume = ⅓ × base area × height.', [`⅓ × ${s * s} × ${h} = ${s * s * h / 3}`]); }
+    const r = rnd(2, 9);
+    if (k === 'cone') { const h = rnd(3, 15); return NP1(`A cone has radius ${r} ${u} and height ${h} ${u}. Find its volume to 1 decimal place (${V}).`, Math.PI * r * r * h / 3, 'Volume = ⅓πr²h.', [`⅓ × π × ${r}² × ${h} = ${r1(Math.PI * r * r * h / 3)}`]); }
+    if (k === 'sphere') return NP1(`A sphere has radius ${r} ${u}. Find its volume to 1 decimal place (${V}).`, 4 / 3 * Math.PI * r ** 3, 'Volume = ⁴⁄₃πr³.', [`⁴⁄₃ × π × ${r}³ = ${r1(4 / 3 * Math.PI * r ** 3)}`]);
+    return NP1(`A hemisphere (half a sphere) has radius ${r} ${u}. Find its volume to 1 decimal place (${V}).`, 2 / 3 * Math.PI * r ** 3, 'Half of ⁴⁄₃πr³.', [`½ × ⁴⁄₃ × π × ${r}³ = ${r1(2 / 3 * Math.PI * r ** 3)}`]);
+  },
+  vectors() {
+    const k = pick(['add', 'scale', 'mag']), a = [rnd(-6, 6), rnd(-6, 6)], b = [rnd(-6, 6), rnd(-6, 6)], V = v => `(${v[0]}, ${v[1]})`;
+    if (k === 'add') { const s = [a[0] + b[0], a[1] + b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is a + b?`, V(s), [V([a[0] - b[0], a[1] - b[1]]), V([a[0] + b[1], a[1] + b[0]]), V([s[0], -s[1]])], 'Add the top numbers, then the bottom numbers.', [`(${a[0]} + ${b[0]}, ${a[1]} + ${b[1]}) = ${V(s)}`]); }
+    if (k === 'scale') { const m = rnd(2, 4), s = [m * a[0] - b[0], m * a[1] - b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is ${m}a − b?`, V(s), [V([m * a[0] + b[0], m * a[1] + b[1]]), V([a[0] - m * b[0], a[1] - m * b[1]]), V([m * (a[0] - b[0]), m * (a[1] - b[1])])], `Multiply a by ${m} first, then subtract b.`, [`${m}a = ${V([m * a[0], m * a[1]])}`, `− b → ${V(s)}`]); }
+    const [p, q, c] = pick(TRIPLES), sx = pick([1, -1]), sy = pick([1, -1]); return NP(`What is the magnitude (length) of the vector ${E(V([sx * p, sy * q]))}?`, c, '', 'Length = √(x² + y²), like Pythagoras.', [`√(${p * p} + ${q * q}) = √${c * c} = ${c}`]);
+  },
+  radians() {
+    const T = [[30, 'π/6'], [45, 'π/4'], [60, 'π/3'], [90, 'π/2'], [120, '2π/3'], [135, '3π/4'], [150, '5π/6'], [180, 'π'], [270, '3π/2'], [360, '2π']];
+    const [d, r] = pick(T), toRad = Math.random() < .5;
+    if (toRad) return MC(`Write ${d}° in radians.`, r, shuffle(T.filter(x => x[1] !== r)).slice(0, 3).map(x => x[1]), '180° = π radians.', [`${d}/180 × π = ${r}`]);
+    return NP(`Write ${E(r)} radians in degrees.`, d, '', 'π radians = 180°.', [`${r} × 180/π = ${d}°`]);
+  },
+  trigGraphs() {
+    const a = rnd(2, 5), b = pick([2, 3, 4]), f = pick(['sin', 'cos']), k = pick(['amp', 'period', 'max']);
+    if (k === 'amp') return NP(`What is the amplitude (height of a wave above the middle) of ${E(`y = ${a} ${f} x`)}?`, a, '', `The number in front of ${f} stretches the wave up and down.`, [`amplitude = ${a}`]);
+    if (k === 'period') return NP(`What is the period (length of one full wave, in degrees) of ${E(`y = ${f} ${b}x`)}?`, 360 / b, '', `${f} x repeats every 360°; ${b}x makes it ${b} times faster.`, [`360° ÷ ${b} = ${360 / b}°`]);
+    const c = rnd(-3, 3); return NP(`What is the maximum value of ${E(`y = ${a} ${f} x ${c ? sg(c) : ''}`)}?`, a + c, '', `${f} x goes up to 1.`, [`${a} × 1 ${c ? sg(c) : ''} = ${a + c}`], { neg: true });
+  }
+});
+function isUSu() { return U('len') === 'in'; }

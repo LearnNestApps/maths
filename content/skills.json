@@ -1,5 +1,5 @@
 {
- "version": "0.8-achievers-algebra",
+ "version": "0.8-achievers-geometry",
  "skills": [
   {
    "id": "ll-count5",
@@ -4537,6 +4537,202 @@
    "gen": "polyRem",
    "items": 6,
    "title": "Remainder and factor theorems"
+  },
+  {
+   "id": "h-pyth",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "pythag",
+   "items": 6,
+   "title": "Pythagoras’ theorem"
+  },
+  {
+   "id": "h-pythw",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "pythagWord",
+   "items": 6,
+   "title": "Pythagoras in real life"
+  },
+  {
+   "id": "h-trigs",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "trigSide",
+   "items": 6,
+   "title": "Trigonometry: finding sides (SOH-CAH-TOA)"
+  },
+  {
+   "id": "h-triga",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "trigAngle",
+   "items": 6,
+   "title": "Trigonometry: finding angles"
+  },
+  {
+   "id": "h-trigx",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "trigExact",
+   "items": 6,
+   "title": "Exact trig values"
+  },
+  {
+   "id": "h-circ",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "circleThm",
+   "items": 6,
+   "title": "Circle theorems"
+  },
+  {
+   "id": "h-arc",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "arcSector",
+   "items": 6,
+   "title": "Arcs and sectors"
+  },
+  {
+   "id": "h-solid",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Geometry",
+   "icon": "solid",
+   "gen": "solids3d",
+   "items": 6,
+   "title": "Cones, spheres and pyramids"
+  },
+  {
+   "id": "h-sine",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "sineRule",
+   "items": 6,
+   "title": "The sine rule"
+  },
+  {
+   "id": "h-cosine",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "cosineRule",
+   "items": 6,
+   "title": "The cosine rule"
+  },
+  {
+   "id": "h-triar",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "triArea",
+   "items": 6,
+   "title": "Area of a triangle: ½ab sin C"
+  },
+  {
+   "id": "h-vec",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "graph",
+   "gen": "vectors",
+   "items": 6,
+   "title": "Vectors"
+  },
+  {
+   "id": "h-rad",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "radians",
+   "items": 6,
+   "title": "Radians"
+  },
+  {
+   "id": "h-trigg",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Geometry",
+   "icon": "graph",
+   "gen": "trigGraphs",
+   "items": 6,
+   "title": "Trig graphs"
   }
  ]
 }
