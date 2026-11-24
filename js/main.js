@@ -12,7 +12,7 @@ import { signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPasswor
 import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
 const app = $('#app');
-let content = { skills: [], explainers: {} }, RAW = [];
+let content = { skills: [], explainers: {} }, RAW = [], lastOpen = 0;   // lastOpen: ignore a second tap that would start a lesson twice
 // Lessons for this country: drop ones marked for other countries, use international names outside India.
 function applyRegion() { const id = regionId(); content.skills = RAW.filter(s => !s.regions || s.regions.includes(id)).map(s => loc(id !== 'india' && s.intl ? { ...s, ...s.intl } : { ...s })); }
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
@@ -179,6 +179,14 @@ function home() {
   if (!tracks.includes(tab)) tab = tracks[0];
   const up = nextSkill(p, byAge(p, list));
   const shown = list.filter(s => s.track === tab);
+  // Lessons grouped by level, collapsed; the learner's own level (from age) starts open.
+  const groups = groupByLevel(shown), own = LEVELS[Math.max(0, Math.min(13, p.age - 4))];
+  const key = p.id + '|' + tab;
+  if (!openLevels.has(key)) {
+    const have = groups.map(g => g[0]), near = have.includes(own) ? own : have.slice().sort((a, b) => Math.abs(LEVELS.indexOf(a) - LEVELS.indexOf(own)) - Math.abs(LEVELS.indexOf(b) - LEVELS.indexOf(own)))[0];
+    openLevels.set(key, new Set(groups.length <= 1 ? have : [near]));
+  }
+  const opened = openLevels.get(key);
   const stat = mode === 'little' ? `<button class="pill book" aria-label="${t('book.title')}">${sticker('count', 0)}<b>${p.stickers.length}</b></button>`
     : mode === 'explore' ? `<span class="pill">${ICON.coin}<b>${p.coins}</b></span>`
     : `<span class="pill">${ICON.star}<b>${list.filter(s => status(p.progress[s.id]) === 'mastered').length}/${list.length}</b></span>`;
@@ -188,13 +196,13 @@ function home() {
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
-    ${mode === 'little' ? groupByLevel(shown).map(([lv, l]) => `<h2 class="lvlh">${lv === 'other' ? t('lvl.other') : lvLong(lv)} <small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small></h2><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div>`).join('')
-      : `<div class="skills">${shown.map(s => card(p, s, mode)).join('')}</div>`}
-    ${mode === 'little' ? '' : `<p class="note">${t('ui.sampleNote')}</p>`}</section>`);
+    ${groups.map(([lv, l]) => `<details class="lvl" data-lv="${lv}"${opened.has(lv) ? ' open' : ''}><summary class="lvlh"><span class="lvn">${lv === 'other' ? t('lvl.other') : lvLong(lv)}</span>${lv === own ? `<span class="you">${t('lvl.yours')}</span>` : ''}<small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small><span class="chev" aria-hidden="true"></span></summary><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div></details>`).join('')}
+    ${mode === 'achieve' || mode === 'adult' ? `<p class="note">${t('ui.sampleNote')}</p>` : ''}</section>`);
   mount(el);
-  $$('.skill', el).forEach((c, i) => popIn(c, i * 40));
+  $$('details[open] .skill', el).forEach((c, i) => popIn(c, i * 40));
+  $$('details.lvl', el).forEach(d => d.addEventListener('toggle', () => { d.open ? opened.add(d.dataset.lv) : opened.delete(d.dataset.lv); if (d.open) { sfx.tap(); $$('.skill', d).forEach((c, i) => popIn(c, i * 30)); } }));
   $$('.tab', el).forEach(b => b.onclick = () => { tab = b.dataset.t; sfx.tap(); home(); });
-  const open = id => { const s = content.skills.find(x => x.id === id); if (mode === 'little') say(tr(s.title)); sfx.pop(); setTimeout(() => playSkill(s, content, { mount, onExit: home }), mode === 'little' ? 500 : 0); };
+  const open = id => { if (Date.now() - lastOpen < 1500) return; lastOpen = Date.now(); const s = content.skills.find(x => x.id === id); if (mode === 'little') say(tr(s.title)); sfx.pop(); setTimeout(() => playSkill(s, content, { mount, onExit: home }), mode === 'little' ? 500 : 0); };
   $$('[data-id]', el).forEach(b => b.onclick = () => open(b.dataset.id));
   if ($('.pill.book', el)) $('.pill.book', el).onclick = () => { sfx.pop(); stickerBook(); };
   $('.who', el).onclick = () => { sfx.tap(); learnerSheet(); };
@@ -211,8 +219,10 @@ function byAge(p, list) {
 }
 function groupByLevel(list) {
   const g = new Map(); list.forEach(s => { const k = LEVELS.includes(s.level) ? s.level : 'other'; if (!g.has(k)) g.set(k, []); g.get(k).push(s); });
-  return [...g.entries()];
+  return [...g.entries()].sort((a, b) => (LEVELS.indexOf(a[0]) + 1 || 99) - (LEVELS.indexOf(b[0]) + 1 || 99));
 }
+// Which levels are open on the main page, per learner and tab (kept while the app is open).
+const openLevels = new Map();
 function stickerBook() {
   const p = profile(), n = Math.max(12, Math.ceil((p.stickers.length + 1) / 6) * 6);
   const el = h(`<section class="home"><header class="htop"><button class="icon aback" aria-label="${t('ui.back')}">${ICON.back}</button><h1 class="admh">${t('book.title')}</h1><span class="pill">${sticker('count', 0)}<b>${p.stickers.length}</b></span></header>

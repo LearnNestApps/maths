@@ -144,6 +144,7 @@
 .nogap .famgrid>*{margin:calc(10px / 2)}
 .nogap .ptiles>*{margin:calc(10px / 2)}
 .nogap .prog .ptab td:first-child>*{margin:calc(10px / 2)}
+.nogap .fb > span>*{margin:calc(2px / 2)}
 .noar .obj{height:calc(clamp(56px,10vw,86px) * 1 / 1)}
 .noar.noclamp .obj{height:calc(86px * 1 / 1)}
 .noar .sil{height:calc(clamp(130px,30vmin,230px) * 1 / 1)}

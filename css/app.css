@@ -617,3 +617,16 @@ sup{font-size:.6em}
 .mtab { margin: 8px auto 12px; max-width: 420px; } .mtab .ptab td, .mtab .ptab th { padding: 6px 10px; font-size: 16px; } .mtab .ptab { background: var(--surface); border-radius: 10px; }
 .tally { font-family: ui-monospace, Menlo, monospace; font-weight: 800; letter-spacing: 1px; font-size: 18px; }
 .tl5 { position: relative; display: inline-block; } .tl5::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; border-top: 2.5px solid currentColor; transform: rotate(-22deg); }
+
+/* Feedback: praise + one-line reason, star bursts */
+.fb > span { display: flex; flex-direction: column; gap: 2px; } .fb small { font-weight: 600; opacity: .85; font-size: .88em; }
+.burst { position: fixed; z-index: 60; pointer-events: none; font-size: 20px; font-style: normal; line-height: 1; }
+
+/* Collapsible levels on the main page */
+details.lvl { margin: 10px 0; border-radius: 16px; background: #ffffff22; background: color-mix(in srgb, var(--surface) 55%, transparent); }
+details.lvl > summary.lvlh { list-style: none; cursor: pointer; margin: 0; padding: 12px 14px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); min-height: 52px; }
+details.lvl > summary::-webkit-details-marker { display: none; }
+details.lvl > summary .lvn { flex: 1; } details.lvl > summary .you { font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 99px; background: var(--acc); color: #fff; }
+details.lvl > summary .chev { width: 12px; height: 12px; border-right: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(45deg); margin: -4px 6px 0 4px; transition: transform .2s; }
+details.lvl[open] > summary .chev { transform: rotate(225deg); margin-top: 6px; }
+details.lvl[open] > .skills { padding: 12px 4px 4px; }

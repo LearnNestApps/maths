@@ -36,7 +36,7 @@ en: {
   'mock.yes': 'Submit', 'mock.no': 'Keep going', 'mock.result': 'Your score', 'mock.marks': '{m} of {t} marks', 'mock.section': 'Section',
   'mock.note': 'Sample mock: original questions in the exam’s four-section pattern. Real-length mocks come with the Exam Centre build.',
   'ex.start': 'Start practice',
-  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'ob.country': 'Where do you live?', 'ui.devcheck': 'Device check', 'prog.title': "{name}'s progress", 'prog.notyet': 'not started yet', 'prog.score': 'Score', 'prog.empty': 'No lessons finished yet. Play a lesson and your progress shows up here!',
+  'pick.peek': 'Look again', 'tab.hear': 'Hear it', 'ob.country': 'Where do you live?', 'ui.devcheck': 'Device check', 'lvl.yours': 'Your level', 'prog.title': "{name}'s progress", 'prog.notyet': 'not started yet', 'prog.score': 'Score', 'prog.empty': 'No lessons finished yet. Play a lesson and your progress shows up here!',
   'own.title': 'Admin (owner only)', 'own.signin': 'The admin page is only for the app owner. Sign in with the owner account to open it.', 'own.notadmin': 'This account is not the owner account, so the admin page stays closed.',
   'acc.title': 'Family account', 'acc.why': 'Optional. Back up progress and use the same learners on every device (tablet, phone, computer).',
   'acc.create': 'Create account', 'acc.signin': 'Sign in', 'acc.forgot': 'Reset password', 'acc.newpw': 'New password', 'acc.email': 'Parent email', 'acc.password': 'Password (8+ characters)',

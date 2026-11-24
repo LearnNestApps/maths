@@ -34,6 +34,7 @@ export const sfx = {
   boing: () => { tone(260, 110, .3, 'sine', .22); tone(390, 170, .3, 'triangle', .06); },
   tick: () => tone(1200, 1100, .03, 'square', .04),
   bead: () => tone(900, 600, .05, 'triangle', .14),
+  streak: () => [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(f, f * 1.02, .3, 'triangle', .11, i * .06)),
   fanfare: () => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => tone(f, f, .24, 'square', .045, i * .11))
 };
 

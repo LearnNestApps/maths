@@ -9,7 +9,15 @@ import { TEMPLATES, explainer } from './templates/index.js';
 import { GEN } from '../content/generators.js';
 import { loc } from '../core/region.js';
 
-const PRAISE = ['fb.great', 'fb.correct', 'fb.wellDone'];
+// Praise changes with the age group; little ones hear it spoken.
+const PRAISE = {
+  little: ['Great job!', 'You did it!', 'Yay!', 'Brilliant!', 'High five!', 'Wow, super!', 'Amazing!', 'Well done!', 'Fantastic!', 'You are a star!'],
+  explore: ['Correct!', 'Nailed it!', 'Spot on!', 'Brilliant!', 'Great thinking!', 'You got it!', 'Excellent!', 'Superb!', 'Smart work!', 'Bang on!'],
+  achieve: ['Correct.', 'Exactly right.', 'Spot on.', 'Well reasoned.', 'Nicely done.', 'Right.'],
+  adult: ['Correct.', 'Exactly.', 'Right.', 'Spot on.', 'Good.']
+};
+const COMEBACK = ['You worked it out!', 'Fixed it, well done!', 'Got there!', 'That is the way: keep trying!'];
+const plainText = s => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 
 export async function playSkill(skill, content, { mount, onExit, mode: forced }) {
   const p = profile(), mode = forced || effectiveMode(p), started = Date.now();
@@ -29,7 +37,13 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   $('.pclose').onclick = exit;
   const pip = $('.pipmini svg');
   const setPip = (c, ms) => { if (!pip) return; pip.classList.remove('cheer', 'think'); pip.classList.add(c); setTimeout(() => pip.classList.remove(c), ms); };
-  const feedback = (msg, kind) => { const f = $('.fb'); f.className = 'fb ' + kind; f.textContent = msg; if (msg) squash(f); };
+  const feedback = (msg, kind, detail) => { const f = $('.fb'); f.className = 'fb ' + kind; f.innerHTML = msg ? `<span><b>${esc(msg)}</b>${detail ? `<small>${esc(detail)}</small>` : ''}</span>` : ''; if (msg) squash(f); };
+  let streak = 0, lastPraise = '';
+  const praise = list => { let w; do { w = list[Math.floor(Math.random() * list.length)]; } while (w === lastPraise && list.length > 1); lastPraise = w; return w; };
+  // A small burst of stars from the feedback bar.
+  const burst = () => { if (RM || mode === 'adult') return; const f = $('.fb'), r = f.getBoundingClientRect();
+    for (let k = 0; k < 10; k++) { const s = h(`<i class="burst">${['★', '✦', '●'][k % 3]}</i>`); s.style.left = (r.left + 30 + Math.random() * Math.min(160, r.width)) + 'px'; s.style.top = (r.top + r.height / 2) + 'px'; s.style.color = ['#ffd23f', '#ff6b4a', '#4dabf7', '#5cc96b', '#9775fa'][k % 5]; document.body.append(s);
+      const a = s.animate([{ transform: 'translate(0,0) scale(.6)', opacity: 1 }, { transform: `translate(${Math.random() * 120 - 60}px,${-50 - Math.random() * 80}px) scale(1.2)`, opacity: 0 }], { duration: 700 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)' }); a.onfinish = () => s.remove(); setTimeout(() => s.remove(), 1200); } };
   const progress = r => { $('.pbar i').style.width = (r * 100) + '%'; };
 
   // Intro explainer on first visit.
@@ -42,7 +56,11 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
 
   let seqI = 0;
   const genOf = () => skill.seq ? skill.seq[seqI++ % skill.seq.length] : skill.mix ? skill.mix[Math.floor(Math.random() * skill.mix.length)] : skill.gen;
-  const firstAct = loc(GEN[genOf()](skill.params || {}));
+  // No question twice in one lesson (small question pools are re-drawn a few times).
+  const seen = new Set();
+  const keyOf = a => [a.template, String(a.prompt).replace(/<svg[\s\S]*?<\/svg>/g, ''), JSON.stringify(a.answer), JSON.stringify((a.data && (a.data.options || a.data.labels)) || '')].join('|');
+  const nextAct = () => { let a; for (let k = 0; k < 15; k++) { a = loc(GEN[genOf()](skill.params || {})); if (!seen.has(keyOf(a))) break; if (skill.seq && k < 14) seqI--; } seen.add(keyOf(a)); return a; };
+  const firstAct = nextAct();
   const T = TEMPLATES[firstAct.template];
 
   // ----- Session templates (drill, mock) run once and report a score -----
@@ -62,7 +80,8 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   const n = skill.items || (mode === 'little' ? 5 : 8);
   let correct = 0;
   for (let i = 0; i < n && !exited; i++) {
-    const act = i === 0 ? firstAct : loc(GEN[genOf()](skill.params || {}));
+    if (!root.isConnected) { exited = true; runCleanups(); hush(); return; }   // another screen replaced this lesson
+    const act = i === 0 ? firstAct : nextAct();
     progress(i / n);
     const first = await runItem(act);
     runCleanups();
@@ -92,8 +111,15 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
           const ok = act.check ? act.check(v) : String(v).trim() === String(act.answer);
           if (ok) {
             settled = true; const firstTry = tries === 0 && !opt.assisted && !assistedByHint;
-            sfx.chime(); setPip('cheer', 1500); feedback(t(PRAISE[Math.floor(Math.random() * PRAISE.length)]), 'ok');
-            if (mode === 'little') say(t('fb.great'));
+            streak = firstTry ? streak + 1 : 0;
+            const list = PRAISE[mode] || PRAISE.explore;
+            const msg = !firstTry && tries > 0 ? praise(COMEBACK) : streak === 3 ? '3 in a row! 🔥' : streak === 5 ? '5 in a row! You are on fire! 🔥' : streak > 5 && streak % 5 === 0 ? `${streak} in a row! Unstoppable! 🚀` : praise(list);
+            // Older learners also see why it is right: the last line of the worked solution.
+            const steps = mode !== 'little' && act.solution ? act.solution.map(plainText).filter(Boolean) : [];
+            const all = steps.join(' · '), why = all.length <= 90 ? all : (steps[steps.length - 1] || '');
+            (/in a row/.test(msg) ? sfx.streak : sfx.chime)();
+            setPip('cheer', 1500); feedback(msg, 'ok', why.length <= 90 ? why : ''); burst();
+            if (mode === 'little') say(msg.replace(/[🔥🚀]/g, ''));
             record(p, skill.id, firstTry); save();
             setTimeout(() => resolve(firstTry), mode === 'little' ? 1500 : 1000);
             return { ok: true };
@@ -128,7 +154,7 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
     else if (mode === 'explore') { const c = correct * 5; p.coins += c; reward = `<p class="rline coins">${ICON.coin}<span>${t('res.coins', { n: c })}</span></p>`; }
     save();
     root.innerHTML = `<section class="results">${mode === 'little' ? `<div class="rpip">${PIP('cheer')}</div>` : ''}
-      <h2>${correct >= total * .6 ? t('fb.wellDone') : esc(tr(skill.title))}</h2>
+      <h2>${correct === total ? 'Perfect round! ⭐' : correct >= total * .8 ? 'Brilliant work!' : correct >= total * .6 ? t('fb.wellDone') : 'Good practice! Play again to beat your score.'}</h2>
       <p class="rscore">${t('res.score', { c: correct, n: total })}</p>${reward}
       ${newBest ? `<p class="rline best">${t('res.newBest')}</p>` : best != null ? `<p class="rline">${t('res.best', { n: best })}</p>` : ''}
       ${mode !== 'little' ? `<div class="rmast"><div class="mbar"><i style="width:${m}%"></i></div><span>${t('res.mastery', { p: m })}</span></div>` : ''}
