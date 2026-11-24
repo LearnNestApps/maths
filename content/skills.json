@@ -1,5 +1,5 @@
 {
- "version": "0.7-explorers-complete",
+ "version": "0.8-achievers-algebra",
  "skills": [
   {
    "id": "ll-count5",
@@ -4285,6 +4285,258 @@
    "gen": "discount",
    "items": 6,
    "title": "Discounts and tax"
+  },
+  {
+   "id": "h-indices",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "indices",
+   "items": 6,
+   "title": "Laws of indices"
+  },
+  {
+   "id": "h-lineq",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "graph",
+   "gen": "lineEq",
+   "items": 6,
+   "title": "Straight-line equations"
+  },
+  {
+   "id": "h-rearr",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "rearrange",
+   "items": 6,
+   "title": "Rearranging formulae"
+  },
+  {
+   "id": "h-qfact",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "quadFactor",
+   "items": 6,
+   "title": "Factorising quadratics"
+  },
+  {
+   "id": "h-qsolve",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "quadSolve",
+   "items": 6,
+   "title": "Solving quadratics by factorising"
+  },
+  {
+   "id": "h-qroots",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "graph",
+   "gen": "quadRoots",
+   "items": 6,
+   "title": "Quadratic graphs: roots"
+  },
+  {
+   "id": "h-simul",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "simultaneous",
+   "items": 6,
+   "title": "Simultaneous equations"
+  },
+  {
+   "id": "h-simgr",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Algebra",
+   "icon": "graph",
+   "gen": "simulGraph",
+   "items": 6,
+   "title": "Simultaneous equations on a graph"
+  },
+  {
+   "id": "h-surds",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "surds",
+   "items": 6,
+   "title": "Surds"
+  },
+  {
+   "id": "h-vertex",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "graph",
+   "gen": "vertex",
+   "items": 6,
+   "title": "Completing the square and turning points"
+  },
+  {
+   "id": "h-qform",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "quadFormula",
+   "items": 6,
+   "title": "The discriminant"
+  },
+  {
+   "id": "h-func",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "functions",
+   "items": 6,
+   "title": "Functions: composite and inverse"
+  },
+  {
+   "id": "h-seq",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "sequences",
+   "items": 6,
+   "title": "Arithmetic and geometric sequences"
+  },
+  {
+   "id": "h-expo",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "exponential",
+   "items": 6,
+   "title": "Exponential growth and decay"
+  },
+  {
+   "id": "h-algfr",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "algFrac",
+   "items": 6,
+   "title": "Algebraic fractions"
+  },
+  {
+   "id": "h-logs",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "logs",
+   "items": 6,
+   "title": "Logarithms"
+  },
+  {
+   "id": "h-binom",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "binomial",
+   "items": 6,
+   "title": "Binomial expansion"
+  },
+  {
+   "id": "h-poly",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "polyRem",
+   "items": 6,
+   "title": "Remainder and factor theorems"
   }
  ]
 }

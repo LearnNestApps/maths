@@ -5,6 +5,7 @@ import { abacus, numline, clock, bar } from './manip.js';
 import { steps, graph, drill, mock, explainer } from './advanced.js';
 import { pick, sort, pattern, build, share, feed } from './little.js';
 import { tablechart, flash, hop, pop, match } from './tables.js';
+import { tapgraph } from './hs.js';
 import { venn, gates, robot, order, binary } from './logic.js';
 
 export const TEMPLATES = {
@@ -20,7 +21,8 @@ export const TEMPLATES = {
   drill,          // 10 timed drill
   mock,           // 11 mock test runner
   pick, sort, pattern, build, share, feed, // Little Learners extras
-  tablechart, flash, hop, pop, match, // table games: frog hops, bubble pop, memory match; tables, squares, cubes; flash mental arithmetic
+  tablechart, flash, hop, pop, match, tapgraph, // tapgraph: tap the answer point on a graph
+  // table games: frog hops, bubble pop, memory match; tables, squares, cubes; flash mental arithmetic
   venn, gates, robot, order, binary // Logic & coding
 };
 export { explainer }; // 12 animated explainer

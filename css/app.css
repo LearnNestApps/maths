@@ -653,3 +653,8 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 @media(max-width:480px){ .t-pop { grid-template-columns: repeat(3, 1fr); } .t-match { grid-template-columns: repeat(2, 1fr); } }
 .plearn { min-height: 40px; padding: 0 12px; gap: 6px; font-size: 15px; margin-left: auto; } .plearn + .pspeak { margin-left: 8px; }
 @media(max-width:480px){ .plearn span { display: none; } }
+
+/* Tap the graph */
+.gp .gn { font-size: 12px; fill: var(--muted); text-anchor: middle; font-weight: 700; }
+.gkeys { display: flex; flex-direction: column; gap: 6px; } .gkey { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px; } .gkey i { width: 22px; height: 5px; border-radius: 3px; display: inline-block; }
+.t-tapgraph .gp { cursor: crosshair; }
