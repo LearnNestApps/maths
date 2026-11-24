@@ -160,9 +160,9 @@ if (typeof document !== 'undefined') {
 // ---------- Admin (checked by the server) ----------
 export async function isAdmin() {
   if (!session) return false;
-  if (adminCache !== null) return adminCache;
-  try { adminCache = !!(await call('/rest/v1/rpc/is_admin', { method: 'POST', body: {} })); } catch (e) { return false; }
-  return adminCache;
+  if (adminCache === true) return true;   // only a 'yes' is remembered: a 'no' is asked again (the owner may have just been added)
+  try { adminCache = !!(await call('/rest/v1/rpc/is_admin', { method: 'POST', body: {} })) || null; } catch (e) { return false; }
+  return adminCache === true;
 }
 export const isAdminCached = () => adminCache === true;
 export const adminOverview = () => call('/rest/v1/rpc/admin_overview', { method: 'POST', body: {} });

@@ -38,6 +38,8 @@ async function boot() {
   if (signedIn()) syncNow().then(ok => { if (ok) afterSync(); });
   if (auth) setTimeout(() => { if (auth.error) toast(auth.error); else if (auth.type === 'recovery') accountSheet('newpw', home); else toast(t('acc.confirmed')); }, 700);
   window.addEventListener('pip-synced', afterSync);
+  // Typing #admin while the app is already open: the page does not reload, so react here.
+  window.addEventListener('hashchange', () => { if (location.hash === '#admin') { if (!profile() && profiles().length) setActive(profiles()[0].id); ownerGate(admin); } });
   const wantAdmin = location.hash === '#admin';
   if (!profiles().length) { onboarding(); if (wantAdmin) ownerGate(admin); return; }
   if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); ownerGate(admin); return; }
