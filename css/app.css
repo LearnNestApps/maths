@@ -614,6 +614,7 @@ sup{font-size:.6em}
 
 /* Grade 3–8 extra lessons: pictures, tables, tally marks */
 .mfig { width: min(100%, 300px); height: auto; color: var(--ink); }
+@media(min-width:700px){ .mfig { width: min(100%, 460px); } }
 .mtab { margin: 8px auto 12px; max-width: 420px; } .mtab .ptab td, .mtab .ptab th { padding: 6px 10px; font-size: 16px; } .mtab .ptab { background: var(--surface); border-radius: 10px; }
 .tally { font-family: ui-monospace, Menlo, monospace; font-weight: 800; letter-spacing: 1px; font-size: 18px; }
 .tl5 { position: relative; display: inline-block; } .tl5::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; border-top: 2.5px solid currentColor; transform: rotate(-22deg); }

@@ -254,3 +254,105 @@ Object.assign(GEN_HS, {
   }
 });
 function isUSu() { return U('len') === 'in'; }
+
+// ================= Statistics and probability =================
+const FR = (n, d) => frac(n, d);
+const tbl = (head, rows) => `<div class="mtab"><table class="ptab"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const fracWrongs = (n, d) => [FR(n + 1, d), FR(n, d + 1), FR(d - n, d), FR(Math.max(1, n - 1), d)];
+
+Object.assign(GEN_HS, {
+  histogram() {
+    const edges = [0, 10, 20, 40, 60, 100], fd = edges.slice(1).map(() => rnd(1, 6) * .5), W = 300, H = 150, X = v => 40 + v * (W - 50) / 100, maxFd = 3.5;
+    const bars = fd.map((f, i) => `<rect x="${X(edges[i])}" y="${H - f / maxFd * (H - 20)}" width="${X(edges[i + 1]) - X(edges[i])}" height="${f / maxFd * (H - 20)}" style="fill:var(--acc);fill-opacity:.45;stroke:var(--acc)" stroke-width="2"/>`).join('');
+    let ax = `<path d="M40 ${H}H${W}M40 ${H}V10" stroke="currentColor" stroke-width="2"/>`;
+    for (let v = 0; v <= 3; v += .5) ax += `<path d="M36 ${H - v / maxFd * (H - 20)}H${W}" stroke="currentColor" stroke-opacity=".12"/>` + TX(32, H - v / maxFd * (H - 20) + 4, v, 10, 'end');
+    edges.forEach(e => { ax += TX(X(e), H + 14, e, 10); });
+    const body = ax + bars + TX(170, H + 30, 'Time (minutes)', 11) + `<text x="10" y="80" font-size="10" fill="currentColor" font-weight="700" transform="rotate(-90 10 80)" text-anchor="middle">Frequency density</text>`, i = rnd(0, 4);
+    return NP(`How many people took between ${edges[i]} and ${edges[i + 1]} minutes? ${fig(SVG(`0 0 ${W + 10} ${H + 36}`, body))}`, fd[i] * (edges[i + 1] - edges[i]), '', 'Frequency = frequency density × class width.', [`${fd[i]} × ${edges[i + 1] - edges[i]} = ${fd[i] * (edges[i + 1] - edges[i])}`]);
+  },
+  cumFreq() {
+    const groups = ['0–10', '10–20', '20–30', '30–40', '40–50'], f = groups.map(() => rnd(2, 15)), cf = f.reduce((a, v, i) => [...a, (a[i - 1] || 0) + v], []), N = cf[cf.length - 1];
+    const k = pick(['total', 'cf', 'medgrp']);
+    const T = tbl(['Mark', 'Frequency', 'Cumulative frequency'], groups.map((g, i) => [g, f[i], k === 'cf' && i === 3 ? '?' : cf[i]]));
+    if (k === 'total') return NP(`${T}How many students are there in total?`, N, '', 'The last cumulative frequency is the total.', [`${N}`]);
+    if (k === 'cf') return NP(`${T}What is the missing cumulative frequency?`, cf[3], '', 'Add the frequency to the cumulative total above it.', [`${cf[2]} + ${f[3]} = ${cf[3]}`]);
+    const med = N / 2, gi = cf.findIndex(c => c >= med);
+    return MC(`${T}Which group contains the median?`, groups[gi], groups.filter((_, j) => j !== gi), `The median is the ${med}th value. Find where the cumulative frequency reaches it.`, [`Half of ${N} = ${med}`, `Cumulative frequency reaches ${med} in ${groups[gi]}`]);
+  },
+  boxPlot() {
+    // Every value sits on a tick mark (multiples of 5), so it can be read exactly.
+    let v = [rnd(0, 2) * 5]; for (let i = 0; i < 4; i++) v.push(v[i] + rnd(1, 3) * 5); const [mn, q1, md, q3, mx] = v;
+    const X = t => 20 + t * 260 / 70, body = `<path d="M${X(mn)} 60H${X(q1)}M${X(q3)} 60H${X(mx)}M${X(mn)} 45V75M${X(mx)} 45V75" stroke="currentColor" stroke-width="3"/><rect x="${X(q1)}" y="35" width="${X(q3) - X(q1)}" height="50" style="fill:var(--acc);fill-opacity:.25;stroke:var(--acc)" stroke-width="3"/><path d="M${X(md)} 35V85" style="stroke:var(--acc)" stroke-width="4"/>`
+      + `<path d="M20 110H280" stroke="currentColor" stroke-width="2"/>` + Array.from({ length: 15 }, (_, i) => `<path d="M${X(i * 5)} 106V114" stroke="currentColor" stroke-width="2"/>${i % 2 === 0 ? TX(X(i * 5), 130, i * 5, 11) : ''}`).join('');
+    const k = pick(['median', 'iqr', 'range', 'q3']), F = fig(SVG('0 0 300 140', body));
+    if (k === 'median') return NP(`What is the median? ${F}`, md, '', 'The line inside the box is the median.', [`Median = ${md}`]);
+    if (k === 'q3') return NP(`What is the upper quartile? ${F}`, q3, '', 'The right edge of the box.', [`Upper quartile = ${q3}`]);
+    if (k === 'iqr') return NP(`What is the interquartile range? ${F}`, q3 - q1, '', 'IQR = upper quartile − lower quartile (the width of the box).', [`${q3} − ${q1} = ${q3 - q1}`]);
+    return NP(`What is the range? ${F}`, mx - mn, '', 'Range = biggest − smallest (the ends of the whiskers).', [`${mx} − ${mn} = ${mx - mn}`]);
+  },
+  stdDev() {
+    const m = rnd(5, 20), d = rnd(1, 5), n = pick([2, 3]), data = shuffle([...Array(n).fill(m - d), ...Array(n).fill(m + d)]);
+    if (Math.random() < .5) return NP(`Find the standard deviation of ${E(data.join(', '))}`, d, '', 'Find the mean, then the average squared distance from it, then square root.', [`Mean = ${m}`, `Every value is ${d} from the mean`, `SD = √(${d}²) = ${d}`]);
+    const x = [rnd(1, 9), rnd(1, 9), rnd(1, 9), rnd(1, 9), rnd(1, 9)], mean = x.reduce((a, b) => a + b) / 5, sd = Math.sqrt(x.reduce((a, b) => a + (b - mean) ** 2, 0) / 5);
+    return NP1(`Find the standard deviation of ${E(x.join(', '))} to 1 decimal place.`, sd, 'σ = √( Σ(x − mean)² ÷ n ).', [`Mean = ${r2(mean)}`, `σ = ${r1(sd)}`]);
+  },
+  groupedMean() {
+    const groups = [[0, 10], [10, 20], [20, 30], [30, 40]], f = groups.map(() => rnd(2, 12)), N = f.reduce((a, b) => a + b), mids = groups.map(([a, b]) => (a + b) / 2), tot = mids.reduce((s, m, i) => s + m * f[i], 0);
+    return NP1(`${tbl(['Time (min)', 'Frequency'], groups.map(([a, b], i) => [`${a} – ${b}`, f[i]]))}Estimate the mean time to 1 decimal place.`, tot / N, 'Use the midpoint of each group: Σ(midpoint × frequency) ÷ total.', [mids.map((m, i) => `${m}×${f[i]}`).join(' + ') + ` = ${tot}`, `${tot} ÷ ${N} = ${r1(tot / N)}`]);
+  },
+  treeDiagram() {
+    const r = rnd(2, 6), b = rnd(2, 6), n = r + b, repl = Math.random() < .5;
+    const p1 = [r, n], p2 = repl ? [r, n] : [r - 1, n - 1], num = p1[0] * p2[0], den = p1[1] * p2[1];
+    const tree = `<path d="M20 100L110 50M20 100L110 150M130 50L220 25M130 50L220 75M130 150L220 125M130 150L220 175" stroke="currentColor" stroke-width="2.5" fill="none"/>`
+      + TX(56, 64, `${r}/${n}`, 12) + TX(56, 146, `${b}/${n}`, 12) + TX(170, 28, repl ? `${r}/${n}` : '?', 12) + TX(118, 54, 'R', 14) + TX(118, 156, 'B', 14) + TX(228, 30, 'R', 13, 'start') + TX(228, 80, 'B', 13, 'start') + TX(228, 130, 'R', 13, 'start') + TX(228, 180, 'B', 13, 'start');
+    return MC(`A bag has ${r} red and ${b} blue counters. Two are taken ${repl ? 'with the first put back' : 'without putting the first back'}. What is the probability both are red? ${fig(SVG('0 0 260 200', tree))}`, FR(num, den),
+      [FR(r * r, n * n) === FR(num, den) ? FR(r * (r - 1), n * (n - 1)) : FR(r * r, n * n), FR(2 * r, n * 2 + (repl ? 1 : 0)), FR(r, n), FR(num + 1, den)], 'Multiply along the branches.', [`${r}/${n} × ${p2[0]}/${p2[1]} = ${num}/${den} = ${FR(num, den)}`, repl ? '' : 'Without replacement, there is one fewer red and one fewer counter for the second pick.'].filter(Boolean));
+  },
+  conditional() {
+    const a = rnd(5, 30), b = rnd(5, 30), c = rnd(5, 30), d = rnd(5, 30), k = pick(['and', 'given', 'given2']);
+    const T = tbl(['', 'Walk', 'Bus', 'Total'], [['<b>Year 7</b>', a, b, a + b], ['<b>Year 8</b>', c, d, c + d], ['<b>Total</b>', a + c, b + d, a + b + c + d]]), N = a + b + c + d;
+    if (k === 'and') return MC(`${T}A student is picked at random. What is P(Year 7 and walks)?`, FR(a, N), fracWrongs(a, N).concat([FR(a, a + b)]), 'Use the whole total as the bottom.', [`${a}/${N} = ${FR(a, N)}`]);
+    if (k === 'given') return MC(`${T}A student who takes the bus is picked. What is the probability they are in Year 8?`, FR(d, b + d), [FR(d, N), FR(d, c + d), FR(b, b + d)], 'Only look at the Bus column.', [`P(Year 8 | Bus) = ${d}/${b + d} = ${FR(d, b + d)}`]);
+    return MC(`${T}A Year 7 student is picked. What is the probability they walk?`, FR(a, a + b), [FR(a, N), FR(a, a + c), FR(b, a + b)], 'Only look at the Year 7 row.', [`P(Walk | Year 7) = ${a}/${a + b} = ${FR(a, a + b)}`]);
+  },
+  vennProb() {
+    const onlyA = rnd(2, 15), both = rnd(1, 10), onlyB = rnd(2, 15), none = rnd(1, 10), N = onlyA + both + onlyB + none, k = pick(['and', 'or', 'given', 'notA']);
+    const v = `<rect x="5" y="5" width="290" height="170" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="115" cy="90" r="62" style="fill:var(--acc);fill-opacity:.15;stroke:var(--acc)" stroke-width="2.5"/><circle cx="185" cy="90" r="62" style="fill:#f76707;fill-opacity:.12;stroke:#f76707" stroke-width="2.5"/>`
+      + TX(84, 96, onlyA, 18) + TX(150, 96, both, 18) + TX(216, 96, onlyB, 18) + TX(270, 164, none, 16) + TX(70, 30, 'Football', 13) + TX(232, 30, 'Tennis', 13);
+    const F = fig(SVG('0 0 300 180', v));
+    if (k === 'and') return MC(`${N} children were asked which sports they play. One is picked at random. P(Football and Tennis)? ${F}`, FR(both, N), fracWrongs(both, N), 'The overlap is "and".', [`${both}/${N} = ${FR(both, N)}`]);
+    if (k === 'or') return MC(`One child is picked at random. P(Football or Tennis)? ${F}`, FR(onlyA + both + onlyB, N), fracWrongs(onlyA + both + onlyB, N).concat([FR(onlyA + 2 * both + onlyB, N)]), '"Or" means in either circle (count the overlap once).', [`${onlyA} + ${both} + ${onlyB} = ${onlyA + both + onlyB}`, `${onlyA + both + onlyB}/${N} = ${FR(onlyA + both + onlyB, N)}`]);
+    if (k === 'given') return MC(`A child who plays Tennis is picked. What is the probability they also play Football? ${F}`, FR(both, both + onlyB), [FR(both, N), FR(both, onlyA + both), FR(onlyB, both + onlyB)], 'Only look inside the Tennis circle.', [`${both}/(${both} + ${onlyB}) = ${FR(both, both + onlyB)}`]);
+    return MC(`One child is picked at random. What is the probability they do NOT play Football? ${F}`, FR(onlyB + none, N), fracWrongs(onlyB + none, N).concat([FR(none, N)]), 'Everything outside the Football circle.', [`${onlyB} + ${none} = ${onlyB + none}`, `${onlyB + none}/${N} = ${FR(onlyB + none, N)}`]);
+  },
+  independent() {
+    const a = rnd(1, 9) / 10, b = rnd(1, 9) / 10, k = pick(['and', 'neither', 'atleast']);
+    if (k === 'and') return NP(`P(rain) = ${a} and P(bus late) = ${b}. They are independent. Find P(rain and bus late).`, r2(a * b), '', 'For independent events, multiply.', [`${a} × ${b} = ${r2(a * b)}`], { dot: true });
+    if (k === 'neither') return NP(`P(A) = ${a}, P(B) = ${b}, independent. Find P(neither A nor B).`, r2((1 - a) * (1 - b)), '', 'P(not A) × P(not B).', [`${r2(1 - a)} × ${r2(1 - b)} = ${r2((1 - a) * (1 - b))}`], { dot: true });
+    return NP(`P(A) = ${a}, P(B) = ${b}, independent. Find P(at least one of them).`, r2(1 - (1 - a) * (1 - b)), '', '1 − P(neither).', [`1 − ${r2(1 - a)} × ${r2(1 - b)} = ${r2(1 - (1 - a) * (1 - b))}`], { dot: true });
+  },
+  perms() {
+    const k = pick(['fact', 'npr', 'word']), n = rnd(3, 7), r = rnd(2, Math.min(4, n)), F = m => m <= 1 ? 1 : m * F(m - 1);
+    if (k === 'fact') return NP(`In how many different orders can ${n} books be arranged on a shelf?`, F(n), '', `${n} choices for the first spot, then ${n - 1}, …`, [`${n}! = ${F(n)}`]);
+    if (k === 'npr') { const pl = n >= 4 && Math.random() < .5 ? 3 : 2, txt = pl === 3 ? '1st, 2nd and 3rd' : '1st and 2nd'; return NP(`${n} runners are in a race. In how many ways can ${txt} place be decided?`, F(n) / F(n - pl), '', 'Multiply the number of choices for each place.', [`${Array.from({ length: pl }, (_, i) => n - i).join(' × ')} = ${F(n) / F(n - pl)}`]); }
+    const w = pick(['MATHS', 'CAT', 'BOOKS', 'LEVEL', 'APPLE']), cnt = {}; for (const c of w) cnt[c] = (cnt[c] || 0) + 1; const v = F(w.length) / Object.values(cnt).reduce((p, c) => p * F(c), 1);
+    return NP(`How many different arrangements are there of the letters ${E(w)}?`, v, '', 'n! ÷ (repeats)!', [`${w.length}!${Object.values(cnt).some(c => c > 1) ? ' ÷ ' + Object.values(cnt).filter(c => c > 1).map(c => c + '!').join(' ÷ ') : ''} = ${v}`]);
+  },
+  combs() {
+    const n = rnd(5, 12), r = rnd(2, Math.min(5, n - 1)), k = pick(['team', 'pizza']);
+    if (k === 'team') return NP(`How many ways can a team of ${r} be chosen from ${n} players?`, C(n, r), '', 'Order does not matter: use ⁿCᵣ.', [`${n}C${r} = ${C(n, r)}`]);
+    return NP(`A pizza shop has ${n} toppings. How many different pizzas have exactly ${r} toppings?`, C(n, r), '', 'Choosing, not arranging: ⁿCᵣ.', [`${n}C${r} = ${C(n, r)}`]);
+  },
+  binomProb() {
+    const n = rnd(3, 6), k = rnd(0, n), ways = C(n, k), den = 2 ** n;
+    if (Math.random() < .6) return MC(`A fair coin is flipped ${n} times. What is the probability of exactly ${k} heads?`, FR(ways, den), [FR(1, den), FR(k, n), FR(ways + 1, den), FR(ways, 2 * n)], `Number of ways (${n}C${k}) × (½)${sup(n)}.`, [`${n}C${k} = ${ways}`, `${ways}/${den} = ${FR(ways, den)}`]);
+    const p = pick([.1, .2, .3]), m = rnd(3, 5); return NP(`X ~ B(${m}, ${p}). Find P(X = 0) to 4 decimal places.`, Math.round((1 - p) ** m * 1e4) / 1e4, '', 'P(X = 0) = (1 − p)ⁿ.', [`${r2(1 - p)}${sup(m)} = ${Math.round((1 - p) ** m * 1e4) / 1e4}`], { dot: true });
+  },
+  normalDist() {
+    const mu = pick([50, 60, 100, 170]), s = pick([5, 10, 15]), k = pick(['1sd', '2sd', 'above2', 'above1']);
+    if (k === '1sd') return NP(`Heights are normally distributed with mean ${mu} and standard deviation ${s}. About what percentage lie between ${mu - s} and ${mu + s} (%)?`, 68, '', 'About 68% lie within 1 standard deviation of the mean.', ['68% (the 68–95–99.7 rule)']);
+    if (k === '2sd') return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage lie between ${mu - 2 * s} and ${mu + 2 * s} (%)?`, 95, '', 'About 95% lie within 2 standard deviations.', ['95%']);
+    if (k === 'above2') return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage are above ${mu + 2 * s} (%)?`, 2.5, '', '95% are within 2 SD; the other 5% is split between the two tails.', ['(100 − 95) ÷ 2 = 2.5%'], { dot: true });
+    return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage are above ${mu + s} (%)?`, 16, '', '68% are within 1 SD; the other 32% is split between the two tails.', ['(100 − 68) ÷ 2 = 16%']);
+  }
+});

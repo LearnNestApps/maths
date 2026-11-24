@@ -4733,6 +4733,188 @@
    "gen": "trigGraphs",
    "items": 6,
    "title": "Trig graphs"
+  },
+  {
+   "id": "h-hist",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "histogram",
+   "items": 6,
+   "title": "Histograms"
+  },
+  {
+   "id": "h-cumf",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "cumFreq",
+   "items": 6,
+   "title": "Cumulative frequency"
+  },
+  {
+   "id": "h-box",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "boxPlot",
+   "items": 6,
+   "title": "Box plots"
+  },
+  {
+   "id": "h-gmean",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "groupedMean",
+   "items": 6,
+   "title": "Estimating the mean from grouped data"
+  },
+  {
+   "id": "h-tree",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "treeDiagram",
+   "items": 6,
+   "title": "Tree diagrams"
+  },
+  {
+   "id": "h-vennp",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "venn",
+   "gen": "vennProb",
+   "items": 6,
+   "title": "Venn diagram probability"
+  },
+  {
+   "id": "h-indep",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "independent",
+   "items": 6,
+   "title": "Independent events"
+  },
+  {
+   "id": "h-cond",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "conditional",
+   "items": 6,
+   "title": "Conditional probability"
+  },
+  {
+   "id": "h-sd",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "stdDev",
+   "items": 6,
+   "title": "Standard deviation"
+  },
+  {
+   "id": "h-perm",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "perms",
+   "items": 6,
+   "title": "Permutations"
+  },
+  {
+   "id": "h-comb",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "combs",
+   "items": 6,
+   "title": "Combinations"
+  },
+  {
+   "id": "h-binp",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Statistics",
+   "icon": "dots",
+   "gen": "binomProb",
+   "items": 6,
+   "title": "Binomial probability"
+  },
+  {
+   "id": "h-norm",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Statistics",
+   "icon": "graph",
+   "gen": "normalDist",
+   "items": 6,
+   "title": "The normal distribution"
   }
  ]
 }
