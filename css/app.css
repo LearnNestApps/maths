@@ -702,3 +702,22 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .exfb{min-height:1.4em;font-weight:700;margin:0}.exfb.ok{color:#2b8a3e}.exfb.no{color:#c92a2a}
 .exnext:disabled{opacity:.45}
 .lfl{display:flex;align-items:center;gap:8px;font-size:22px}
+.t-ex .frame{overflow-x:auto}
+.lpic,.lnl{max-width:100%;height:auto}
+.lbox{background:var(--bg2,#f1f3f5);border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.5}
+.lgrid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.lgrid .lbox{display:grid;justify-items:center;gap:2px;min-width:96px}
+.lsteps{text-align:left;margin:0;padding-left:1.4em;font-size:clamp(16px,2.4vw,19px);display:grid;gap:6px}
+.lcols{font:800 clamp(24px,4.4vw,34px)/1.15 ui-monospace,Menlo,Consolas,monospace;border-collapse:collapse}
+.lcols td{width:.75em;text-align:center;padding:0 1px}.lcols tr.carry td{font-size:.5em;color:#e8590c;vertical-align:bottom}
+.lcols tr.last td{border-bottom:3px solid currentColor}.lcols tr.res td{color:var(--acc)}
+.lpv,.ltab{border-collapse:collapse;font-size:clamp(14px,2.2vw,17px)}
+.lpv th,.lpv td,.ltab th,.ltab td{border:1.5px solid #adb5bd;padding:6px 9px;text-align:center}
+.lpv td{font-size:26px;font-weight:800}.lpv .hi{background:#ffd23f88}
+.ltab th{background:#e7f5ff}
+.lbm{width:min(420px,100%);display:grid;gap:6px}.lbmr{display:flex;align-items:center;gap:8px}.lbmn{min-width:3.6em;text-align:right;font-weight:700;font-size:15px}
+.lbmb{display:flex;height:40px;border:2px solid #1d3557;border-radius:6px;overflow:hidden}.lbmb>div{display:grid;place-items:center;font-weight:700;font-size:14px;border-right:2px solid #1d3557;min-width:0}.lbmb>div:last-child{border-right:0}
+.lbmt{font-weight:800;text-align:center}
+.lcode{background:#1d3557;color:#e7f5ff;text-align:left;border-radius:10px;padding:10px 14px;font:600 16px/1.45 ui-monospace,Menlo,Consolas,monospace;margin:0;white-space:pre}
+.lpv th{font-size:12px;padding:4px 5px;max-width:70px}
+.lgrid .lbox{flex:1 1 40%;max-width:48%;min-width:0;padding:8px;font-size:15px}.lgrid .lbox svg{max-width:100%;height:auto}
+@media (min-width:600px){.lgrid .lbox{flex:1 1 20%;max-width:24%}}
