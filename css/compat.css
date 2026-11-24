@@ -155,6 +155,11 @@
 .nogap .gkey>*{margin:calc(8px / 2)}
 .nogap .wk>*{margin:calc(10px / 2)}
 .nogap .pwrow>*{margin:calc(8px / 2)}
+.noclamp .t-ex .frame p{font-size:20px}
+.nogap .lrow>*{margin:calc(14px / 2)}
+.nogap .lcmp>*{margin:calc(16px / 2)}
+.nogap .exopts>*{margin:calc(10px / 2)}
+.nogap .lfl>*{margin:calc(8px / 2)}
 .noar .obj{height:calc(clamp(56px,10vw,86px) * 1 / 1)}
 .noar.noclamp .obj{height:calc(86px * 1 / 1)}
 .noar .sil{height:calc(clamp(130px,30vmin,230px) * 1 / 1)}

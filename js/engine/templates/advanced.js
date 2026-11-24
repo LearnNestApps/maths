@@ -172,6 +172,20 @@ export function explainer(host, ex) {
     const fr = host.querySelector('.frame');
     const show = () => {
       fr.innerHTML = ex.frames[i].html; fr.animate?.([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 380, easing: 'ease-out' });
+      // A "try it" frame: one question with Pip before practice. Next waits for a first answer.
+      const tr = ex.frames[i].try, nx = host.querySelector('.exnext');
+      nx.disabled = !!tr && !tr.done;
+      if (tr) {
+        const box = document.createElement('div'); box.className = 'extry';
+        box.innerHTML = `<div class="exopts">${tr.options.map((o, k) => `<button class="btn exopt" data-k="${k}">${o}</button>`).join('')}</div><p class="exfb" role="status"></p>`;
+        fr.append(box);
+        box.querySelectorAll('.exopt').forEach(b => b.onclick = () => {
+          const k = +b.dataset.k, fb = box.querySelector('.exfb');
+          if (k === tr.answer) { b.classList.add('ok'); box.querySelectorAll('.exopt').forEach(x => { x.disabled = true; }); fb.textContent = tr.right; fb.className = 'exfb ok'; sfx.chime(); say(tr.right); }
+          else { b.classList.add('no'); b.disabled = true; fb.textContent = tr.wrong; fb.className = 'exfb no'; sfx.boing(); say(tr.wrong); }
+          tr.done = true; nx.disabled = false;
+        });
+      }
       host.querySelectorAll('.exdots i').forEach((d, k) => d.classList.toggle('on', k <= i));
       host.querySelector('.exback').disabled = i === 0;
       host.querySelector('.exnext').textContent = i === ex.frames.length - 1 ? t('ex.start') : t('ui.next');

@@ -685,3 +685,20 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .player.session .ptitle{display:none}
 .pwrow{display:flex;gap:8px;align-items:center}.pwrow input{flex:1;min-width:0}.pwrow .pwshow{flex:none;min-height:44px;padding:0 12px}
 .pwtip{display:block;color:var(--muted);font-size:13px;margin-top:-4px}
+/* Learn-first explainers */
+.t-ex .frame p{font-size:clamp(16px,2.4vw,20px)}
+.lrow{display:flex;align-items:center;gap:14px;justify-content:center;max-width:100%}
+.lbar{max-width:min(300px,62vw);height:auto}
+.lfr{font-size:22px}
+.lcmp{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font-weight:700}
+.lcmp>div{border-radius:14px;padding:10px 12px;display:grid;gap:6px;justify-items:center;font-size:18px}
+.lcmp .lbar{max-width:min(220px,38vw)}
+.lno{background:#ffe3e3;color:#c92a2a}.lyes{background:#d3f9d8;color:#2b8a3e}
+.lno small,.lyes small{font-weight:600}
+.extry{display:grid;gap:10px;justify-items:center;width:100%}
+.exopts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.exopt{min-width:64px;min-height:52px;font-size:22px;font-weight:800}
+.exopt.ok{background:#2b8a3e;color:#fff;border-color:#2b8a3e}.exopt.no{opacity:.45;text-decoration:line-through}
+.exfb{min-height:1.4em;font-weight:700;margin:0}.exfb.ok{color:#2b8a3e}.exfb.no{color:#c92a2a}
+.exnext:disabled{opacity:.45}
+.lfl{display:flex;align-items:center;gap:8px;font-size:22px}
