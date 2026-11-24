@@ -200,7 +200,7 @@ function home() {
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
     ${groups.map(([lv, l]) => `<details class="lvl" data-lv="${lv}"${opened.has(lv) ? ' open' : ''}><summary class="lvlh"><span class="lvn">${lv === 'other' ? t('lvl.other') : lvLong(lv)}</span>${lv === own ? `<span class="you">${t('lvl.yours')}</span>` : ''}<small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small><span class="chev" aria-hidden="true"></span></summary><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div></details>`).join('')}
-    ${mode === 'achieve' || mode === 'adult' ? `<p class="note">${t('ui.sampleNote')}</p>` : ''}</section>`);
+    ${mode === 'adult' ? `<p class="note">${t('ui.sampleNote')}</p>` : ''}</section>`);
   mount(el);
   $$('details[open] .skill', el).forEach((c, i) => popIn(c, i * 40));
   $$('details.lvl', el).forEach(d => d.addEventListener('toggle', () => { d.open ? opened.add(d.dataset.lv) : opened.delete(d.dataset.lv); if (d.open) { sfx.tap(); $$('.skill', d).forEach((c, i) => popIn(c, i * 30)); } }));

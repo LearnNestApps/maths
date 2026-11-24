@@ -659,3 +659,4 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .gp .gn { font-size: 12px; fill: var(--muted); text-anchor: middle; font-weight: 700; }
 .gkeys { display: flex; flex-direction: column; gap: 6px; } .gkey { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px; } .gkey i { width: 22px; height: 5px; border-radius: 3px; display: inline-block; }
 .t-tapgraph .gp { cursor: crosshair; }
+.mat { display: inline-grid; grid-template-columns: auto auto; gap: 2px 14px; padding: 4px 10px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; border-radius: 6px; vertical-align: middle; font-weight: 800; text-align: center; }

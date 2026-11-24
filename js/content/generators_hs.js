@@ -236,8 +236,8 @@ Object.assign(GEN_HS, {
   },
   vectors() {
     const k = pick(['add', 'scale', 'mag']), a = [rnd(-6, 6), rnd(-6, 6)], b = [rnd(-6, 6), rnd(-6, 6)], V = v => `(${v[0]}, ${v[1]})`;
-    if (k === 'add') { const s = [a[0] + b[0], a[1] + b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is a + b?`, V(s), [V([a[0] - b[0], a[1] - b[1]]), V([a[0] + b[1], a[1] + b[0]]), V([s[0], -s[1]])], 'Add the top numbers, then the bottom numbers.', [`(${a[0]} + ${b[0]}, ${a[1]} + ${b[1]}) = ${V(s)}`]); }
-    if (k === 'scale') { const m = rnd(2, 4), s = [m * a[0] - b[0], m * a[1] - b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is ${m}a − b?`, V(s), [V([m * a[0] + b[0], m * a[1] + b[1]]), V([a[0] - m * b[0], a[1] - m * b[1]]), V([m * (a[0] - b[0]), m * (a[1] - b[1])])], `Multiply a by ${m} first, then subtract b.`, [`${m}a = ${V([m * a[0], m * a[1]])}`, `− b → ${V(s)}`]); }
+    if (k === 'add') { const s = [a[0] + b[0], a[1] + b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is a + b?`, V(s), [V([a[0] - b[0], a[1] - b[1]]), V([a[0] + b[1], a[1] + b[0]]), V([s[0], -s[1]]), V([s[0] + 1, s[1]]), V([s[0], s[1] - 1]), V([-s[0], s[1]])], 'Add the top numbers, then the bottom numbers.', [`(${a[0]} + ${b[0]}, ${a[1]} + ${b[1]}) = ${V(s)}`]); }
+    if (k === 'scale') { const m = rnd(2, 4), s = [m * a[0] - b[0], m * a[1] - b[1]]; return MC(`a = ${E(V(a))}, b = ${E(V(b))}. What is ${m}a − b?`, V(s), [V([m * a[0] + b[0], m * a[1] + b[1]]), V([a[0] - m * b[0], a[1] - m * b[1]]), V([m * (a[0] - b[0]), m * (a[1] - b[1])]), V([s[0] + 1, s[1]]), V([s[0], s[1] - 2]), V([s[1], s[0]])], `Multiply a by ${m} first, then subtract b.`, [`${m}a = ${V([m * a[0], m * a[1]])}`, `− b → ${V(s)}`]); }
     const [p, q, c] = pick(TRIPLES), sx = pick([1, -1]), sy = pick([1, -1]); return NP(`What is the magnitude (length) of the vector ${E(V([sx * p, sy * q]))}?`, c, '', 'Length = √(x² + y²), like Pythagoras.', [`√(${p * p} + ${q * q}) = √${c * c} = ${c}`]);
   },
   radians() {
@@ -354,5 +354,83 @@ Object.assign(GEN_HS, {
     if (k === '2sd') return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage lie between ${mu - 2 * s} and ${mu + 2 * s} (%)?`, 95, '', 'About 95% lie within 2 standard deviations.', ['95%']);
     if (k === 'above2') return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage are above ${mu + 2 * s} (%)?`, 2.5, '', '95% are within 2 SD; the other 5% is split between the two tails.', ['(100 − 95) ÷ 2 = 2.5%'], { dot: true });
     return NP(`Mean ${mu}, standard deviation ${s}, normal distribution. About what percentage are above ${mu + s} (%)?`, 16, '', '68% are within 1 SD; the other 32% is split between the two tails.', ['(100 − 68) ÷ 2 = 16%']);
+  }
+});
+
+// ================= Calculus, finance, matrices, complex numbers =================
+const M2 = m => `<span class="mat"><span>${m[0][0]}</span><span>${m[0][1]}</span><span>${m[1][0]}</span><span>${m[1][1]}</span></span>`;
+const NPm = (prompt, answer, hint, solution) => ({ template: 'numpad', prompt, answer: r2(answer), data: { expr: '', dot: true }, hint, solution: [].concat(solution),
+  check: v => Math.abs(Number(v) - answer) <= 0.011 });   // money to the nearest cent/penny
+const cx = (a, b) => b === 0 ? `${a}` : a === 0 ? `${b === 1 ? '' : b === -1 ? '−' : b}i` : `${a} ${b < 0 ? '−' : '+'} ${Math.abs(b) === 1 ? '' : Math.abs(b)}i`;
+const mono = (c, n) => n === 0 ? `${c}` : `${c === 1 ? '' : c === -1 ? '−' : c}x${n === 1 ? '' : sup(n)}`;
+
+Object.assign(GEN_HS, {
+  limits() {
+    const a = rnd(-5, 6), k = pick(['poly', 'cancel']);
+    if (k === 'poly') { const p = rnd(1, 4), q = rnd(-6, 6) || 2; return NP(`Find ${E(`lim (x → ${a}) of (${poly([p, 'x²'], [q, 'x'])})`)}`, p * a * a + q * a, '', 'For a smooth curve, just put the value in.', [`${p}(${a})² ${sg(q)}(${a}) = ${p * a * a + q * a}`], { neg: true }); }
+    const b = a || 3; return NP(`Find ${E(`lim (x → ${b}) of (x² − ${b * b}) / (x ${sg(-b)})`)}`, 2 * b, '', `Putting x = ${b} gives 0/0, so factorise first.`, [`(x ${sg(-b)})(x ${sg(b)}) / (x ${sg(-b)}) = x ${sg(b)}`, `→ ${b} ${sg(b)} = ${2 * b}`], { neg: true });
+  },
+  differentiate() {
+    const a = rnd(1, 9), n = rnd(2, 6), k = pick(['rule', 'value', 'poly']);
+    if (k === 'rule') return MC(`Differentiate ${E(`y = ${mono(a, n)}`)}`, `dy/dx = ${mono(a * n, n - 1)}`, [`dy/dx = ${mono(a, n - 1)}`, `dy/dx = ${mono(a * n, n)}`, `dy/dx = ${mono(a * (n - 1), n - 1)}`, `dy/dx = ${mono(a + n, n - 1)}`], 'Multiply by the power, then take 1 off the power.', [`${a} × ${n} = ${a * n}, power ${n} − 1 = ${n - 1}`]);
+    const b = rnd(-6, 6), c = rnd(-9, 9), x = rnd(-3, 3), f = `${mono(a, 3)} ${sg(b)}x² ${sg(c)}x`;
+    if (k === 'value') return NP(`${E(`f(x) = ${f}`)}. Find ${E(`f′(${x})`)}.`, 3 * a * x * x + 2 * b * x + c, '', 'Differentiate each term, then put the number in.', [`f′(x) = ${3 * a}x² ${sg(2 * b)}x ${sg(c)}`, `f′(${x}) = ${3 * a * x * x + 2 * b * x + c}`], { neg: true });
+    return NP(`What is the gradient of the curve ${E(`y = ${poly([1, 'x²'], [b, 'x'])}`)} at x = ${x}?`, 2 * x + b, '', 'The gradient is dy/dx.', [`dy/dx = 2x${b ? ' ' + sg(b) : ''}`, `at x = ${x}: ${2 * x + b}`], { neg: true });
+  },
+  stationary() {
+    const h = rnd(-4, 4), k = rnd(-4, 3), b = -2 * h, c = h * h + k, Q = poly([1, 'x²'], [b, 'x'], [c, '']);
+    if (Math.random() < .5) return TG(`Use ${E('dy/dx = 0')} to find the turning point of ${E(`y = ${Q}`)}, then tap it.`, [{ fn: `x*x+(${b})*x+(${c})`, label: `y = ${Q}` }], [[h, k]], 'dy/dx = 2x ' + sg(b) + ' = 0 gives the x of the turning point.', [`dy/dx = 2x ${sg(b)} = 0 → x = ${h}`, `y = ${k}`, `turning point (${h}, ${k})`]);
+    const p = rnd(1, 3); return MC(`${E(`y = x³ − ${3 * p * p}x`)} has two stationary points. At which x-values?`, `x = ${-p} and x = ${p}`, [`x = 0 and x = ${3 * p * p}`, `x = ${-3 * p} and x = ${3 * p}`, `x = ${p} only`], 'Set dy/dx = 3x² − ' + 3 * p * p + ' = 0.', [`3x² = ${3 * p * p}`, `x² = ${p * p}`, `x = ±${p}`]);
+  },
+  chainExp() {
+    const k = pick(['chain', 'exp', 'ln', 'trig']), a = rnd(2, 5), b = rnd(1, 7), n = rnd(3, 6);
+    if (k === 'chain') return MC(`Differentiate ${E(`y = (${a}x + ${b})${sup(n)}`)}`, `${n * a}(${a}x + ${b})${sup(n - 1)}`, [`${n}(${a}x + ${b})${sup(n - 1)}`, `${n * a}(${a}x + ${b})${sup(n)}`, `${a}(${a}x + ${b})${sup(n - 1)}`], 'Chain rule: differentiate the outside, then multiply by the derivative of the inside.', [`${n}(${a}x + ${b})${sup(n - 1)} × ${a} = ${n * a}(${a}x + ${b})${sup(n - 1)}`]);
+    if (k === 'exp') return MC(`Differentiate ${E(`y = e^(${a}x)`)}`, `${a}e^(${a}x)`, [`e^(${a}x)`, `${a}xe^(${a}x − 1)`, `e^(${a})`], 'd/dx of e^(kx) is k e^(kx).', [`dy/dx = ${a}e^(${a}x)`]);
+    if (k === 'ln') return MC(`Differentiate ${E(`y = ln(${a}x)`)}`, '1/x', [`${a}/x`, `1/(${a}x)`, `ln ${a}`], 'ln(ax) = ln a + ln x, and ln a is a constant.', ['dy/dx = 1/x']);
+    return MC(`Differentiate ${E(`y = sin(${a}x)`)}`, `${a}cos(${a}x)`, [`cos(${a}x)`, `−${a}cos(${a}x)`, `${a}sin(${a}x)`], 'd/dx sin(kx) = k cos(kx).', [`dy/dx = ${a}cos(${a}x)`]);
+  },
+  integrate() {
+    const n = rnd(1, 5), a = (n + 1) * rnd(1, 4);
+    return MC(`Find ${E(`∫ ${mono(a, n)} dx`)}`, `${mono(a / (n + 1), n + 1)} + c`, [`${mono(a * n, n - 1)} + c`, `${mono(a, n + 1)} + c`, `${mono(a * (n + 1), n + 1)} + c`, `${mono(a / (n + 1), n + 1)}`], 'Add 1 to the power, divide by the new power, and add c.', [`${a} ÷ ${n + 1} = ${a / (n + 1)}`, `${mono(a / (n + 1), n + 1)} + c`]);
+  },
+  definiteInt() {
+    const k = pick(['poly', 'area']);
+    if (k === 'poly') { const a = rnd(0, 2), b = a + rnd(1, 3), p = rnd(1, 3) * 3, q = rnd(1, 4) * 2, F = x => p / 3 * x ** 3 + q / 2 * x * x; return NP(`Evaluate ${E(`∫ from ${a} to ${b} of (${p}x² + ${q}x) dx`)}`, F(b) - F(a), '', 'Integrate, then subtract: F(top) − F(bottom).', [`F(x) = ${p / 3}x³ + ${q / 2}x²`, `F(${b}) − F(${a}) = ${F(b)} − ${F(a)} = ${F(b) - F(a)}`]); }
+    const m = rnd(1, 3), K = m * m; return MC(`Find the area between ${E(`y = ${K} − x²`)} and the x-axis.`, frac(4 * m ** 3, 3), [frac(2 * m ** 3, 3), String(2 * m ** 3), frac(8 * m ** 3, 3)], `The curve crosses the axis at x = −${m} and x = ${m}. Integrate between them.`, [`∫ from −${m} to ${m} of (${K} − x²) dx`, `= [${K}x − x³/3] = ${frac(4 * m ** 3, 3)}`]);
+  },
+  compound() {
+    const P = pick([500, 1000, 2000, 5000]), r = pick([2, 3, 4, 5, 6]), n = rnd(2, 5), A = P * (1 + r / 100) ** n;
+    if (Math.random() < .5) return NPm(`${money(P)} is invested at ${r}% compound interest a year. How much is it worth after ${n} years? Round to 2 decimal places.`, A, `Multiply by ${1 + r / 100} once for each year.`, [`${P} × ${1 + r / 100}${sup(n)} = ${money(r2(A))}`]);
+    return NPm(`${money(P)} is invested at ${r}% compound interest a year. How much interest is earned in ${n} years? Round to 2 decimal places.`, A - P, 'Find the final amount, then take away the starting amount.', [`${P} × ${1 + r / 100}${sup(n)} = ${r2(A)}`, `${r2(A)} − ${P} = ${money(r2(A - P))}`]);
+  },
+  depreciation() {
+    const P = rnd(8, 30) * 1000, r = pick([10, 15, 20, 25]), n = rnd(2, 4), V = P * (1 - r / 100) ** n;
+    return NPm(`A car costs ${money(P)}. It loses ${r}% of its value each year. What is it worth after ${n} years? Round to 2 decimal places.`, V, `Each year multiply by ${1 - r / 100}.`, [`${P} × ${1 - r / 100}${sup(n)} = ${money(r2(V))}`]);
+  },
+  loans() {
+    const k = pick(['total', 'interest', 'months']), m = pick([12, 24, 36]), pay = rnd(10, 60) * 10, borrowed = Math.round(pay * m * (1 - pick([.08, .1, .12])) / 100) * 100;
+    if (k === 'total') return NP(`A loan is repaid with ${m} monthly payments of ${money(pay)}. How much is repaid in total?`, pay * m, '', 'Payments × number of months.', [`${pay} × ${m} = ${money(pay * m)}`]);
+    if (k === 'interest') return NP(`${money(borrowed)} is borrowed and repaid with ${m} payments of ${money(pay)}. How much interest is paid?`, pay * m - borrowed, '', 'Total repaid − amount borrowed.', [`${pay} × ${m} = ${pay * m}`, `${pay * m} − ${borrowed} = ${money(pay * m - borrowed)}`]);
+    const total = pay * m; return NP(`A phone costs ${money(total)} on a payment plan of ${money(pay)} a month. How many months will it take?`, m, '', 'Total ÷ monthly payment.', [`${total} ÷ ${pay} = ${m} months`]);
+  },
+  reversePct() {
+    const orig = rnd(4, 60) * 10, r = pick([10, 20, 25, 30, 40, 50]), up = Math.random() < .5, now = orig * (up ? 1 + r / 100 : 1 - r / 100);
+    return NP(`After a ${r}% ${up ? 'increase' : 'decrease'}, a price is ${money(now)}. What was it before?`, orig, '', `${money(now)} is ${up ? 100 + r : 100 - r}% of the original.`, [`${now} ÷ ${up ? 1 + r / 100 : 1 - r / 100} = ${money(orig)}`], { dot: true });
+  },
+  matrices() {
+    const A = [[rnd(-3, 5), rnd(-3, 5)], [rnd(-3, 5), rnd(-3, 5)]], B = [[rnd(-3, 5), rnd(-3, 5)], [rnd(-3, 5), rnd(-3, 5)]], k = pick(['add', 'mul', 'det', 'scalar']);
+    const mul = (X, Y) => [[X[0][0] * Y[0][0] + X[0][1] * Y[1][0], X[0][0] * Y[0][1] + X[0][1] * Y[1][1]], [X[1][0] * Y[0][0] + X[1][1] * Y[1][0], X[1][0] * Y[0][1] + X[1][1] * Y[1][1]]];
+    if (k === 'det') return NP(`Find the determinant of ${M2(A)}`, A[0][0] * A[1][1] - A[0][1] * A[1][0], '', 'For [a b; c d] the determinant is ad − bc.', [`${A[0][0]} × ${A[1][1]} − ${A[0][1]} × ${A[1][0]} = ${A[0][0] * A[1][1] - A[0][1] * A[1][0]}`], { neg: true });
+    if (k === 'add') { const S = [[A[0][0] + B[0][0], A[0][1] + B[0][1]], [A[1][0] + B[1][0], A[1][1] + B[1][1]]]; return MC(`${M2(A)} + ${M2(B)} = ?`, M2(S), [M2([[S[0][0], S[1][0]], [S[0][1], S[1][1]]]), M2(mul(A, B)), M2([[A[0][0] - B[0][0], A[0][1] - B[0][1]], [A[1][0] - B[1][0], A[1][1] - B[1][1]]]), M2([[S[0][0] + 1, S[0][1]], [S[1][0], S[1][1]]]), M2([[S[0][0], S[0][1]], [S[1][0], S[1][1] - 1]])], 'Add the numbers in the same positions.', ['Add position by position.'], { html: true }); }
+    if (k === 'scalar') { const s = rnd(2, 4); return MC(`${s} × ${M2(A)} = ?`, M2(A.map(r => r.map(v => s * v))), [M2(A.map(r => r.map(v => s + v))), M2([[s * A[0][0], A[0][1]], [A[1][0], s * A[1][1]]]), M2(A.map(r => r.map(v => s * v + 1))), M2(A.map(r => r.map(v => -s * v)))], `Multiply every number by ${s}.`, [`Every entry × ${s}`], { html: true }); }
+    const P = mul(A, B); return MC(`${M2(A)} × ${M2(B)} = ?`, M2(P), [M2(mul(B, A)), M2([[A[0][0] * B[0][0], A[0][1] * B[0][1]], [A[1][0] * B[1][0], A[1][1] * B[1][1]]]), M2([[P[0][0], P[1][0]], [P[0][1], P[1][1]]]), M2([[P[0][0] + 1, P[0][1]], [P[1][0], P[1][1]]]), M2([[P[0][0], P[0][1] - 1], [P[1][0], P[1][1] + 1]])], 'Row × column: multiply across and down, then add.', [`top-left: ${A[0][0]}×${B[0][0]} + ${A[0][1]}×${B[1][0]} = ${P[0][0]}`], { html: true });
+  },
+  complexNum() {
+    const a = rnd(-5, 6), b = rnd(-5, 6) || 2, c = rnd(-5, 6), d = rnd(-5, 6) || 3, k = pick(['add', 'mul', 'mod', 'i2']);
+    if (k === 'add') return MC(`Simplify ${E(`(${cx(a, b)}) + (${cx(c, d)})`)}`, cx(a + c, b + d), [cx(a + c, b - d), cx(a - c, b + d), cx(a * c, b * d), cx(a + d, b + c)], 'Add real parts, then imaginary parts.', [`(${a} + ${c}) + (${b} + ${d})i = ${cx(a + c, b + d)}`]);
+    if (k === 'mul') return MC(`Simplify ${E(`(${cx(a, b)})(${cx(c, d)})`)}`, cx(a * c - b * d, a * d + b * c), [cx(a * c + b * d, a * d + b * c), cx(a * c, b * d), cx(a * c - b * d, a * d - b * c)], 'Expand the brackets and use i² = −1.', [`= ${a * c} ${sg(a * d)}i ${sg(b * c)}i ${sg(b * d)}i²`, `i² = −1 → ${cx(a * c - b * d, a * d + b * c)}`]);
+    if (k === 'mod') { const [p, q, r] = pick(TRIPLES); return NP(`Find the modulus ${E(`|${cx(p * pick([1, -1]), q * pick([1, -1]))}|`)}`, r, '', '|a + bi| = √(a² + b²).', [`√(${p * p} + ${q * q}) = ${r}`]); }
+    const n = pick([2, 3, 4, 5, 6, 7, 8]), ans = ['1', 'i', '−1', '−i'][n % 4];
+    return MC(`What is ${E(`i${sup(n)}`)}?`, ans, ['1', 'i', '−1', '−i'].filter(x => x !== ans), 'i² = −1, i³ = −i, i⁴ = 1, then it repeats.', [`${n} ÷ 4 leaves ${n % 4} → i${sup(n)} = ${ans}`]);
   }
 });

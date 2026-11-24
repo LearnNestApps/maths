@@ -1,5 +1,5 @@
 {
- "version": "0.8-achievers-geometry",
+ "version": "0.9-achievers-complete",
  "skills": [
   {
    "id": "ll-count5",
@@ -4915,6 +4915,174 @@
    "gen": "normalDist",
    "items": 6,
    "title": "The normal distribution"
+  },
+  {
+   "id": "h-revpct",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "reversePct",
+   "items": 6,
+   "title": "Reverse percentages"
+  },
+  {
+   "id": "h-comp",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "compound",
+   "items": 6,
+   "title": "Compound interest"
+  },
+  {
+   "id": "h-depr",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "depreciation",
+   "items": 6,
+   "title": "Depreciation"
+  },
+  {
+   "id": "h-loan",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "loans",
+   "items": 6,
+   "title": "Loans and payment plans"
+  },
+  {
+   "id": "h-diff",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "differentiate",
+   "items": 6,
+   "title": "Differentiation"
+  },
+  {
+   "id": "h-stat",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "stationary",
+   "items": 6,
+   "title": "Stationary points"
+  },
+  {
+   "id": "h-mat",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Matrices",
+   "icon": "grid",
+   "gen": "matrices",
+   "items": 6,
+   "title": "Matrices"
+  },
+  {
+   "id": "h-lim",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "limits",
+   "items": 6,
+   "title": "Limits"
+  },
+  {
+   "id": "h-chain",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "chainExp",
+   "items": 6,
+   "title": "Chain rule, e and ln"
+  },
+  {
+   "id": "h-int",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "integrate",
+   "items": 6,
+   "title": "Integration"
+  },
+  {
+   "id": "h-defint",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "definiteInt",
+   "items": 6,
+   "title": "Definite integrals and area"
+  },
+  {
+   "id": "h-cplx",
+   "track": "school",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G12",
+   "strand": "Number",
+   "icon": "expr",
+   "gen": "complexNum",
+   "items": 6,
+   "title": "Complex numbers"
   }
  ]
 }
