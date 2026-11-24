@@ -73,7 +73,7 @@ export const mcq = {
 export const numpadT = {
   render(host, act, ctx) {
     host.innerHTML = `<div class="t-num"><div class="q">${act.data.expr || ''}</div><div class="io"></div></div>`;
-    const ni = numInput(host.querySelector('.io'), { neg: !!act.data.neg, dot: !!act.data.dot, onSubmit: v => { const r = ctx.submit(Number(v)); if (!r.ok) { ni.shake(); ni.clear(); } } });
+    const ni = numInput(host.querySelector('.io'), { neg: !!act.data.neg, dot: !!act.data.dot, maxLen: act.data.maxLen || 8, onSubmit: v => { const r = ctx.submit(Number(v)); if (!r.ok) { ni.shake(); ni.clear(); } } });
     ctx.onCleanup(() => ni.destroy());
     return {};
   }

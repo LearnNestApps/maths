@@ -128,8 +128,8 @@ export const GEN_EXPLORE = {
   },
   longDiv() { const d = rnd(3, 9), q = rnd(21, 199); return NP('Work it out.', q, `${d * q} ÷ ${d} = ?`, 'Divide digit by digit from the left, carrying remainders.', [`${d} × ${q} = ${d * q}`]); },
   bodmas() {
-    const a = rnd(2, 9), b = rnd(2, 9), c = rnd(2, 9), d = rnd(1, 9);
-    const forms = [[`${a} + ${b} × ${c}`, a + b * c, `${b} × ${c} first`], [`(${a} + ${b}) × ${c}`, (a + b) * c, 'brackets first'], [`${a * c} ÷ ${c} + ${b} × ${d}`, a + b * d, 'divide and multiply before adding'], [`${a} × ${b} − ${c} + ${d}`, a * b - c + d, 'multiply first, then left to right']];
+    const a = rnd(2, 9), b = rnd(2, 9), c = rnd(2, 9), d = rnd(1, 9), cc = Math.min(c, a * b - 1);
+    const forms = [[`${a} + ${b} × ${c}`, a + b * c, `${b} × ${c} first`], [`(${a} + ${b}) × ${c}`, (a + b) * c, 'brackets first'], [`${a * c} ÷ ${c} + ${b} × ${d}`, a + b * d, 'divide and multiply before adding'], [`${a} × ${b} − ${cc} + ${d}`, a * b - cc + d, 'multiply first, then left to right']];
     const [q, ans, why] = pick(forms);
     return NP('Work it out (BODMAS).', ans, `${q} = ?`, `Order: Brackets, Orders (powers), Division/Multiplication, Addition/Subtraction. Here: ${why}.`, [`${q} = ${ans}`]);
   },

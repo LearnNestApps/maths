@@ -28,6 +28,12 @@ export const isIndia = () => regionId() === 'india';
 // Tax on shopping, by country (for the discounts-and-tax lesson). Rates are typical, for practice only.
 const TAX = { india: { name: 'GST', rate: 18 }, us: { name: 'sales tax', rate: 8 }, canada: { name: 'HST', rate: 13 }, uk: { name: 'VAT', rate: 20 } };
 export const tax = () => TAX[regionId()] || TAX.india;
+// Currency names and practice exchange rates (example rates for practice, not live).
+const CUR = { india: { code: 'INR', name: 'rupees' }, us: { code: 'USD', name: 'US dollars' }, canada: { code: 'CAD', name: 'Canadian dollars' }, uk: { code: 'GBP', name: 'pounds' } };
+// Each entry: [name, symbol, how many of YOUR currency one unit of it costs]
+const FOREIGN = { india: [['US dollars', '$', 84], ['euros', '€', 90], ['UAE dirhams', 'AED ', 23]], us: [['euros', '€', 1.08], ['pounds', '£', 1.27], ['Canadian dollars', 'C$', 0.73]], canada: [['US dollars', 'US$', 1.37], ['euros', '€', 1.48], ['pounds', '£', 1.74]], uk: [['euros', '€', 0.85], ['US dollars', '$', 0.79], ['Canadian dollars', 'C$', 0.58]] };
+export const currency = () => CUR[regionId()] || CUR.india;
+export const foreign = () => FOREIGN[regionId()] || FOREIGN.india;
 
 // Numbers: Indian grouping (12,34,567) or international (1,234,567).
 export function fmt(n) {

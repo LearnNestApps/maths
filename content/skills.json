@@ -1,5 +1,5 @@
 {
- "version": "0.9-achievers-complete",
+ "version": "1.0-maths-complete-adults",
  "skills": [
   {
    "id": "ll-count5",
@@ -5083,6 +5083,441 @@
    "gen": "complexNum",
    "items": 6,
    "title": "Complex numbers"
+  },
+  {
+   "id": "a-tip",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "coin",
+   "gen": "tipSplit",
+   "items": 6,
+   "title": "Tips and splitting the bill"
+  },
+  {
+   "id": "a-unitp",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "coin",
+   "gen": "unitPrice",
+   "items": 6,
+   "title": "Price per kg or lb"
+  },
+  {
+   "id": "a-recipe",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "balance",
+   "gen": "recipeScale",
+   "items": 6,
+   "title": "Scaling recipes"
+  },
+  {
+   "id": "a-time",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "clock",
+   "gen": "timeCalc",
+   "items": 6,
+   "title": "Travel times"
+  },
+  {
+   "id": "a-conv",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "ruler",
+   "gen": "convertUnits",
+   "items": 6,
+   "title": "Converting units (miles, kg, °F)"
+  },
+  {
+   "id": "a-pct",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "coin",
+   "gen": "percentChange",
+   "items": 6,
+   "title": "Pay rises and price changes"
+  },
+  {
+   "id": "a-est",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "coin",
+   "gen": "estimate",
+   "items": 6,
+   "title": "Estimating a shopping total"
+  },
+  {
+   "id": "a-fuel",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Everyday",
+   "strand": "Everyday",
+   "icon": "coin",
+   "gen": "fuelCost",
+   "items": 6,
+   "title": "Fuel cost for a trip"
+  },
+  {
+   "id": "a-budget",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "budget",
+   "items": 6,
+   "title": "Monthly budget"
+  },
+  {
+   "id": "a-pay",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "payslip",
+   "items": 6,
+   "title": "Payslips and overtime"
+  },
+  {
+   "id": "a-fx",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "exchange",
+   "items": 6,
+   "title": "Currency exchange"
+  },
+  {
+   "id": "a-infl",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "inflation",
+   "items": 6,
+   "title": "Inflation"
+  },
+  {
+   "id": "a-mort",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "mortgage",
+   "items": 6,
+   "title": "Loans and mortgages"
+  },
+  {
+   "id": "a-card",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "creditCard",
+   "items": 6,
+   "title": "Credit card interest"
+  },
+  {
+   "id": "a-save",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "savingsGoal",
+   "items": 6,
+   "title": "Savings goals"
+  },
+  {
+   "id": "a-tax",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Money",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "salesTax",
+   "items": 6,
+   "title": "Prices with and without tax"
+  },
+  {
+   "id": "a-data",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Tests",
+   "strand": "Tests",
+   "icon": "bar",
+   "gen": "dataInterp",
+   "items": 6,
+   "title": "Aptitude: reading data tables"
+  },
+  {
+   "id": "a-invp",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Tests",
+   "strand": "Tests",
+   "icon": "balance",
+   "gen": "inverseProp",
+   "items": 6,
+   "title": "Aptitude: work and time"
+  },
+  {
+   "id": "a-seq",
+   "track": "life",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "Tests",
+   "strand": "Tests",
+   "icon": "numeral",
+   "gen": "hardSeq",
+   "items": 6,
+   "title": "Aptitude: number sequences"
+  },
+  {
+   "id": "u-dot",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Linear algebra",
+   "icon": "graph",
+   "gen": "dotProduct",
+   "items": 6,
+   "title": "Dot product"
+  },
+  {
+   "id": "u-inv",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Linear algebra",
+   "icon": "grid",
+   "gen": "matInverse",
+   "items": 6,
+   "title": "Inverse of a 2×2 matrix"
+  },
+  {
+   "id": "u-eig",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Linear algebra",
+   "icon": "grid",
+   "gen": "eigen",
+   "items": 6,
+   "title": "Eigenvalues"
+  },
+  {
+   "id": "u-logic",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Discrete maths",
+   "icon": "venn",
+   "gen": "setsLogic",
+   "items": 6,
+   "title": "Sets and logic"
+  },
+  {
+   "id": "u-mod",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Discrete maths",
+   "icon": "numeral",
+   "gen": "modArith",
+   "items": 6,
+   "title": "Modular arithmetic"
+  },
+  {
+   "id": "u-base",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Discrete maths",
+   "icon": "numeral",
+   "gen": "bases",
+   "items": 6,
+   "title": "Binary and hexadecimal"
+  },
+  {
+   "id": "u-graph",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Discrete maths",
+   "icon": "graph",
+   "gen": "graphTheory",
+   "items": 6,
+   "title": "Graph theory"
+  },
+  {
+   "id": "u-gcd",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Number theory",
+   "icon": "numeral",
+   "gen": "euclid",
+   "items": 6,
+   "title": "Euclid's algorithm"
+  },
+  {
+   "id": "u-series",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Calculus",
+   "icon": "expr",
+   "gen": "series",
+   "items": 6,
+   "title": "Infinite geometric series"
+  },
+  {
+   "id": "u-int",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "integrationTech",
+   "items": 6,
+   "title": "Integration techniques"
+  },
+  {
+   "id": "u-de",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Calculus",
+   "icon": "graph",
+   "gen": "diffEq",
+   "items": 6,
+   "title": "Differential equations"
+  },
+  {
+   "id": "u-ev",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Probability",
+   "icon": "dots",
+   "gen": "expectation",
+   "items": 6,
+   "title": "Expected value and variance"
+  },
+  {
+   "id": "u-ci",
+   "track": "uni",
+   "modes": [
+    "adult"
+   ],
+   "level": "Uni",
+   "strand": "Statistics",
+   "icon": "bar",
+   "gen": "confInt",
+   "items": 6,
+   "title": "Confidence intervals"
   }
  ]
 }

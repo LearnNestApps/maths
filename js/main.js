@@ -17,7 +17,7 @@ let content = { skills: [], explainers: {} }, RAW = [], lastOpen = 0;   // lastO
 // Lessons for this country: drop ones marked for other countries, use international names outside India.
 function applyRegion() { const id = regionId(); content.skills = RAW.filter(s => !s.regions || s.regions.includes(id)).map(s => loc(id !== 'india' && s.intl ? { ...s, ...s.intl } : { ...s })); }
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
-const TRACKS = ['school', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
+const TRACKS = ['school', 'life', 'uni', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
 let tab = null;
 
 const mount = el => { app.replaceChildren(el); window.scrollTo(0, 0); };
@@ -201,8 +201,8 @@ function home() {
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
-    ${groups.map(([lv, l]) => `<details class="lvl" data-lv="${lv}"${opened.has(lv) ? ' open' : ''}><summary class="lvlh"><span class="lvn">${lv === 'other' ? t('lvl.other') : lvLong(lv)}</span>${lv === own ? `<span class="you">${t('lvl.yours')}</span>` : ''}<small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small><span class="chev" aria-hidden="true"></span></summary><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div></details>`).join('')}
-    ${mode === 'adult' ? `<p class="note">${t('ui.sampleNote')}</p>` : ''}</section>`);
+    ${groups.map(([lv, l]) => `<details class="lvl" data-lv="${lv}"${opened.has(lv) ? ' open' : ''}><summary class="lvlh"><span class="lvn">${lv === 'other' ? t('lvl.other') : EXTRA.includes(lv) ? t('lvl.x.' + lv) : lvLong(lv)}</span>${lv === own ? `<span class="you">${t('lvl.yours')}</span>` : ''}<small>${l.filter(s => status(p.progress[s.id]) === 'mastered').length}/${l.length}</small><span class="chev" aria-hidden="true"></span></summary><div class="skills">${l.map(s => card(p, s, mode)).join('')}</div></details>`).join('')}
+    </section>`);
   mount(el);
   $$('details[open] .skill', el).forEach((c, i) => popIn(c, i * 40));
   $$('details.lvl', el).forEach(d => d.addEventListener('toggle', () => { d.open ? opened.add(d.dataset.lv) : opened.delete(d.dataset.lv); if (d.open) { sfx.tap(); $$('.skill', d).forEach((c, i) => popIn(c, i * 30)); } }));
@@ -217,14 +217,16 @@ function home() {
 }
 // Levels in teaching order; the learner's own level is recommended first.
 const LEVELS = ['JK', 'SK', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10', 'G11', 'G12'];
+// Grown-up groups come after the school grades, in this order.
+const EXTRA = ['Everyday', 'Money', 'Tests', 'Uni'], ORDER = [...LEVELS, ...EXTRA];
 function byAge(p, list) {
   const target = Math.max(0, Math.min(13, p.age - 4)), idx = s => { const i = LEVELS.indexOf(s.level); return i < 0 ? target : i; };
   const rank = s => { const d = idx(s) - target; return d === 0 ? 0 : d < 0 ? -d * 2 - 1 : d * 2; };
   return [...list].sort((a, b) => rank(a) - rank(b));
 }
 function groupByLevel(list) {
-  const g = new Map(); list.forEach(s => { const k = LEVELS.includes(s.level) ? s.level : 'other'; if (!g.has(k)) g.set(k, []); g.get(k).push(s); });
-  return [...g.entries()].sort((a, b) => (LEVELS.indexOf(a[0]) + 1 || 99) - (LEVELS.indexOf(b[0]) + 1 || 99));
+  const g = new Map(); list.forEach(s => { const k = ORDER.includes(s.level) ? s.level : 'other'; if (!g.has(k)) g.set(k, []); g.get(k).push(s); });
+  return [...g.entries()].sort((a, b) => (ORDER.indexOf(a[0]) + 1 || 99) - (ORDER.indexOf(b[0]) + 1 || 99));
 }
 // Which levels are open on the main page, per learner and tab (kept while the app is open).
 const openLevels = new Map();
