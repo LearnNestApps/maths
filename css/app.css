@@ -721,3 +721,5 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .lpv th{font-size:12px;padding:4px 5px;max-width:70px}
 .lgrid .lbox{flex:1 1 40%;max-width:48%;min-width:0;padding:8px;font-size:15px}.lgrid .lbox svg{max-width:100%;height:auto}
 @media (min-width:600px){.lgrid .lbox{flex:1 1 20%;max-width:24%}}
+.lkey{display:grid;gap:6px;text-align:left;font-weight:700}.lkey i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+.t-ex sup{font-size:.6em}

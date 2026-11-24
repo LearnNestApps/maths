@@ -118,6 +118,6 @@ export function coordGrid(pts, n = 6, four = false) {
     if (i) L.push(`<text x="${X(i)}" y="${Y(0) + 15}" font-size="11" text-anchor="middle" fill="${INK}">${String(i).replace('-', '−')}</text><text x="${X(0) - 8}" y="${Y(i) + 4}" font-size="11" text-anchor="end" fill="${INK}">${String(i).replace('-', '−')}</text>`); }
   L.push(`<line x1="${X(four ? -n : 0)}" y1="${Y(0)}" x2="${X(n)}" y2="${Y(0)}" stroke="${INK}" stroke-width="2"/><line x1="${X(0)}" y1="${Y(four ? -n : 0)}" x2="${X(0)}" y2="${Y(n)}" stroke="${INK}" stroke-width="2"/>`);
   L.push(`<text x="${X(n) + 4}" y="${Y(0) + 4}" font-size="13" font-weight="700" fill="${INK}">x</text><text x="${X(0) + 4}" y="${Y(n) - 4}" font-size="13" font-weight="700" fill="${INK}">y</text>`);
-  pts.forEach(([x, y, l, c = '#ff6b4a']) => L.push(`<circle cx="${X(x)}" cy="${Y(y)}" r="6" fill="${c}"/>${l ? `<text x="${X(x) + 9}" y="${Y(y) - 8}" font-size="13" font-weight="700" fill="${c}">${l}</text>` : ''}`));
+  pts.forEach(([x, y, l, c = '#ff6b4a']) => L.push(`<circle cx="${X(x)}" cy="${Y(y)}" r="6" fill="${c}"/>${l ? `<text x="${X(x) + (x > n - 3 ? -9 : 9)}" y="${Y(y) - 8}" font-size="13" font-weight="700" text-anchor="${x > n - 3 ? 'end' : 'start'}" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="4">${l}</text>` : ''}`));
   return `<svg class="lpic" viewBox="0 0 ${W + 12} ${H}" width="${Math.min(W + 12, 300)}" role="img" aria-label="coordinate grid">${L.join('')}</svg>`;
 }

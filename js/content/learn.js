@@ -15,9 +15,11 @@ function bar(n, k, color = '#4dabf7', w = 300) {
 const barRow = (n, k, color) => `<div class="lrow">${bar(n, k, color)}<b class="lfr">${fr(k, n)}</b></div>`;
 
 import { G3_5 } from './learn_g3_5.js';
+import { G6_8 } from './learn_g6_8.js';
 
 export const LEARN = {
   ...G3_5,
+  ...G6_8,
   'e-fequiv': () => ({
     title: 'Equivalent fractions',
     frames: [
