@@ -724,3 +724,4 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .lkey{display:grid;gap:6px;text-align:left;font-weight:700}.lkey i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
 .t-ex sup{font-size:.6em}
 .lmat{display:inline-grid;vertical-align:middle;border-left:2px solid currentColor;border-right:2px solid currentColor;border-radius:6px;padding:2px 8px;margin:0 4px;line-height:1.3}
+.lletters{display:inline-block;transform:scaleX(-1)}
