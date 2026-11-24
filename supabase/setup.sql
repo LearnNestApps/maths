@@ -17,6 +17,7 @@ grant usage on schema "Math_schema" to anon, authenticated;
 -- ---------- Tables ----------
 create table if not exists "Math_schema".families (
   id          uuid primary key references auth.users(id) on delete cascade,
+  email       text,                                   -- parent's email (filled in automatically at sign-up)
   settings    jsonb not null default '{}'::jsonb,
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
@@ -107,6 +108,22 @@ end $$;
 revoke execute on function "Math_schema".is_admin(), "Math_schema".admin_overview(), "Math_schema".delete_my_account() from public, anon;
 revoke execute on function "Math_schema".touch_updated_at() from public, anon, authenticated;
 grant  execute on function "Math_schema".is_admin(), "Math_schema".admin_overview(), "Math_schema".delete_my_account() to authenticated;
+
+-- ---------- Every account gets a family row at sign-up ----------
+alter table "Math_schema".families add column if not exists email text;
+create or replace function "Math_schema".handle_new_user() returns trigger
+language plpgsql security definer set search_path = '' as $$
+begin
+  insert into "Math_schema".families (id, email) values (new.id, new.email)
+  on conflict (id) do update set email = excluded.email;
+  return new;
+end $$;
+revoke execute on function "Math_schema".handle_new_user() from public, anon, authenticated;
+drop trigger if exists pipmaths_new_user on auth.users;
+create trigger pipmaths_new_user after insert or update of email on auth.users
+  for each row execute function "Math_schema".handle_new_user();
+insert into "Math_schema".families (id, email) select id, email from auth.users
+on conflict (id) do update set email = excluded.email;
 
 -- ---------- Make yourself the admin ----------
 -- After you have signed up in the app with your own email, run this one line
