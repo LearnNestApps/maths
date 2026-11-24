@@ -1,5 +1,5 @@
 {
- "version": "1.0-maths-complete-adults",
+ "version": "1.1-exam-centre",
  "skills": [
   {
    "id": "ll-count5",
@@ -1461,28 +1461,6 @@
     "tag": "Reasoning"
    },
    "tag": "MSCE · NMMS"
-  },
-  {
-   "id": "x-imo",
-   "track": "exam",
-   "modes": [
-    "explore",
-    "achieve"
-   ],
-   "level": "G6",
-   "strand": "Mock test",
-   "icon": "mock",
-   "gen": "mockMini",
-   "params": {
-    "exam": "SOF IMO",
-    "klass": 6
-   },
-   "title": "IMO sample mock (Class 6)",
-   "tag": "SOF IMO",
-   "intl": {
-    "tag": "Olympiad style",
-    "title": "Olympiad-style sample test (Grade 6)"
-   }
   },
   {
    "id": "ac-lineq",
@@ -5518,6 +5496,500 @@
    "gen": "confInt",
    "items": 6,
    "title": "Confidence intervals"
+  },
+  {
+   "id": "x-imo1",
+   "track": "exam",
+   "modes": [
+    "little"
+   ],
+   "level": "G1",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 1
+   },
+   "title": "IMO-style paper · Class 1 (35 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo2",
+   "track": "exam",
+   "modes": [
+    "little"
+   ],
+   "level": "G2",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 2
+   },
+   "title": "IMO-style paper · Class 2 (35 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo3",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 3
+   },
+   "title": "IMO-style paper · Class 3 (35 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo4",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 4
+   },
+   "title": "IMO-style paper · Class 4 (35 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo5",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 5
+   },
+   "title": "IMO-style paper · Class 5 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G6",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 6
+   },
+   "title": "IMO-style paper · Class 6 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo7",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 7
+   },
+   "title": "IMO-style paper · Class 7 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo8",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G8",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 8
+   },
+   "title": "IMO-style paper · Class 8 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo9",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G9",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 9
+   },
+   "title": "IMO-style paper · Class 9 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo10",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G10",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 10
+   },
+   "title": "IMO-style paper · Class 10 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo11",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G11",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 11
+   },
+   "title": "IMO-style paper · Class 11 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-imo12",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G12",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imo",
+    "klass": 12
+   },
+   "title": "IMO-style paper · Class 12 (50 questions)",
+   "tag": "SOF IMO",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-msce4m",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "msceMaths",
+    "klass": 4
+   },
+   "title": "Scholarship Class 4: Mathematics paper (50 questions)",
+   "tag": "MSCE",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-msce4i",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "msceReason",
+    "klass": 4
+   },
+   "title": "Scholarship Class 4: Intelligence Test (50 questions)",
+   "tag": "MSCE",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-msce7m",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "msceMaths",
+    "klass": 7
+   },
+   "title": "Scholarship Class 7: Mathematics paper (50 questions)",
+   "tag": "MSCE",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-msce7i",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "msceReason",
+    "klass": 7
+   },
+   "title": "Scholarship Class 7: Intelligence Test (50 questions)",
+   "tag": "MSCE",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-nmms-mat",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G8",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "nmmsMat"
+   },
+   "title": "NMMS Mental Ability Test (90 questions)",
+   "tag": "NMMS",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-nmms-sat",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G8",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "nmmsSat"
+   },
+   "title": "NMMS SAT: Mathematics part (20 questions)",
+   "tag": "NMMS",
+   "regions": [
+    "india"
+   ]
+  },
+  {
+   "id": "x-amc8",
+   "track": "exam",
+   "modes": [
+    "explore",
+    "achieve"
+   ],
+   "level": "G8",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "amc8"
+   },
+   "title": "AMC 8-style contest (25 questions)",
+   "tag": "Math contest",
+   "regions": [
+    "us"
+   ]
+  },
+  {
+   "id": "x-amc10",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G10",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "amc10"
+   },
+   "title": "AMC 10-style contest (25 questions)",
+   "tag": "Math contest",
+   "regions": [
+    "us"
+   ]
+  },
+  {
+   "id": "x-jmc",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "jmc"
+   },
+   "title": "Junior Challenge-style paper (25 questions)",
+   "tag": "Maths challenge",
+   "regions": [
+    "uk"
+   ]
+  },
+  {
+   "id": "x-imc",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G10",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "imc"
+   },
+   "title": "Intermediate Challenge-style paper (25 questions)",
+   "tag": "Maths challenge",
+   "regions": [
+    "uk"
+   ]
+  },
+  {
+   "id": "x-gauss7",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G7",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "gauss",
+    "grade": 7
+   },
+   "title": "Gauss-style contest · Grade 7 (25 questions)",
+   "tag": "Math contest",
+   "regions": [
+    "canada"
+   ]
+  },
+  {
+   "id": "x-gauss8",
+   "track": "exam",
+   "modes": [
+    "explore"
+   ],
+   "level": "G8",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "gauss",
+    "grade": 8
+   },
+   "title": "Gauss-style contest · Grade 8 (25 questions)",
+   "tag": "Math contest",
+   "regions": [
+    "canada"
+   ]
+  },
+  {
+   "id": "x-pascal",
+   "track": "exam",
+   "modes": [
+    "achieve"
+   ],
+   "level": "G9",
+   "strand": "Mock test",
+   "icon": "mock",
+   "gen": "examPaper",
+   "params": {
+    "paper": "pascal"
+   },
+   "title": "Pascal-style contest · Grade 9 (25 questions)",
+   "tag": "Math contest",
+   "regions": [
+    "canada"
+   ]
   }
  ]
 }

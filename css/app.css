@@ -660,3 +660,26 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .gkeys { display: flex; flex-direction: column; gap: 6px; } .gkey { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 17px; } .gkey i { width: 22px; height: 5px; border-radius: 3px; display: inline-block; }
 .t-tapgraph .gp { cursor: crosshair; }
 .mat { display: inline-grid; grid-template-columns: auto auto; gap: 2px 14px; padding: 4px 10px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; border-radius: 6px; vertical-align: middle; font-weight: 800; text-align: center; }
+/* Exam Centre: results, topics to practise, answer review */
+.msheet{position:fixed;z-index:50}
+.mtime.low{color:var(--bad)}
+.mexpr{margin-top:8px;font-weight:700}
+.mo span{flex:1;min-width:0}
+.mo:focus-visible,.pq:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.mnav .btn:disabled{opacity:.4}
+.t-mock.res h4{margin:14px 0 4px}
+.mrule{font-size:14px;color:var(--muted)}
+.weak{width:min(520px,100%);display:grid;gap:8px;text-align:left}
+.wk{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.wk small{display:block;color:var(--muted)}
+.wk .btn{flex:none;min-height:40px}
+.review li{padding:8px 0;border-bottom:1px solid var(--line)}
+.review .rq{font-weight:600}
+.review .rq svg,.mq svg{max-width:min(100%,300px);height:auto}
+.review details{margin-top:4px}.review summary{cursor:pointer;color:var(--acc);font-weight:700}
+.rsol{font-size:14px;display:grid;gap:2px;padding:4px 0}
+.mscene{margin-top:8px}.mscene svg,.mtile svg{max-width:min(100%,300px);max-height:180px;height:auto}
+.mtile{display:inline-flex;align-items:center;justify-content:center;max-width:100%}.mtile svg,.mtile img{width:72px;height:auto;max-height:80px}
+.mflag .sm{display:none}
+@media (max-width:480px){.mflag .lg{display:none}.mflag .sm{display:inline}.mnav .btn{padding:0 10px}}
+.player.session .ptitle{display:none}

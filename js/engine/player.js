@@ -8,6 +8,7 @@ import { profile, effectiveMode, save } from '../core/store.js';
 import { TEMPLATES, explainer } from './templates/index.js';
 import { GEN } from '../content/generators.js';
 import { loc } from '../core/region.js';
+import { setCatalog } from '../content/exam.js';
 
 // Praise changes with the age group; little ones hear it spoken.
 const PRAISE = {
@@ -34,7 +35,10 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced, l
   const $ = s => root.querySelector(s), host = $('.host'), promptEl = $('.prompt');
   const runCleanups = () => { cleanups.forEach(f => { try { f(); } catch (e) {} }); cleanups = []; };
   const exit = () => { if (exited) return; exited = true; runCleanups(); hush(); onExit(); };
-  $('.pclose').onclick = exit;
+  // A running test can ask before it is closed (its answers would be lost).
+  let guard = null;
+  $('.pclose').onclick = () => { if (guard && guard(exit)) return; exit(); };
+  setCatalog(content.skills);
   // Watch the lesson again: restart with the explainer.
   if ($('.plearn')) $('.plearn').onclick = () => { if (exited) return; exited = true; runCleanups(); hush(); playSkill(skill, content, { mount, onExit, mode: forced, learn: true }); };
   const pip = $('.pipmini svg');
@@ -67,14 +71,21 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced, l
 
   // ----- Session templates (drill, mock) run once and report a score -----
   if (T.session) {
+    if (location.hash === '#debug') window.__act = firstAct;
+    root.classList.add('session');
     $('.hintb').hidden = true; promptEl.innerHTML = '';
     const res = await new Promise(resolve => {
-      const ctx = { mode, t, say, sfx, onCleanup: f => cleanups.push(f), best: () => p.bests[skill.id] ?? null, finish: resolve, submit: () => ({ ok: false }) };
+      const ctx = { mode, t, say, sfx, onCleanup: f => cleanups.push(f), best: () => p.bests[skill.id] ?? null, finish: resolve, submit: () => ({ ok: false }),
+        setGuard: g => { guard = g; }, open: content.skills ? (id, r) => resolve({ ...r, open: id }) : null };
       T.render(host, firstAct, ctx);
     });
     runCleanups(); if (exited) return;
     for (let i = 0; i < res.total; i++) record(p, skill.id, i < res.correct);
     const newBest = res.score > (p.bests[skill.id] ?? -1); if (newBest) p.bests[skill.id] = res.score;
+    guard = null;
+    // "Practise" on a missed topic: save the score, then go straight to that lesson.
+    const next = res.open && content.skills.find(x => x.id === res.open);
+    if (next) { save(); exited = true; hush(); return playSkill(next, content, { mount, onExit, mode: forced }); }
     return results({ correct: res.correct, total: res.total, newBest, best: p.bests[skill.id] });
   }
 

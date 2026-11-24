@@ -95,50 +95,70 @@ export const drill = {
 export const mock = {
   session: true,
   render(host, act, ctx) {
-    const { sections, minutes, title } = act.data;
+    const { sections, minutes, title, blankMax = 0 } = act.data;
     const qs = sections.flatMap((s, si) => s.qs.map(q => ({ ...q, si, marks: s.marks, pick: null, flag: false })));
+    const L = 'ABCDE', show = (q, o) => q.html ? o : esc(o);
     let cur = 0, timer, end = Date.now() + minutes * 60000, done = false;
-    host.innerHTML = `<div class="t-mock"><div class="mhead"><b>${esc(title)}</b><span class="mtime"></span></div>
+    host.innerHTML = `<div class="t-mock"><div class="mhead"><b>${esc(title)}</b><span class="mtime" role="timer"></span></div>
       <div class="mtabs">${sections.map((s, i) => `<button class="chip" data-s="${i}">${esc(s.name)}</button>`).join('')}</div>
       <div class="mbody"><div class="mq"></div><div class="mopts"></div></div>
-      <div class="mnav"><button class="btn mprev">${t('mock.prev')}</button><button class="btn mflag">${ICON.flag}<span>${t('mock.mark')}</span></button><button class="btn mnext">${t('mock.next')}</button></div>
-      <div class="pal">${qs.map((_, i) => `<button class="pq" data-q="${i}">${i + 1}</button>`).join('')}</div>
+      <div class="mnav"><button class="btn mprev">${t('mock.prev')}</button><button class="btn mflag" aria-label="${t('mock.mark')}">${ICON.flag}<span class="lg">${t('mock.mark')}</span><span class="sm">${t('mock.flag')}</span></button><button class="btn mnext">${t('mock.next')}</button></div>
+      <div class="pal">${qs.map((_, i) => `<button class="pq" data-q="${i}" aria-label="Question ${i + 1}">${i + 1}</button>`).join('')}</div>
       <button class="btn primary msub">${t('mock.submit')}</button><p class="mnote">${esc(act.data.note || t('mock.note'))}</p><div class="msheet"></div></div>`;
     const $ = s => host.querySelector(s);
-    function show(i) {
-      cur = i; const q = qs[i];
-      $('.mq').innerHTML = `<span class="qn">Q${i + 1} · ${esc(sections[q.si].name)} · ${q.marks} ${q.marks > 1 ? 'marks' : 'mark'}</span><div>${q.stem}</div>`;
-      $('.mopts').innerHTML = q.options.map((o, k) => `<button class="mo${q.pick === k ? ' sel' : ''}" data-k="${k}"><b>${'ABCD'[k]}</b>${q.html ? o : esc(o)}</button>`).join('');
+    const markStr = m => `${m} ${m === 1 ? 'mark' : 'marks'}`;
+    function show1(i) {
+      cur = i; const q = qs[i], sec = sections[q.si];
+      $('.mq').innerHTML = `<span class="qn">Q${i + 1} · ${esc(sec.name)} · ${markStr(q.marks)}</span><div>${q.stem}</div>`;
+      $('.mopts').innerHTML = q.options.map((o, k) => `<button class="mo${q.pick === k ? ' sel' : ''}" data-k="${k}" aria-pressed="${q.pick === k}"><b>${L[k]}</b><span>${show(q, o)}</span></button>`).join('');
       host.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', +c.dataset.s === q.si));
       host.querySelectorAll('.pq').forEach((p, k) => { p.className = 'pq' + (qs[k].pick != null ? ' pa' : '') + (qs[k].flag ? ' flag' : '') + (k === i ? ' cur' : ''); });
-      $('.mflag').classList.toggle('on', q.flag);
+      $('.mflag').classList.toggle('on', q.flag); $('.mprev').disabled = i === 0; $('.mnext').disabled = i === qs.length - 1;
     }
-    $('.mopts').addEventListener('click', e => { const b = e.target.closest('.mo'); if (!b) return; qs[cur].pick = +b.dataset.k; sfx.tap(); show(cur); });
-    $('.mprev').addEventListener('click', () => show(Math.max(0, cur - 1)));
-    $('.mnext').addEventListener('click', () => show(Math.min(qs.length - 1, cur + 1)));
-    $('.mflag').addEventListener('click', () => { qs[cur].flag = !qs[cur].flag; show(cur); });
-    $('.pal').addEventListener('click', e => { const b = e.target.closest('.pq'); if (b) show(+b.dataset.q); });
-    $('.mtabs').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) show(qs.findIndex(q => q.si === +b.dataset.s)); });
-    $('.msub').addEventListener('click', () => {
-      const left = qs.filter(q => q.pick == null).length;
-      $('.msheet').innerHTML = `<div class="sheetin"><p>${t('mock.confirm', { n: left })}</p><div class="row"><button class="btn myes primary">${t('mock.yes')}</button><button class="btn mno">${t('mock.no')}</button></div></div>`;
-      $('.msheet').classList.add('on');
+    // Tapping the chosen answer again clears it (blank answers can score in some contests).
+    $('.mopts').addEventListener('click', e => { const b = e.target.closest('.mo'); if (!b || done) return; const k = +b.dataset.k; qs[cur].pick = qs[cur].pick === k ? null : k; sfx.tap(); show1(cur); });
+    $('.mprev').addEventListener('click', () => show1(Math.max(0, cur - 1)));
+    $('.mnext').addEventListener('click', () => show1(Math.min(qs.length - 1, cur + 1)));
+    $('.mflag').addEventListener('click', () => { qs[cur].flag = !qs[cur].flag; show1(cur); });
+    $('.pal').addEventListener('click', e => { const b = e.target.closest('.pq'); if (b) show1(+b.dataset.q); });
+    $('.mtabs').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) show1(qs.findIndex(q => q.si === +b.dataset.s)); });
+    const sheet = (msg, yes, no, onYes) => {
+      $('.msheet').innerHTML = `<div class="sheetin" role="dialog" aria-modal="true"><p>${msg}</p><div class="row"><button class="btn myes primary">${yes}</button><button class="btn mno">${no}</button></div></div>`;
+      $('.msheet').classList.add('on'); $('.mno').focus();
       $('.mno').onclick = () => $('.msheet').classList.remove('on');
-      $('.myes').onclick = finish;
-    });
+      $('.myes').onclick = onYes;
+    };
+    $('.msub').addEventListener('click', () => sheet(t('mock.confirm', { n: qs.filter(q => q.pick == null).length }), t('mock.yes'), t('mock.no'), finish));
+    // Leaving mid-test loses the answers, so ask first.
+    if (ctx.setGuard) ctx.setGuard(leave => { if (done) return false; sheet(t('mock.leave'), t('mock.leaveYes'), t('mock.no'), () => { done = true; clearInterval(timer); leave(); }); return true; });
     function finish() {
       if (done) return; done = true; clearInterval(timer);
-      const per = sections.map((s, si) => { const sq = qs.filter(q => q.si === si); return { name: s.name, right: sq.filter(q => q.pick === q.answer).length, n: sq.length, m: sq.filter(q => q.pick === q.answer).length * s.marks, t: sq.length * s.marks }; });
+      let blanks = 0;
+      const per = sections.map((s, si) => {
+        const sq = qs.filter(q => q.si === si), right = sq.filter(q => q.pick === q.answer).length, wrong = sq.filter(q => q.pick != null && q.pick !== q.answer).length;
+        let bl = sq.filter(q => q.pick == null).length; if (blankMax) { bl = Math.min(bl, Math.max(0, blankMax - blanks)); } blanks += bl;
+        const m = right * s.marks + (s.blank ? bl * s.blank : 0) - (s.neg ? wrong * s.neg : 0);
+        return { name: s.name, right, n: sq.length, m, t: sq.length * s.marks };
+      });
       const M = per.reduce((a, p) => a + p.m, 0), T = per.reduce((a, p) => a + p.t, 0), right = per.reduce((a, p) => a + p.right, 0);
-      host.innerHTML = `<div class="t-mock res"><h3>${t('mock.result')}</h3><div class="mbig">${t('mock.marks', { m: M, t: T })}</div>
-        <table class="mtab"><thead><tr><th>${t('mock.section')}</th><th class="r">✓</th><th class="r">Marks</th></tr></thead><tbody>${per.map(p => `<tr><td>${esc(p.name)}</td><td class="r">${p.right}/${p.n}</td><td class="r">${p.m}/${p.t}</td></tr>`).join('')}</tbody></table>
-        <ol class="review">${qs.map((q, i) => `<li class="${q.pick === q.answer ? 'ok' : 'no'}"><span>${q.stem}</span><em>${q.pick == null ? '—' : q.html ? q.options[q.pick] : esc(q.options[q.pick])} → ${q.html ? q.options[q.answer] : esc(q.options[q.answer])}</em></li>`).join('')}</ol>
+      // Topics to practise: lessons behind the questions missed, most missed first.
+      const miss = {}; qs.forEach(q => { if (q.pick !== q.answer && q.skill) { miss[q.skill] = miss[q.skill] || { id: q.skill, topic: q.topic, n: 0 }; miss[q.skill].n++; } });
+      const weak = Object.values(miss).sort((a, b) => b.n - a.n).slice(0, 6);
+      const ext = sections.some(s => s.blank) ? `<p class="mrule">${t('mock.blankRule')}</p>` : '';
+      host.innerHTML = `<div class="t-mock res"><h3>${t('mock.result')}</h3><div class="mbig">${t('mock.marks', { m: M, t: T })}</div><p>${t('mock.right', { r: right, n: qs.length })}</p>${ext}
+        <table class="mtab"><thead><tr><th>${t('mock.section')}</th><th class="r">✓</th><th class="r">${t('mock.marksH')}</th></tr></thead><tbody>${per.map(p => `<tr><td>${esc(p.name)}</td><td class="r">${p.right}/${p.n}</td><td class="r">${p.m}/${p.t}</td></tr>`).join('')}</tbody></table>
+        ${weak.length ? `<div class="weak"><h4>${t('mock.weak')}</h4>${weak.map(w => `<div class="wk"><span>${esc(w.topic)} <small>${t('mock.missed', { n: w.n })}</small></span>${ctx.open ? `<button class="btn wgo" data-id="${esc(w.id)}">${t('mock.practise')}</button>` : ''}</div>`).join('')}</div>` : ''}
+        <h4>${t('mock.review')}</h4>
+        <ol class="review">${qs.map((q, i) => `<li class="${q.pick === q.answer ? 'ok' : 'no'}"><div class="rq">${q.stem}</div><em>${q.pick == null ? t('mock.blank') : `${t('mock.yours')} ${L[q.pick]}. ${show(q, q.options[q.pick])}`}${q.pick === q.answer ? ' ✓' : ` · ${t('mock.correct')} ${L[q.answer]}. ${show(q, q.options[q.answer])}`}</em>${q.solution && q.solution.length ? `<details><summary>${t('mock.working')}</summary><div class="rsol">${q.solution.map(x => `<div>${x}</div>`).join('')}</div></details>` : ''}</li>`).join('')}</ol>
         <button class="btn primary mdone">${t('ui.continue')}</button></div>`;
-      host.querySelector('.mdone').onclick = () => ctx.finish({ correct: right, total: qs.length, score: M });
+      const res = { correct: right, total: qs.length, score: M };
+      host.querySelector('.mdone').onclick = () => ctx.finish(res);
+      host.querySelectorAll('.wgo').forEach(b => b.onclick = () => ctx.open(b.dataset.id, res));
+      host.scrollIntoView && host.scrollIntoView({ block: 'start' });
     }
-    function tick() { const left = Math.max(0, end - Date.now()), mm = Math.floor(left / 60000), ss = Math.floor(left / 1000) % 60; const el = $('.mtime'); if (el) el.textContent = `${mm}:${String(ss).padStart(2, '0')}`; if (!left) finish(); }
+    function tick() { const left = Math.max(0, end - Date.now()), mm = Math.floor(left / 60000), ss = Math.floor(left / 1000) % 60; const el = $('.mtime'); if (el) { el.textContent = `${mm}:${String(ss).padStart(2, '0')}`; el.classList.toggle('low', left < 5 * 60000); } if (!left) finish(); }
     timer = setInterval(tick, 500); tick(); ctx.onCleanup(() => clearInterval(timer));
-    show(0);
+    show1(0);
     return {};
   }
 };
