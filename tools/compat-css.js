@@ -30,6 +30,6 @@ while ((r2 = re2.exec(css))) {
 }
 // Elements sized by their container: hand-made fallbacks.
 out.push('.noar .board{height:min(100vw - 32px,420px)}', '.noar .pond .lily{height:calc(min(56vw,360px) / 3)}', '.noar .hrow b{min-height:2.2em}',
-  '.noar .bslot{position:relative;height:0;padding-bottom:100%}', '.noar .bin-in .sitem{height:52px}', '.noar .bslot>svg{position:absolute;top:0;left:0}');
+  '.noar .bslot{position:relative;height:0;padding-bottom:100%}', '.noar .bin-in .sitem{height:52px}', '.noar .bslot>svg{position:absolute;top:0;left:0}', '.noar .bub{height:72px}');
 fs.writeFileSync(__dirname + '/../css/compat.css', out.join('\n') + '\n');
 console.log(`css/compat.css: ${out.length - 1} rules`);

@@ -8,6 +8,7 @@ import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
+import { tableExplainer } from './content/table_learn.js';
 import { signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
 import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
@@ -29,6 +30,8 @@ async function boot() {
   try {
     const [s, e] = await Promise.all([fetch('content/skills.json').then(r => r.json()), fetch('content/explainers.json').then(r => r.json())]);
     RAW = s.skills; content = { skills: [], explainers: e }; applyRegion();
+    // Times tables: a 'Learn' explainer for each table (built here, not stored).
+    RAW.forEach(k => { if (k.intro && k.intro.startsWith('tbl-')) { const n = k.params.n; content.explainers[k.intro] = Array.isArray(n) ? tableExplainer(24, 'Learn the tables of 21 to 30') : tableExplainer(n); } });
   } catch (err) { app.innerHTML = '<p class="err">Could not load lessons. Please reload the page.</p>'; return; }
   // Family account: finish an email link (confirm / reset password), then sync in the background.
   const auth = handleAuthRedirect();

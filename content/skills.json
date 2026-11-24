@@ -1562,18 +1562,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 2
    },
-   "items": 6,
-   "title": "Table of 2"
+   "items": 7,
+   "title": "Table of 2",
+   "intro": "tbl-2"
   },
   {
    "id": "t-5",
@@ -1586,18 +1588,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 5
    },
-   "items": 6,
-   "title": "Table of 5"
+   "items": 7,
+   "title": "Table of 5",
+   "intro": "tbl-5"
   },
   {
    "id": "t-10",
@@ -1610,18 +1614,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 10
    },
-   "items": 6,
-   "title": "Table of 10"
+   "items": 7,
+   "title": "Table of 10",
+   "intro": "tbl-10"
   },
   {
    "id": "t-3",
@@ -1634,18 +1640,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 3
    },
-   "items": 6,
-   "title": "Table of 3"
+   "items": 7,
+   "title": "Table of 3",
+   "intro": "tbl-3"
   },
   {
    "id": "t-4",
@@ -1658,18 +1666,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 4
    },
-   "items": 6,
-   "title": "Table of 4"
+   "items": 7,
+   "title": "Table of 4",
+   "intro": "tbl-4"
   },
   {
    "id": "t-6",
@@ -1681,18 +1691,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 6
    },
-   "items": 6,
-   "title": "Table of 6"
+   "items": 7,
+   "title": "Table of 6",
+   "intro": "tbl-6"
   },
   {
    "id": "t-7",
@@ -1704,18 +1716,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 7
    },
-   "items": 6,
-   "title": "Table of 7"
+   "items": 7,
+   "title": "Table of 7",
+   "intro": "tbl-7"
   },
   {
    "id": "t-8",
@@ -1727,18 +1741,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 8
    },
-   "items": 6,
-   "title": "Table of 8"
+   "items": 7,
+   "title": "Table of 8",
+   "intro": "tbl-8"
   },
   {
    "id": "t-9",
@@ -1750,18 +1766,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 9
    },
-   "items": 6,
-   "title": "Table of 9"
+   "items": 7,
+   "title": "Table of 9",
+   "intro": "tbl-9"
   },
   {
    "id": "t-11",
@@ -1773,18 +1791,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 11
    },
-   "items": 6,
-   "title": "Table of 11"
+   "items": 7,
+   "title": "Table of 11",
+   "intro": "tbl-11"
   },
   {
    "id": "t-12",
@@ -1796,18 +1816,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 12
    },
-   "items": 6,
-   "title": "Table of 12"
+   "items": 7,
+   "title": "Table of 12",
+   "intro": "tbl-12"
   },
   {
    "id": "t-13",
@@ -1819,18 +1841,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 13
    },
-   "items": 6,
-   "title": "Table of 13"
+   "items": 7,
+   "title": "Table of 13",
+   "intro": "tbl-13"
   },
   {
    "id": "t-14",
@@ -1842,18 +1866,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 14
    },
-   "items": 6,
-   "title": "Table of 14"
+   "items": 7,
+   "title": "Table of 14",
+   "intro": "tbl-14"
   },
   {
    "id": "t-15",
@@ -1865,18 +1891,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 15
    },
-   "items": 6,
-   "title": "Table of 15"
+   "items": 7,
+   "title": "Table of 15",
+   "intro": "tbl-15"
   },
   {
    "id": "t-16",
@@ -1888,18 +1916,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 16
    },
-   "items": 6,
-   "title": "Table of 16"
+   "items": 7,
+   "title": "Table of 16",
+   "intro": "tbl-16"
   },
   {
    "id": "t-17",
@@ -1911,18 +1941,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 17
    },
-   "items": 6,
-   "title": "Table of 17"
+   "items": 7,
+   "title": "Table of 17",
+   "intro": "tbl-17"
   },
   {
    "id": "t-18",
@@ -1934,18 +1966,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 18
    },
-   "items": 6,
-   "title": "Table of 18"
+   "items": 7,
+   "title": "Table of 18",
+   "intro": "tbl-18"
   },
   {
    "id": "t-19",
@@ -1957,18 +1991,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 19
    },
-   "items": 6,
-   "title": "Table of 19"
+   "items": 7,
+   "title": "Table of 19",
+   "intro": "tbl-19"
   },
   {
    "id": "t-20",
@@ -1980,18 +2016,20 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": 20
    },
-   "items": 6,
-   "title": "Table of 20"
+   "items": 7,
+   "title": "Table of 20",
+   "intro": "tbl-20"
   },
   {
    "id": "t-21-30",
@@ -2005,12 +2043,13 @@
    "strand": "Times tables",
    "icon": "times",
    "seq": [
-    "tableChart",
-    "tableFact",
+    "tableHop",
+    "tableFactPic",
+    "tablePop",
     "tableMissing",
-    "tableFact",
+    "tableMatch",
     "tableDivide",
-    "tableFact"
+    "tableChart"
    ],
    "params": {
     "n": [
@@ -2018,11 +2057,12 @@
      30
     ]
    },
-   "items": 6,
+   "items": 7,
    "title": "Tables 21 to 30",
    "prereq": [
     "t-20"
-   ]
+   ],
+   "intro": "tbl-21-30"
   },
   {
    "id": "t-sq",

@@ -19,13 +19,13 @@ const PRAISE = {
 const COMEBACK = ['You worked it out!', 'Fixed it, well done!', 'Got there!', 'That is the way: keep trying!'];
 const plainText = s => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
 
-export async function playSkill(skill, content, { mount, onExit, mode: forced }) {
+export async function playSkill(skill, content, { mount, onExit, mode: forced, learn = false }) {
   const p = profile(), mode = forced || effectiveMode(p), started = Date.now();
   const root = h(`<section class="player">
     <header class="ptop"><button class="icon pclose" aria-label="${t('ui.close')}">${ICON.close}</button>
       <div class="pbar" role="progressbar" aria-label="Progress"><i></i></div>
       ${mode === 'little' ? `<div class="pipmini">${PIP()}</div>` : ''}
-      <button class="icon pspeak" aria-label="${t('ui.listen')}">${ICON.speak}</button></header>
+      ${skill.intro && content.explainers[skill.intro] ? `<button class="btn plearn" aria-label="${t('ui.learn')}">📖<span>${t('ui.learn')}</span></button>` : ''}<button class="icon pspeak" aria-label="${t('ui.listen')}">${ICON.speak}</button></header>
     <div class="ptitle">${esc(tr(skill.title))}</div>
     <main class="stage"><div class="prompt"></div><div class="host"></div><div class="solution"></div></main>
     <footer class="pfoot"><div class="fb" aria-live="polite"></div><button class="btn hintb">${ICON.bulb}<span>${t('ui.hint')}</span></button></footer></section>`);
@@ -35,6 +35,8 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   const runCleanups = () => { cleanups.forEach(f => { try { f(); } catch (e) {} }); cleanups = []; };
   const exit = () => { if (exited) return; exited = true; runCleanups(); hush(); onExit(); };
   $('.pclose').onclick = exit;
+  // Watch the lesson again: restart with the explainer.
+  if ($('.plearn')) $('.plearn').onclick = () => { if (exited) return; exited = true; runCleanups(); hush(); playSkill(skill, content, { mount, onExit, mode: forced, learn: true }); };
   const pip = $('.pipmini svg');
   const setPip = (c, ms) => { if (!pip) return; pip.classList.remove('cheer', 'think'); pip.classList.add(c); setTimeout(() => pip.classList.remove(c), ms); };
   const feedback = (msg, kind, detail) => { const f = $('.fb'); f.className = 'fb ' + kind; f.innerHTML = msg ? `<span><b>${esc(msg)}</b>${detail ? `<small>${esc(detail)}</small>` : ''}</span>` : ''; if (msg) squash(f); };
@@ -47,7 +49,7 @@ export async function playSkill(skill, content, { mount, onExit, mode: forced })
   const progress = r => { $('.pbar i').style.width = (r * 100) + '%'; };
 
   // Intro explainer on first visit.
-  if (skill.intro && content.explainers[skill.intro] && !p.progress[skill.id]) {
+  if (skill.intro && content.explainers[skill.intro] && (learn || !p.progress[skill.id])) {
     root.classList.add('explaining');
     await explainer(host, content.explainers[skill.intro]);
     root.classList.remove('explaining');

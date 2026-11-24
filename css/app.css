@@ -630,3 +630,26 @@ details.lvl > summary .lvn { flex: 1; } details.lvl > summary .you { font-size: 
 details.lvl > summary .chev { width: 12px; height: 12px; border-right: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(45deg); margin: -4px 6px 0 4px; transition: transform .2s; }
 details.lvl[open] > summary .chev { transform: rotate(225deg); margin-top: 6px; }
 details.lvl[open] > .skills { padding: 12px 4px 4px; }
+
+/* Times tables: learn frames and games */
+.tl-dots { width: 100%; height: auto; display: block; margin: 6px auto; } .tl-two { display: flex; align-items: center; gap: 14px; justify-content: center; } .tl-two svg { height: 150px; width: auto; max-width: 45%; margin: 0; } .tl-two span { font-size: 30px; font-weight: 800; }
+.tl-bars { display: flex; flex-direction: column; gap: 6px; margin: 8px auto; max-width: 340px; } .tl-bar { background: var(--acc); color: #fff; border-radius: 8px; padding: 6px; text-align: center; }
+.tl-line { width: 100%; height: auto; color: var(--ink); } .tl-hop, .tl-num { opacity: 0; animation: tlIn .35s ease forwards; } .tl-hop { stroke-dasharray: 200; stroke-dashoffset: 200; animation-name: tlDraw; }
+@keyframes tlIn { to { opacity: 1; } } @keyframes tlDraw { to { opacity: 1; stroke-dashoffset: 0; } }
+.tl-trick { font-size: 1.15em; background: var(--surface); border-radius: 14px; padding: 14px; }
+.tl-family { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 380px; margin: 8px auto; } .tl-family div { background: var(--surface); border-radius: 12px; padding: 10px; text-align: center; font-size: 1.15em; }
+.efig .arr { width: 100%; height: auto; }
+.t-hop { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; } .hopline { width: 100%; max-width: 760px; height: auto; color: var(--ink); background: var(--surface); border-radius: 16px; }
+.hopline .frog { transition: transform .38s cubic-bezier(.3,1.4,.5,1); } .hopline .frog.jump svg { animation: frogJump .38s ease; } @keyframes frogJump { 40% { transform: translateY(-34px); } }
+.hopline .hl { opacity: .45; } .hopline .hl.on { opacity: 1; } .hopline .tl-hop { opacity: 1; stroke-dashoffset: 0; animation: tlDraw .35s ease; }
+.hopopts { display: flex; gap: 12px; justify-content: center; } .hopt { min-width: 92px; min-height: 64px; font-size: 26px; }
+.t-pop { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: 100%; max-width: 640px; margin: 0 auto; padding: 10px 0 30px; }
+.bub { aspect-ratio: 1; width: 100%; height: auto; border-radius: 50%; border: 3px solid #ffffffcc; background: radial-gradient(circle at 32% 28%, #ffffffee 0 12%, #8fd3fe 13%, #4dabf7 70%); color: #0b3b66; font-size: clamp(18px, 4.6vw, 30px); font-weight: 900; box-shadow: 0 6px 14px #0002; animation: bob 2.6s ease-in-out var(--d) infinite; margin-top: var(--h); cursor: pointer; }
+.bub.gone { animation: popOut .3s ease forwards; pointer-events: none; } @keyframes popOut { 60% { transform: scale(1.3); opacity: .7; } to { transform: scale(0); opacity: 0; } } @keyframes bob { 50% { transform: translateY(-8px); } }
+.popleft { grid-column: 1 / -1; text-align: center; font-weight: 800; margin: 4px 0 0; }
+.t-match { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%; max-width: 620px; margin: 0 auto; }
+.mcard { min-height: 84px; border-radius: 16px; border: 0; font-size: clamp(18px, 4vw, 28px); font-weight: 900; background: linear-gradient(135deg, #9775fa, #5c7cfa); color: transparent; box-shadow: 0 5px 0 #0002; transition: transform .25s, background .25s; cursor: pointer; }
+.mcard.up { background: var(--surface); color: var(--ink); transform: rotateY(0); } .mcard:not(.up) span { visibility: hidden; } .mcard.done { background: #2f9e4422; color: var(--ok); box-shadow: none; }
+@media(max-width:480px){ .t-pop { grid-template-columns: repeat(3, 1fr); } .t-match { grid-template-columns: repeat(2, 1fr); } }
+.plearn { min-height: 40px; padding: 0 12px; gap: 6px; font-size: 15px; margin-left: auto; } .plearn + .pspeak { margin-left: 8px; }
+@media(max-width:480px){ .plearn span { display: none; } }

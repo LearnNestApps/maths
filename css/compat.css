@@ -145,6 +145,12 @@
 .nogap .ptiles>*{margin:calc(10px / 2)}
 .nogap .prog .ptab td:first-child>*{margin:calc(10px / 2)}
 .nogap .fb > span>*{margin:calc(2px / 2)}
+.nogap .tl-two>*{margin:calc(14px / 2)}
+.nogap .tl-bars>*{margin:calc(6px / 2)}
+.nogap .t-hop>*{margin:calc(14px / 2)}
+.nogap .hopopts>*{margin:calc(12px / 2)}
+.noclamp .bub{font-size: 30px}
+.noclamp .mcard{font-size: 28px}
 .noar .obj{height:calc(clamp(56px,10vw,86px) * 1 / 1)}
 .noar.noclamp .obj{height:calc(86px * 1 / 1)}
 .noar .sil{height:calc(clamp(130px,30vmin,230px) * 1 / 1)}
@@ -165,3 +171,4 @@
 .noar .bslot{position:relative;height:0;padding-bottom:100%}
 .noar .bin-in .sitem{height:52px}
 .noar .bslot>svg{position:absolute;top:0;left:0}
+.noar .bub{height:72px}
