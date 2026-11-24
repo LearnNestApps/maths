@@ -1,5 +1,5 @@
 {
- "version": "0.6-explorers",
+ "version": "0.7-explorers-complete",
  "skills": [
   {
    "id": "ll-count5",
@@ -3804,6 +3804,447 @@
    "items": 4,
    "title": "Magic squares",
    "tag": "Puzzles"
+  },
+  {
+   "id": "m-ordinal",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "ordinal",
+   "items": 6,
+   "title": "Ordinal numbers (1st, 2nd, 3rd)"
+  },
+  {
+   "id": "m-sqrt",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Number",
+   "icon": "numeral",
+   "gen": "squareRoot",
+   "items": 6,
+   "title": "Square roots"
+  },
+  {
+   "id": "m-recur",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Decimals",
+   "icon": "fraction",
+   "gen": "recurring",
+   "items": 6,
+   "title": "Recurring decimals"
+  },
+  {
+   "id": "m-fracmul",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracMul",
+   "items": 6,
+   "title": "Multiplying fractions"
+  },
+  {
+   "id": "m-fracdiv",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Fractions",
+   "icon": "fraction",
+   "gen": "fracDiv",
+   "items": 6,
+   "title": "Dividing fractions"
+  },
+  {
+   "id": "m-expand",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "expand",
+   "items": 6,
+   "title": "Expanding brackets"
+  },
+  {
+   "id": "m-factor",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Algebra",
+   "icon": "expr",
+   "gen": "factorise",
+   "items": 6,
+   "title": "Factorising"
+  },
+  {
+   "id": "m-ineq",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Algebra",
+   "icon": "eq",
+   "gen": "inequality",
+   "items": 6,
+   "title": "Inequalities"
+  },
+  {
+   "id": "m-prop",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Ratio",
+   "icon": "balance",
+   "gen": "proportion",
+   "items": 6,
+   "title": "Direct proportion"
+  },
+  {
+   "id": "m-scale",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Ratio",
+   "icon": "ruler",
+   "gen": "scaleMap",
+   "items": 6,
+   "title": "Scale drawings and maps"
+  },
+  {
+   "id": "m-bestbuy",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Ratio",
+   "icon": "coin",
+   "gen": "bestBuy",
+   "items": 6,
+   "title": "Best buys"
+  },
+  {
+   "id": "m-tritype",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "triangleType",
+   "items": 6,
+   "title": "Types of triangles"
+  },
+  {
+   "id": "m-quad",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "quadType",
+   "items": 6,
+   "title": "Quadrilaterals"
+  },
+  {
+   "id": "m-parperp",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Geometry",
+   "icon": "cross",
+   "gen": "parPerp",
+   "items": 6,
+   "title": "Parallel and perpendicular lines"
+  },
+  {
+   "id": "m-nets",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "solid",
+   "gen": "nets",
+   "items": 6,
+   "title": "Nets of 3D shapes"
+  },
+  {
+   "id": "m-trans",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Geometry",
+   "icon": "mirror",
+   "gen": "transform",
+   "items": 6,
+   "title": "Reflect, rotate, translate"
+  },
+  {
+   "id": "m-congr",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Geometry",
+   "icon": "shapes",
+   "gen": "congruent",
+   "items": 6,
+   "title": "Congruent and similar shapes"
+  },
+  {
+   "id": "m-tess",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G5",
+   "strand": "Geometry",
+   "icon": "grid",
+   "gen": "tessellate",
+   "items": 6,
+   "title": "Tessellations"
+  },
+  {
+   "id": "m-constr",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Geometry",
+   "icon": "ruler",
+   "gen": "construct",
+   "items": 6,
+   "title": "Constructions"
+  },
+  {
+   "id": "m-weight",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Measurement",
+   "icon": "size",
+   "gen": "weightCap",
+   "items": 6,
+   "title": "Weight and capacity"
+  },
+  {
+   "id": "m-temp",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Measurement",
+   "icon": "numline",
+   "gen": "temperature",
+   "items": 6,
+   "title": "Temperature"
+  },
+  {
+   "id": "m-ttable",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Measurement",
+   "icon": "clock",
+   "gen": "timetable",
+   "items": 6,
+   "title": "Timetables"
+  },
+  {
+   "id": "m-cyl",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Measurement",
+   "icon": "solid",
+   "gen": "cylinder",
+   "items": 6,
+   "title": "Volume of a cylinder"
+  },
+  {
+   "id": "m-tally",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G3",
+   "strand": "Data",
+   "icon": "sort",
+   "gen": "tally",
+   "items": 6,
+   "title": "Tally charts"
+  },
+  {
+   "id": "m-line",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "lineGraph",
+   "items": 6,
+   "title": "Line graphs"
+  },
+  {
+   "id": "m-carroll",
+   "track": "school",
+   "modes": [
+    "explore"
+   ],
+   "level": "G4",
+   "strand": "Data",
+   "icon": "venn",
+   "gen": "carroll",
+   "items": 6,
+   "title": "Carroll diagrams"
+  },
+  {
+   "id": "m-freq",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Data",
+   "icon": "bar",
+   "gen": "freqTable",
+   "items": 6,
+   "title": "Frequency tables"
+  },
+  {
+   "id": "m-scatter",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Data",
+   "icon": "graph",
+   "gen": "scatter",
+   "items": 6,
+   "title": "Scatter graphs and correlation"
+  },
+  {
+   "id": "m-sample",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Probability",
+   "icon": "dots",
+   "gen": "sampleSpace",
+   "items": 6,
+   "title": "Sample spaces"
+  },
+  {
+   "id": "m-exper",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Probability",
+   "icon": "dots",
+   "gen": "experimental",
+   "items": 6,
+   "title": "Experimental probability"
+  },
+  {
+   "id": "m-disc",
+   "track": "school",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Money",
+   "icon": "coin",
+   "gen": "discount",
+   "items": 6,
+   "title": "Discounts and tax"
   }
  ]
 }

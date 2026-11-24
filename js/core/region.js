@@ -25,15 +25,19 @@ export const R = () => REGIONS[regionId()];
 export const hasRegion = () => !!settings().region;
 export function setRegion(id) { settings().region = id; save(); }
 export const isIndia = () => regionId() === 'india';
+// Tax on shopping, by country (for the discounts-and-tax lesson). Rates are typical, for practice only.
+const TAX = { india: { name: 'GST', rate: 18 }, us: { name: 'sales tax', rate: 8 }, canada: { name: 'HST', rate: 13 }, uk: { name: 'VAT', rate: 20 } };
+export const tax = () => TAX[regionId()] || TAX.india;
 
 // Numbers: Indian grouping (12,34,567) or international (1,234,567).
 export function fmt(n) {
-  if (R().group !== 'indian') return Number(n).toLocaleString('en-US');
-  const s = String(Math.abs(n)), sign = n < 0 ? '-' : ''; if (s.length <= 3) return sign + s;
-  return sign + s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + s.slice(-3);
+  if (R().group !== 'indian') return Number(n).toLocaleString('en-US', { maximumFractionDigits: 6 });
+  const [ip, dp] = String(Math.abs(n)).split('.'), sign = n < 0 ? '-' : '';
+  const g = ip.length <= 3 ? ip : ip.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + ip.slice(-3);
+  return sign + g + (dp ? '.' + dp : '');
 }
-// Money: whole major units ("₹40", "$40", "£40").
-export const money = n => `${R().sym}${fmt(n)}`;
+// Money: whole amounts as they are; amounts with pennies/cents always with 2 decimals ($23.60).
+export const money = n => { const v = Math.round(n * 100) / 100; return `${v < 0 ? '−' : ''}${R().sym}${Number.isInteger(v) ? fmt(Math.abs(v)) : fmt(Math.floor(Math.abs(v))) + '.' + String(Math.round(Math.abs(v) * 100) % 100).padStart(2, '0')}`; };
 // A coin or note value in the smallest unit → its printed label ("25¢", "50p", "$2", "₹10").
 export function coinLabel(v) { const r = R(); return r.minor && v < 100 ? `${v}${r.minor}` : `${r.sym}${v / 100}`; }
 // A total in the smallest unit → how to say it in an answer.
