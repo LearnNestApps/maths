@@ -601,3 +601,13 @@ sup{font-size:.6em}
 .famgrid .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; min-width: 120px; }
 .famgrid .kpi b { display: block; font-size: 1.6em; } .famgrid .kpi span { color: var(--muted); font-size: .9em; }
 .famline { flex-basis: 100%; margin: 4px 0; } .famtop { flex-basis: 100%; } .famtop ol { margin: 4px 0; padding-left: 1.4em; columns: 2; } .famtop small { color: var(--muted); }
+
+/* Progress panel (header button) */
+.ptiles { display: flex; gap: 10px; flex-wrap: wrap; margin: 6px 0 12px; }
+.ptiles .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; min-width: 110px; }
+.ptiles .kpi b { display: block; font-size: 1.6em; } .ptiles .kpi span { color: var(--muted); font-size: .9em; }
+.prog .ptab td:first-child { display: flex; align-items: center; gap: 10px; } .prog .ptab td:first-child svg { width: 32px; height: 32px; flex: none; }
+.pbar { display: inline-block; width: 60px; height: 8px; border-radius: 4px; background: var(--line); margin-right: 8px; vertical-align: middle; overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--ok); border-radius: 4px; }
+@media(max-width:480px){ .htop .progbtn span { display: none; } .pbar { width: 36px; } }
+@media(max-width:480px){ .htop { flex-wrap: nowrap; gap: 6px; } .htop .who { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .htop .grownbtn { flex: none; } }

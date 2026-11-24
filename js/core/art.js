@@ -8,6 +8,7 @@ export const ICON = {
   home: sv(`<path d="M4 11.5 12 4l8 7.5M6.5 9.5V20h11V9.5" ${st}/><path d="M10 20v-5h4v5" ${st}/>`),
   close: sv(`<path d="M6 6l12 12M18 6 6 18" ${st}/>`),
   speak: sv(`<path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" ${st}/>`),
+  chart: sv(`<path d="M4 20V11M10 20V5M16 20v-6M2.5 20.5h19" ${st}/>`),
   gear: sv(`<circle cx="12" cy="12" r="3.4" ${st}/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" ${st}/>`),
   play: sv('<path d="M8 5.5v13a1 1 0 0 0 1.5.9l10-6.5a1 1 0 0 0 0-1.7l-10-6.5A1 1 0 0 0 8 5.5z" fill="currentColor"/>'),
   back: sv(`<path d="M15 5l-7 7 7 7" ${st}/>`),

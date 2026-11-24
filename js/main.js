@@ -184,7 +184,7 @@ function home() {
     : `<span class="pill">${ICON.star}<b>${list.filter(s => status(p.progress[s.id]) === 'mastered').length}/${list.length}</b></span>`;
   const el = h(`<section class="home">
     <header class="htop"><button class="who" aria-label="${t('ui.switch')}"><span class="av" style="--c:${p.color}">${esc(p.name[0] || '?').toUpperCase()}</span><span class="nm">${esc(p.name)}</span></button>
-      <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="btn grownbtn gear" aria-label="${t('ui.grownups')}">${ICON.gear}<span>${t('ui.grownups')}</span></button></header>
+      <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="btn grownbtn progbtn" aria-label="${t('g.progress')}">${ICON.chart}<span>${t('g.progress')}</span></button><button class="btn grownbtn gear" aria-label="${t('ui.grownups')}">${ICON.gear}<span>${t('ui.grownups')}</span></button></header>
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
     <nav class="tabs" role="tablist">${tracks.map(tk => `<button role="tab" class="tab${tk === tab ? ' on' : ''}" aria-selected="${tk === tab}" data-t="${tk}">${t('track.' + tk)}</button>`).join('')}</nav>
@@ -198,6 +198,7 @@ function home() {
   $$('[data-id]', el).forEach(b => b.onclick = () => open(b.dataset.id));
   if ($('.pill.book', el)) $('.pill.book', el).onclick = () => { sfx.pop(); stickerBook(); };
   $('.who', el).onclick = () => { sfx.tap(); learnerSheet(); };
+  $('.progbtn', el).onclick = () => { sfx.tap(); progressSheet(); };
   const gear = $('.gear', el);
   gear.onclick = () => gate(grownups);
 }
@@ -264,6 +265,25 @@ function editProfile() {
 }
 
 // ---------- Grown-ups area ----------
+// ---------- Progress: the current learner's own progress (no grown-ups sum needed) ----------
+function progressSheet() {
+  const p = profile(), list = skillsFor(p);
+  const by = { mastered: [], review: [], learning: [], new: [] };   // review = mastered, due for a refresher
+  list.forEach(s => { const st = status(p.progress[s.id]); (by[st] || by.new).push(s); });
+  const done = [...by.review, ...by.learning, ...by.mastered];
+  const rows = done.sort((a, b) => pct(p.progress[b.id]) - pct(p.progress[a.id])).map(s => { const r = p.progress[s.id], st = status(r);
+    return `<tr><td>${SKILL_ICON[s.icon] || ''}<span>${esc(tr(s.title))}<small>${t('track.' + s.track)} · ${esc(lvShort(s.level))}</small></span></td><td><span class="chip s-${st}">${t('status.' + st)}</span></td><td class="r"><span class="pbar"><i style="width:${pct(r)}%"></i></span>${pct(r)}%</td></tr>`; }).join('');
+  const el = h(`<div class="sheet on prog"><div class="sheetin wide" role="dialog" aria-modal="true" aria-labelledby="prh">
+    <div class="ghead"><h3 id="prh">${t('prog.title', { name: esc(p.name) })}</h3><button class="icon gclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <div class="ptiles"><div class="kpi"><b>${by.mastered.length + by.review.length}</b><span>${t('status.mastered')}</span></div><div class="kpi"><b>${by.learning.length}</b><span>${t('status.learning')}</span></div><div class="kpi"><b>${by.new.length}</b><span>${t('prog.notyet')}</span></div></div>
+    ${rows ? `<div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('g.status')}</th><th class="r">${t('prog.score')}</th></tr></thead><tbody>${rows}</tbody></table></div>`
+      : `<p class="note">${t('prog.empty')}</p>`}
+  </div></div>`);
+  document.body.append(el);
+  const close = () => el.remove();
+  $('.gclose', el).onclick = close; el.onclick = e => { if (e.target === el) close(); };
+}
+
 function grownups() {
   const p = profile(), S = settings(), list = skillsFor(p);
   const sel = (id, opts, cur) => `<select id="${id}">${opts.map(([v, n]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
@@ -281,9 +301,7 @@ function grownups() {
       <label class="tg"><span>${t('ui.sound')}</span><button class="tog" id="gsound" aria-pressed="${S.sound}"></button></label>
       <label class="tg"><span>${t('ui.voice')}</span><button class="tog" id="gvoice" aria-pressed="${S.voice}"></button></label>
     </div>
-    <h4>${t('g.progress')}</h4>
-    <div class="scroll"><table class="ptab"><thead><tr><th>${t('g.skill')}</th><th>${t('g.status')}</th><th class="r">%</th></tr></thead>
-      <tbody>${list.map(s => { const r = p.progress[s.id]; return `<tr><td>${esc(tr(s.title))}<small>${t('track.' + s.track)} · ${esc(lvShort(s.level))}</small></td><td><span class="chip s-${status(r)}">${t('status.' + status(r))}</span></td><td class="r">${pct(r)}</td></tr>`; }).join('')}</tbody></table></div>
+
     <p class="gnote">${t('g.note')}</p>
     <div class="row"><button class="btn glogout">${t('ui.logout')}</button><button class="btn ghost greset">${t('ui.reset')}</button><button class="btn ghost gdel">${t('ui.delete')}</button></div></div></div>`);
   document.body.append(el);
