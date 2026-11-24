@@ -8,6 +8,7 @@ export const SUPABASE_URL = 'https://kafkrkcuogvurfhigksk.supabase.co';
 const BASE = (() => { try { return (location.hostname === 'localhost' && localStorage.getItem('pipmaths.sburl')) || SUPABASE_URL; } catch (e) { return SUPABASE_URL; } })();
 const KEY = 'sb_publishable_OYg8qCsdnHd0Dx_3JXcpBw_ZqBApST6';   // public key: safe in the app; the database rules do the protecting
 const SKEY = 'pipmaths.session', PKEY = 'pipmaths.synced';
+const SCHEMA = 'Math_schema';   // the database schema that holds the Pip Maths tables
 const APP_URL = () => location.origin + location.pathname.replace(/[^/]*$/, '');
 
 let session = read(SKEY), synced = read(PKEY) || {}, status = { state: session ? 'idle' : 'off', at: null, error: null }, adminCache = null;
@@ -25,6 +26,8 @@ class CloudError extends Error { constructor(msg, code) { super(msg); this.code 
 async function call(path, { method = 'GET', body, auth = true, headers = {}, retry = true } = {}) {
   if (auth && session) await fresh();
   const h = { apikey: KEY, 'Content-Type': 'application/json', ...headers };
+  // Tables and functions are in our own schema, not "public": tell the API which one.
+  if (path.startsWith('/rest/')) { h['Accept-Profile'] = SCHEMA; h['Content-Profile'] = SCHEMA; }
   if (auth && session) h.Authorization = 'Bearer ' + session.access_token;
   let r;
   try { r = await fetch(BASE + path, { method, headers: h, body: body === undefined ? undefined : JSON.stringify(body) }); }
