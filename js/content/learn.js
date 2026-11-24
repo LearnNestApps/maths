@@ -16,10 +16,12 @@ const barRow = (n, k, color) => `<div class="lrow">${bar(n, k, color)}<b class="
 
 import { G3_5 } from './learn_g3_5.js';
 import { G6_8 } from './learn_g6_8.js';
+import { G9_12 } from './learn_g9_12.js';
 
 export const LEARN = {
   ...G3_5,
   ...G6_8,
+  ...G9_12,
   'e-fequiv': () => ({
     title: 'Equivalent fractions',
     frames: [
