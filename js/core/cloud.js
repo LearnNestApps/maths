@@ -161,8 +161,11 @@ if (typeof document !== 'undefined') {
 export async function isAdmin() {
   if (!session) return false;
   if (adminCache === true) return true;   // only a 'yes' is remembered: a 'no' is asked again (the owner may have just been added)
-  try { adminCache = !!(await call('/rest/v1/rpc/is_admin', { method: 'POST', body: {} })) || null; } catch (e) { return false; }
+  try { adminCache = !!(await call('/rest/v1/rpc/is_admin', { method: 'POST', body: {} })) || null; lastAdminError = null; } catch (e) { lastAdminError = e.message; return false; }
   return adminCache === true;
 }
 export const isAdminCached = () => adminCache === true;
+// Why the owner check failed (a server message), or null if the server simply said 'not an admin'.
+let lastAdminError = null;
+export const adminError = () => lastAdminError;
 export const adminOverview = () => call('/rest/v1/rpc/admin_overview', { method: 'POST', body: {} });

@@ -9,7 +9,7 @@ import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
 import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
 import { tableExplainer } from './content/table_learn.js';
-import { signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
+import { adminError, signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
 import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
 const app = $('#app');
@@ -51,7 +51,7 @@ async function ownerGate(next) {
   if (signedIn() && await isAdmin()) return next();
   const out = !signedIn();
   const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="ownh"><div class="ghead"><h3 id="ownh">${t('own.title')}</h3><button class="icon ownno" aria-label="${t('ui.close')}">${ICON.close}</button></div>
-    <p>${t(out ? 'own.signin' : 'own.notadmin')}</p>
+    <p>${t(out ? 'own.signin' : 'own.notadmin')}</p>${!out ? `<p class="note">${t('own.as', { email: esc(userEmail() || '') })}${adminError() ? `<br>${t('own.err')} <code>${esc(adminError())}</code>` : ''}</p>` : ''}
     <div class="row" style="justify-content:flex-start">${out ? `<button class="btn primary ownin">${t('acc.signin')}</button>` : ''}<button class="btn ownok">${t('ui.ok')}</button></div></div></div>`);
   document.body.append(el);
   const close = () => { el.remove(); if (location.hash === '#admin') history.replaceState(null, '', location.pathname); };
