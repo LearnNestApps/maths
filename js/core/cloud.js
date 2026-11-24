@@ -48,6 +48,7 @@ function niceError(d, code) {
 }
 
 // ---------- Sessions ----------
+let epoch = 0;   // goes up at every sign-out, so late answers from before it are ignored
 function saveSession(d) {
   if (!d || !d.access_token) return;
   session = { access_token: d.access_token, refresh_token: d.refresh_token, expires_at: d.expires_at || Math.floor(Date.now() / 1000) + (d.expires_in || 3600), user: d.user || (session && session.user) };
@@ -59,13 +60,14 @@ let refreshing = null;
 function refresh(force) {
   if (!session) return Promise.resolve();
   if (!refreshing) refreshing = (async () => {
-    try { saveSession(await call('/auth/v1/token?grant_type=refresh_token', { method: 'POST', auth: false, body: { refresh_token: session.refresh_token } })); }
-    catch (e) { if (e.code !== 'offline') { endSession(); setStatus({ state: 'off', error: 'Signed out: please sign in again.' }); } throw e; }
+    const e0 = epoch;
+    try { const d = await call('/auth/v1/token?grant_type=refresh_token', { method: 'POST', auth: false, body: { refresh_token: session.refresh_token } }); if (e0 === epoch && session) saveSession(d); }
+    catch (e) { if (e.code !== 'offline' && e0 === epoch) { endSession(); setStatus({ state: 'off', error: 'Signed out: please sign in again.' }); } throw e; }
     finally { setTimeout(() => { refreshing = null; }, 0); }
   })();
   return force ? refreshing : refreshing.catch(() => {});
 }
-function endSession() { session = null; keep(SKEY, null); synced = {}; keep(PKEY, null); adminCache = null; }
+function endSession() { epoch++; session = null; keep(SKEY, null); synced = {}; keep(PKEY, null); adminCache = null; }
 
 export async function signUp(email, password) {
   const d = await call('/auth/v1/signup?redirect_to=' + encodeURIComponent(APP_URL()), { method: 'POST', auth: false, body: { email: email.trim(), password } });
@@ -78,7 +80,8 @@ export async function signIn(email, password) {
 }
 export async function resetPassword(email) { await call('/auth/v1/recover?redirect_to=' + encodeURIComponent(APP_URL()), { method: 'POST', auth: false, body: { email: email.trim() } }); }
 export async function setPassword(password) { await call('/auth/v1/user', { method: 'PUT', body: { password } }); }
-export async function signOut() { try { await call('/auth/v1/logout', { method: 'POST' }); } catch (e) {} endSession(); setStatus({ state: 'off', error: null }); }
+// Sign out this device only (other devices of the family stay signed in).
+export async function signOut() { const s = session; endSession(); setStatus({ state: 'off', error: null }); if (s) { try { await fetch(BASE + '/auth/v1/logout?scope=local', { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + s.access_token } }); } catch (e) {} } }
 export async function deleteAccount() { await call('/rest/v1/rpc/delete_my_account', { method: 'POST', body: {} }); endSession(); setStatus({ state: 'off', error: null }); }
 
 // Links in Supabase emails come back to the app with the session in the address (#access_token=…&type=…).
@@ -141,6 +144,7 @@ export async function syncNow({ pull = true } = {}) {
       const st = settings();
       await call('/rest/v1/families?on_conflict=id', { method: 'POST', body: [{ id: uid, settings: { region: st.region, sound: st.sound, voice: st.voice } }], headers: { Prefer: 'resolution=merge-duplicates,return=minimal' } });
       pendingSettings = false;
+      if (!session) return false;   // signed out while this sync was running
       list.forEach(p => { synced[p.id] = body(p); }); gone.forEach(id => { delete synced[id]; }); keep(PKEY, synced);
       setStatus({ state: 'idle', at: Date.now(), error: null });
       return true;

@@ -65,8 +65,10 @@ function accountSheet(kind, after) {
   const el = h(`<div class="sheet on"><div class="sheetin" role="dialog" aria-modal="true" aria-labelledby="acch"><div class="ghead"><h3 id="acch">${t(titles[kind])}</h3><button class="icon accx" aria-label="${t('ui.close')}">${ICON.close}</button></div>
     <p class="accintro">${t('acc.intro.' + kind)}</p>
     <form class="form accform" novalidate>
-      ${kind !== 'newpw' ? `<label><span>${t('acc.email')}</span><input id="accemail" type="email" autocomplete="email" inputmode="email" autocapitalize="off" required></label>` : ''}
-      ${kind !== 'forgot' ? `<label><span>${t(kind === 'newpw' ? 'acc.newpw' : 'acc.password')}</span><input id="accpw" type="password" autocomplete="${kind === 'signin' ? 'current-password' : 'new-password'}" minlength="8" required></label>` : ''}
+      ${kind !== 'newpw' ? `<label><span>${t('acc.email')}</span><input id="accemail" name="email" type="email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required></label>`
+        // Password managers need to know whose password this is before they offer to create and save one.
+        : `<input type="email" name="email" autocomplete="username" value="${esc(userEmail() || '')}" readonly hidden>`}
+      ${kind !== 'forgot' ? `<label><span>${t(kind === 'newpw' ? 'acc.newpw' : 'acc.password')}</span><span class="pwrow"><input id="accpw" name="password" type="password" autocomplete="${kind === 'signin' ? 'current-password' : 'new-password'}" minlength="8" autocapitalize="off" spellcheck="false"${kind === 'signin' ? '' : ' passwordrules="minlength: 8; required: lower; required: upper; required: digit;"'} required><button type="button" class="btn ghost pwshow" aria-pressed="false">${t('acc.show')}</button></span></label>${kind === 'signin' ? '' : `<small class="pwtip">${t('acc.pwTip')}</small>`}` : ''}
       ${kind === 'signup' ? `<label class="acccons"><input id="acccons" type="checkbox"> <span>${t('acc.consent')}</span></label>` : ''}
       <p class="accmsg" role="alert"></p>
       <div class="row" style="justify-content:flex-start"><button class="btn primary accgo" type="submit">${t(titles[kind])}</button></div>
@@ -79,7 +81,8 @@ function accountSheet(kind, after) {
   const msg = $('.accmsg', el), go = $('.accgo', el), close = () => el.remove();
   $('.accx', el).onclick = close;
   $$('[data-k]', el).forEach(b => b.onclick = () => { close(); accountSheet(b.dataset.k, after); });
-  const first = $('input', el); if (first) setTimeout(() => first.focus(), 50);
+  const first = $('input:not([hidden])', el); if (first) setTimeout(() => first.focus(), 50);
+  const show = $('.pwshow', el); if (show) show.onclick = () => { const i = $('#accpw', el), on = i.type === 'password'; i.type = on ? 'text' : 'password'; show.textContent = t(on ? 'acc.hide' : 'acc.show'); show.setAttribute('aria-pressed', on); i.focus(); };
   $('.accform', el).onsubmit = async e => {
     e.preventDefault(); msg.textContent = ''; msg.className = 'accmsg';
     const email = $('#accemail', el) ? $('#accemail', el).value.trim() : '', pw = $('#accpw', el) ? $('#accpw', el).value : '';
@@ -169,7 +172,7 @@ function onboarding({ cancel } = {}) {
   $$('.sw').forEach(b => b.onclick = () => { draft.color = b.dataset.c; $$('.sw').forEach(x => x.classList.toggle('on', x === b)); });
   $$('.ab').forEach(b => b.onclick = () => { draft.age = +b.dataset.a; $$('.ab').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); sync(); });
   $$('.rg').forEach(b => b.onclick = () => { draft.region = b.dataset.r; $$('.rg').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); });
-  if ($('.obsignin', el)) $('.obsignin', el).onclick = () => accountSheet('signin', () => { if (!profiles().length) toast(t('acc.noLearnersYet')); afterSync(); });
+  if ($('.obsignin', el)) $('.obsignin', el).onclick = () => accountSheet('signin', () => { if (!profiles().length) toast(t('acc.noLearnersYet')); else if (profiles().length === 1 && !profile()) setActive(profiles()[0].id); afterSync(); });
   if (cancel) $('.obback').onclick = cancel;
   go.onclick = () => { if (!hasRegion()) { setRegion(draft.region); applyRegion(); } const p = addProfile({ ...draft, name: draft.name.trim() }); sfx.fanfare(); applyMode(); tab = null; home(); say(t('ob.hello', { name: p.name })); };
   $('#obname').focus();

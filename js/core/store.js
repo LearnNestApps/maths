@@ -17,7 +17,9 @@ export const onSave = fn => { listeners.push(fn); };
 function write() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 export function save() { write(); listeners.forEach(f => { try { f(); } catch (e) {} }); }
 // Replace the learner list after a sync (no change event, so it does not echo back).
-export function setProfiles(list) { S.profiles = list; if (!list.some(p => p.id === S.active)) S.active = list.length === 1 ? list[0].id : null; write(); }
+// If the current learner was removed on another device, switch to the only one left (or ask who is learning).
+// After "Log out" (no current learner) a sync never chooses one: the app stays on "Who is learning?".
+export function setProfiles(list) { S.profiles = list; if (S.active && !list.some(p => p.id === S.active)) S.active = list.length === 1 ? list[0].id : null; write(); }
 export const activeId = () => S.active;
 export const settings = () => S.settings;
 export const profiles = () => S.profiles;

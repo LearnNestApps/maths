@@ -683,3 +683,5 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .mflag .sm{display:none}
 @media (max-width:480px){.mflag .lg{display:none}.mflag .sm{display:inline}.mnav .btn{padding:0 10px}}
 .player.session .ptitle{display:none}
+.pwrow{display:flex;gap:8px;align-items:center}.pwrow input{flex:1;min-width:0}.pwrow .pwshow{flex:none;min-height:44px;padding:0 12px}
+.pwtip{display:block;color:var(--muted);font-size:13px;margin-top:-4px}
