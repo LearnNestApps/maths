@@ -12,10 +12,10 @@ export const steps = {
     const S = act.data.steps; let cur = 0, misses = 0, assisted = false;
     host.innerHTML = `<div class="t-steps"><ol class="sl">${S.map((s, i) => `<li class="st${i ? ' wait' : ' now'}"><span class="sh">${s.html}</span><b class="slot"></b></li>`).join('')}</ol><div class="io"></div></div>`;
     const lis = host.querySelectorAll('.st'), slot = () => lis[cur].querySelector('.slot');
-    const ni = numInput(host.querySelector('.io'), { onChange: v => { slot().textContent = v; }, onSubmit: v => check(Number(v)) });
+    const ni = numInput(host.querySelector('.io'), { neg: !!act.data.neg, dot: !!act.data.dot, onChange: v => { slot().textContent = v.replace('-', '−'); }, onSubmit: v => check(Number(v)) });
     ctx.onCleanup(() => ni.destroy());
     function advance(ok) {
-      lis[cur].classList.remove('now'); lis[cur].classList.add(ok ? 'done' : 'shown'); slot().textContent = S[cur].answer; cur++; misses = 0; ni.clear();
+      lis[cur].classList.remove('now'); lis[cur].classList.add(ok ? 'done' : 'shown'); slot().textContent = String(S[cur].answer).replace('-', '−'); cur++; misses = 0; ni.clear();
       if (cur >= S.length) { ctx.submit(act.answer, { assisted }); return; }
       lis[cur].classList.remove('wait'); lis[cur].classList.add('now'); popIn(lis[cur]);
     }
@@ -24,7 +24,7 @@ export const steps = {
       misses++; sfx.boing(); wiggle(lis[cur]); ni.clear(); slot().textContent = '';
       if (misses >= 2) { assisted = true; advance(false); }
     }
-    return { hint() { assisted = true; slot().textContent = S[cur].answer; lis[cur].classList.add('glow'); } };
+    return { hint() { assisted = true; slot().textContent = String(S[cur].answer).replace('-', '−'); lis[cur].classList.add('glow'); } };
   }
 };
 

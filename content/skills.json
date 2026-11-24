@@ -1,5 +1,5 @@
 {
- "version": "1.1-exam-centre",
+ "version": "1.2-vedic-complete",
  "skills": [
   {
    "id": "ll-count5",
@@ -3604,6 +3604,240 @@
     "tag": "Vedic maths",
     "strand": "Vedic maths",
     "title": "Checking with digit sums"
+   }
+  },
+  {
+   "id": "v-parav",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G8",
+   "strand": "Paravartya Yojayet",
+   "icon": "vedic",
+   "gen": "paravartya",
+   "items": 4,
+   "intro": "paravartya",
+   "title": "Transpose and apply: solving equations (Paravartya Yojayet)",
+   "tag": "Vedic sutra 4",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Transpose and apply: solving equations"
+   }
+  },
+  {
+   "id": "v-shunyam",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Shunyam Saamyasamuccaye",
+   "icon": "vedic",
+   "gen": "shunyam",
+   "items": 4,
+   "intro": "shunyam",
+   "title": "When the totals match, it is zero (Shunyam Saamyasamuccaye)",
+   "tag": "Vedic sutra 5",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "When the totals match, it is zero"
+   }
+  },
+  {
+   "id": "v-anurupye",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Anurupye Shunyamanyat",
+   "icon": "vedic",
+   "gen": "anurupye",
+   "items": 4,
+   "intro": "anurupye",
+   "title": "If one is in ratio, the other is zero (Anurupye Shunyamanyat)",
+   "tag": "Vedic sutra 6",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "If one is in ratio, the other is zero"
+   }
+  },
+  {
+   "id": "v-sankalana",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Sankalana-Vyavakalanabhyam",
+   "icon": "vedic",
+   "gen": "sankalana",
+   "items": 4,
+   "intro": "sankalana",
+   "title": "Add and subtract: swapped simultaneous equations (Sankalana)",
+   "tag": "Vedic sutra 7",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Add and subtract: swapped simultaneous equations"
+   }
+  },
+  {
+   "id": "v-purana",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Puranapuranabhyam",
+   "icon": "vedic",
+   "gen": "purana",
+   "items": 4,
+   "intro": "purana",
+   "title": "Completing the square (Puranapuranabhyam)",
+   "tag": "Vedic sutra 8",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Completing the square"
+   }
+  },
+  {
+   "id": "v-chalana",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Chalana-Kalanabhyam",
+   "icon": "vedic",
+   "gen": "chalana",
+   "items": 4,
+   "intro": "chalana",
+   "title": "Quadratics from the first differential (Chalana)",
+   "tag": "Vedic sutra 9",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Quadratics from the first differential"
+   }
+  },
+  {
+   "id": "v-vyashti",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G6",
+   "strand": "Vyashtisamanstih",
+   "icon": "vedic",
+   "gen": "vyashti",
+   "items": 4,
+   "intro": "vyashti",
+   "title": "Averages from a guessed middle (Vyashtisamanstih)",
+   "tag": "Vedic sutra 11",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Averages from a guessed middle"
+   }
+  },
+  {
+   "id": "v-shesh",
+   "track": "vedic",
+   "modes": [
+    "explore",
+    "achieve",
+    "adult"
+   ],
+   "level": "G7",
+   "strand": "Shesanyankena Charamena",
+   "icon": "vedic",
+   "gen": "shesanyankena",
+   "items": 3,
+   "intro": "shesanyankena",
+   "title": "Recurring decimals for sevenths (Shesanyankena Charamena)",
+   "tag": "Vedic sutra 12",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Recurring decimals for sevenths"
+   }
+  },
+  {
+   "id": "v-sopaantya",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G11",
+   "strand": "Sopaantyadvayamantyam",
+   "icon": "vedic",
+   "gen": "sopaantya",
+   "items": 4,
+   "intro": "sopaantya",
+   "title": "The last plus twice the second-last (Sopaantyadvayamantyam)",
+   "tag": "Vedic sutra 13",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "The last plus twice the second-last"
+   }
+  },
+  {
+   "id": "v-gunita",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G9",
+   "strand": "Gunitasamuchyah",
+   "icon": "vedic",
+   "gen": "gunita",
+   "items": 5,
+   "intro": "gunita",
+   "title": "Checking expansions with coefficient sums (Gunitasamuchyah)",
+   "tag": "Vedic sutra 15",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Checking expansions with coefficient sums"
+   }
+  },
+  {
+   "id": "v-gunaka",
+   "track": "vedic",
+   "modes": [
+    "achieve",
+    "adult"
+   ],
+   "level": "G10",
+   "strand": "Gunakasamuchyah",
+   "icon": "vedic",
+   "gen": "gunaka",
+   "items": 5,
+   "intro": "gunaka",
+   "title": "Factorising and checking with the differential (Gunakasamuchyah)",
+   "tag": "Vedic sutra 16",
+   "intl": {
+    "tag": "Vedic maths",
+    "strand": "Vedic maths",
+    "title": "Factorising and checking with the differential"
    }
   },
   {

@@ -320,5 +320,208 @@
     "say": "8 plus 4 is 12."
    }
   ]
+ },
+ "paravartya": {
+  "title": "Sutra 4 · Paravartya Yojayet (transpose and apply)",
+  "frames": [
+   {
+    "html": "<div class='big'>5x + 3 = 2x + 15</div><p>Move terms across the = sign and <b>change their sign</b>.</p>",
+    "say": "Move terms across the equals sign and change their sign."
+   },
+   {
+    "html": "<div class='big'>5x <mark>− 2x</mark> = 15 <mark>− 3</mark></div><p>x terms on the left, numbers on the right.</p>",
+    "say": "Five x minus two x equals fifteen minus three."
+   },
+   {
+    "html": "<div class='big'>3x = 12 → x = <span class='alt'>4</span></div>",
+    "say": "Three x equals twelve, so x is four."
+   },
+   {
+    "html": "<div class='big'>(x + 1)(x + 6) = (x + 2)(x + 4)</div><p>The x² terms cancel. x = (right product − left product) ÷ (left sum − right sum).</p>",
+    "say": "For brackets like these, the x squared terms cancel."
+   },
+   {
+    "html": "<div class='big'>x = (8 − 6) ÷ (7 − 6) = <span class='alt'>2</span></div><p><b>Why it works:</b> x² + 7x + 6 = x² + 6x + 8, so x = 2.</p>",
+    "say": "Eight minus six, divided by seven minus six, is two."
+   }
+  ]
+ },
+ "shunyam": {
+  "title": "Sutra 5 · Shunyam Saamyasamuccaye (same total → zero)",
+  "frames": [
+   {
+    "html": "<div class='big'>(x + 2)(x + 12) = (x + 3)(x + 8)</div><p>Look at the number parts: 2 × 12 = <b>24</b> and 3 × 8 = <b>24</b>.</p>",
+    "say": "Two times twelve is twenty four. Three times eight is also twenty four."
+   },
+   {
+    "html": "<div class='big'>x = <span class='alt'>0</span></div><p>The numbers match, so the x part must be zero.</p>",
+    "say": "They match, so x is zero."
+   },
+   {
+    "html": "<div class='big'>(x + 3)/(x + 7) = (x + 7)/(x + 3)</div><p>Add the tops: (x + 3) + (x + 7) = <mark>2x + 10</mark>. The bottoms add to the same.</p>",
+    "say": "Add the tops: two x plus ten. The bottoms add to the same."
+   },
+   {
+    "html": "<div class='big'>2x + 10 = 0 → x = <span class='alt'>−5</span></div><p><b>Why it works:</b> when both sides share the same total, that total must be zero.</p>",
+    "say": "So two x plus ten equals zero, and x is minus five."
+   }
+  ]
+ },
+ "anurupye": {
+  "title": "Sutra 6 · Anurupye Shunyamanyat (one in ratio → other zero)",
+  "frames": [
+   {
+    "html": "<div class='big'>3x + 4y = 8<br>5x + 8y = 16</div>",
+    "say": "Look at these two equations."
+   },
+   {
+    "html": "<div class='cols'><div>y: 4 : 8 = <mark>1 : 2</mark></div><div>numbers: 8 : 16 = <mark>1 : 2</mark></div></div><p>The y numbers are in the same ratio as the answers.</p>",
+    "say": "The y numbers and the answers are in the same ratio, one to two."
+   },
+   {
+    "html": "<div class='big'>x = <span class='alt'>0</span>, 4y = 8 → y = <span class='alt'>2</span></div><p><b>Why it works:</b> with x = 0 both equations become the same statement about y.</p>",
+    "say": "So x is zero, and y is two."
+   }
+  ]
+ },
+ "sankalana": {
+  "title": "Sutra 7 · Sankalana-Vyavakalanabhyam (add and subtract)",
+  "frames": [
+   {
+    "html": "<div class='big'>5x + 3y = 21<br>3x + 5y = 19</div><p>The 5 and the 3 have swapped places.</p>",
+    "say": "The five and the three have swapped places."
+   },
+   {
+    "html": "<div class='cols'><div>Add: 8x + 8y = 40<br><mark>x + y = 5</mark></div><div>Subtract: 2x − 2y = 2<br><mark>x − y = 1</mark></div></div>",
+    "say": "Add the equations: x plus y is five. Subtract them: x minus y is one."
+   },
+   {
+    "html": "<div class='big'>x = <span class='alt'>3</span>, y = <span class='alt'>2</span></div><p>x = (5 + 1) ÷ 2, y = (5 − 1) ÷ 2.</p>",
+    "say": "So x is three and y is two."
+   }
+  ]
+ },
+ "purana": {
+  "title": "Sutra 8 · Puranapuranabhyam (completing the square)",
+  "frames": [
+   {
+    "html": "<div class='big'>x² + 6x + 5 = 0</div><p>Half of 6 is 3, and 3² = 9.</p>",
+    "say": "Half of six is three. Three squared is nine."
+   },
+   {
+    "html": "<div class='big'>(x + 3)² = 9 − 5 = <mark>4</mark></div><p>Complete the square, then move the 5 across.</p>",
+    "say": "x plus three, all squared, equals nine minus five, which is four."
+   },
+   {
+    "html": "<div class='big'>x + 3 = ±2 → x = <span class='alt'>−1</span> or <span class='alt'>−5</span></div><p><b>Why it works:</b> (x + 3)² = x² + 6x + 9.</p>",
+    "say": "So x is minus one or minus five."
+   }
+  ]
+ },
+ "chalana": {
+  "title": "Sutra 9 · Chalana-Kalanabhyam (the first differential)",
+  "frames": [
+   {
+    "html": "<div class='big'>x² − 7x + 10 = 0</div><p>The first differential of x² − 7x + 10 is <b>2x − 7</b>.</p>",
+    "say": "The first differential is two x minus seven."
+   },
+   {
+    "html": "<div class='big'>b² − 4c = 49 − 40 = <mark>9</mark></div><p>The discriminant. Its square root is 3.</p>",
+    "say": "The discriminant is forty nine minus forty, which is nine. Its square root is three."
+   },
+   {
+    "html": "<div class='big'>2x − 7 = ±3 → x = <span class='alt'>5</span> or <span class='alt'>2</span></div><p><b>Why it works:</b> (2x + b)² = b² − 4c is the quadratic formula rearranged.</p>",
+    "say": "Two x minus seven is plus or minus three, so x is five or two."
+   }
+  ]
+ },
+ "vyashti": {
+  "title": "Sutra 11 · Vyashtisamanstih (part and whole)",
+  "frames": [
+   {
+    "html": "<div class='big'>48, 53, 51, 56, 52</div><p>Guess a middle value: <b>50</b>.</p>",
+    "say": "Find the average. Guess fifty."
+   },
+   {
+    "html": "<div class='seq'><span>−2</span><span>+3</span><span>+1</span><span>+6</span><span>+2</span></div><p>Differences from 50 add up to <mark>10</mark>.</p>",
+    "say": "The differences from fifty add up to ten."
+   },
+   {
+    "html": "<div class='big'>50 + 10 ÷ 5 = <span class='alt'>52</span></div><p>Share the 10 between 5 numbers, then add to the guess.</p>",
+    "say": "Ten shared by five is two. Fifty plus two is fifty two."
+   }
+  ]
+ },
+ "shesanyankena": {
+  "title": "Sutra 12 · Shesanyankena Charamena (remainders × last digit)",
+  "frames": [
+   {
+    "html": "<div class='big'>1/7 = ?</div><p>Divide: 10 ÷ 7 leaves 3, 30 ÷ 7 leaves 2, and so on.</p>",
+    "say": "Divide ten by seven: remainder three. Thirty by seven: remainder two."
+   },
+   {
+    "html": "<div class='seq'><span>3</span><span>2</span><span>6</span><span>4</span><span>5</span><span>1</span></div><p>These are the remainders.</p>",
+    "say": "The remainders are three, two, six, four, five, one."
+   },
+   {
+    "html": "<div class='seq'><span>21</span><span>14</span><span>42</span><span>28</span><span>35</span><span>7</span></div><p>Multiply each by 7 and keep the <mark>last digit</mark>.</p>",
+    "say": "Multiply each by seven and keep the last digit."
+   },
+   {
+    "html": "<div class='big'>1/7 = 0.<span class='alt'>142857</span> 142857 …</div>",
+    "say": "One seventh is nought point one four two eight five seven, repeating."
+   }
+  ]
+ },
+ "sopaantya": {
+  "title": "Sutra 13 · Sopaantyadvayamantyam (last + twice the second-last)",
+  "frames": [
+   {
+    "html": "<div class='big' style='font-size:min(1em,5.4vw)'>1/((x+1)(x+4)) + 1/((x+1)(x+7))<br>= 1/((x+1)(x+10)) + 1/((x+4)(x+7))</div><p>The factors go up in equal steps: x + 1, x + 4, x + 7, x + 10.</p>",
+    "say": "The factors go up in equal steps."
+   },
+   {
+    "html": "<div class='cols'><div>Last: <mark>x + 10</mark></div><div>Second-last: <mark>x + 7</mark></div></div>",
+    "say": "The last factor is x plus ten. The second last is x plus seven."
+   },
+   {
+    "html": "<div class='big'>(x + 10) + 2(x + 7) = 3x + 24 = 0</div><p>x = <span class='alt'>−8</span></p>",
+    "say": "Last plus twice the second last is three x plus twenty four. So x is minus eight."
+   }
+  ]
+ },
+ "gunita": {
+  "title": "Sutra 15 · Gunitasamuchyah (check with coefficient sums)",
+  "frames": [
+   {
+    "html": "<div class='big'>(x + 2)(x + 3) = x² + 5x + 6 ?</div>",
+    "say": "Is this expansion right?"
+   },
+   {
+    "html": "<div class='cols'><div>Brackets: (1 + 2)(1 + 3) = <mark>12</mark></div><div>Answer: 1 + 5 + 6 = <mark>12</mark></div></div>",
+    "say": "Multiply the bracket sums: twelve. Add the answer's numbers: twelve."
+   },
+   {
+    "html": "<div class='big'>12 = 12 ✓</div><p><b>Why it works:</b> both sums are the value at x = 1. If they differ, the expansion is wrong.</p>",
+    "say": "They match, so the expansion passes the check."
+   }
+  ]
+ },
+ "gunaka": {
+  "title": "Sutra 16 · Gunakasamuchyah (the differential = sum of factors)",
+  "frames": [
+   {
+    "html": "<div class='big'>x² + 5x + 6 = (x + 2)(x + 3) ?</div>",
+    "say": "Is this factorisation right?"
+   },
+   {
+    "html": "<div class='cols'><div>Differential: <mark>2x + 5</mark></div><div>Sum of factors: (x + 2) + (x + 3) = <mark>2x + 5</mark></div></div>",
+    "say": "The differential is two x plus five. The sum of the factors is also two x plus five."
+   },
+   {
+    "html": "<div class='big'>Match ✓</div><p>To factorise, find two numbers that add to 5 and multiply to 6: 2 and 3.</p>",
+    "say": "They match. To factorise, find two numbers that add to five and multiply to six."
+   }
+  ]
  }
 }
