@@ -10,6 +10,7 @@ import { playSkill } from './engine/player.js';
 import { dashboard } from './dashboard.js';
 import { tableExplainer } from './content/table_learn.js';
 import { LEARN } from './content/learn.js';
+import { learnerReport, familyReport, reportText } from './report.js';
 import { adminError, signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
 import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
@@ -308,6 +309,41 @@ function progressSheet() {
   $('.gclose', el).onclick = close; el.onclick = e => { if (e.target === el) close(); };
 }
 
+// Weekly report: every learner on this device, last 7 days, with an email button for the grown-up.
+function reportSheet() {
+  const rep = familyReport(profiles().map(q => learnerReport(q, skillsFor(q))));
+  const pctBar = n => `<span class="pbar"><i style="width:${n}%"></i></span>`;
+  const card = r => {
+    const trend = !r.prevN ? '' : r.n > r.prevN ? ` <span class="up">▲ ${t('rep.more', { n: r.n - r.prevN })}</span>` : r.n < r.prevN ? ` <span class="down">▼ ${t('rep.fewer', { n: r.prevN - r.n })}</span>` : '';
+    return `<section class="repcard"><h4><span class="av" style="--c:${r.p.color}">${esc(r.p.name[0]).toUpperCase()}</span>${esc(r.p.name)}</h4>
+      ${r.n ? `<div class="ptiles"><div class="kpi"><b>${r.days}</b><span>${t('rep.days')}</span></div><div class="kpi"><b>${r.n}</b><span>${t('rep.questions')}${trend}</span></div><div class="kpi"><b>${r.pct}%</b><span>${t('rep.right')}</span></div></div>
+        ${r.practised.length ? `<h5>${t('rep.practised')}</h5><ul class="replist">${r.practised.map(x => `<li><span>${esc(tr(x.s.title))}</span>${pctBar(x.pct)}<b>${x.pct}%</b></li>`).join('')}</ul>` : ''}
+        ${r.mastered.length ? `<h5>${t('rep.mastered')}</h5><p>${r.mastered.map(s2 => `<span class="chip s-mastered">${esc(tr(s2.title))}</span>`).join(' ')}</p>` : ''}
+        ${r.help.length ? `<h5>${t('rep.help')}</h5><ul class="replist">${r.help.map(x => `<li><span>${esc(tr(x.s.title))} <small>${x.pct}%</small></span><button class="btn rgo" data-p="${r.p.id}" data-s="${x.s.id}">${t('mock.practise')}</button></li>`).join('')}</ul>` : ''}`
+      : `<p class="note">${t('rep.none')}</p>`}
+      ${r.due ? `<p>${t(r.due === 1 ? 'rep.due' : 'rep.dueN', { n: r.due })}</p>` : ''}
+      ${r.next ? `<p><b>${t('rep.next')}</b> ${esc(tr(r.next.title))}</p>` : ''}
+      <div class="reptry"><b>${t('rep.home')}</b><p>${esc(r.activity)}</p></div></section>`;
+  };
+  const email = userEmail() || '', text = reportText(rep, t('rep.title'));
+  const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(t('rep.subject', { range: rep.range }))}&body=${encodeURIComponent(text)}`;
+  const el = h(`<div class="sheet on report"><div class="sheetin wide" role="dialog" aria-modal="true" aria-labelledby="rph">
+    <div class="ghead"><h3 id="rph">${t('rep.title')}<small>${esc(rep.range)}</small></h3><button class="icon gclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <div class="row" style="justify-content:flex-start"><a class="btn primary rmail" href="${mailto}">${t('rep.email')}</a><button class="btn rcopy">${t('rep.copy')}</button></div>
+    <p class="note">${email ? t('rep.emailNote', { email: esc(email) }) : t('rep.emailNoAcct')}</p>
+    ${rep.learners.map(card).join('')}
+  </div></div>`);
+  document.body.append(el);
+  const close = () => el.remove();
+  $('.gclose', el).onclick = close; el.onclick = e => { if (e.target === el) close(); };
+  $('.rcopy', el).onclick = async () => { try { await navigator.clipboard.writeText(text); toast(t('rep.copied')); } catch (e) { toast(t('rep.copyFail')); } };
+  el.querySelectorAll('.rgo').forEach(b => b.onclick = () => {
+    const s2 = content.skills.find(x => x.id === b.dataset.s); if (!s2) return;
+    document.querySelectorAll('.sheet').forEach(x => x.remove()); setActive(b.dataset.p); applyMode();
+    playSkill(s2, content, { mount, onExit: home });
+  });
+}
+
 function grownups() {
   const p = profile(), S = settings(), list = skillsFor(p);
   const sel = (id, opts, cur) => `<select id="${id}">${opts.map(([v, n]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
@@ -316,7 +352,7 @@ function grownups() {
     <h4>${t('g.learners')}</h4>
     <div class="lrs">${profiles().map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.age > 18 ? t('ob.adult') : q.age} · ${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
       <button class="lr add">+ ${t('ui.addLearner')}</button></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button>${isAdminCached() ? `<button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button>` : ''}<a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn greport">${t('rep.open')}</button>${isAdminCached() ? `<button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button>` : ''}<a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
     ${accountBlock()}
     <h4>${esc(p.name)}</h4><div class="row" style="justify-content:flex-start"><button class="btn gedit">${t('ui.editProfile', { name: esc(p.name) })}</button></div>
     <div class="form">
@@ -347,6 +383,7 @@ function grownups() {
   }; }
   if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } try { await deleteAccount(); el.remove(); grownups(); toast(t('acc.deleted')); } catch (e) { toast(e.message); } }; }
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
+  $('.greport', el).onclick = () => reportSheet();
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
   $('.glogout', el).onclick = () => { el.remove(); setActive(null); picker(); };
   $('#gregion', el).onchange = e => { setRegion(e.target.value); applyRegion(); tab = null; el.remove(); home(); grownups(); toast(t('ui.countrySet', { c: REGIONS[e.target.value].name })); };

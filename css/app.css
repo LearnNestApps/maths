@@ -725,3 +725,20 @@ details.lvl[open] > .skills { padding: 12px 4px 4px; }
 .t-ex sup{font-size:.6em}
 .lmat{display:inline-grid;vertical-align:middle;border-left:2px solid currentColor;border-right:2px solid currentColor;border-radius:6px;padding:2px 8px;margin:0 4px;line-height:1.3}
 .lletters{display:inline-block;transform:scaleX(-1)}
+/* Weekly report */
+.report h3 small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-top:4px}
+.repcard{border:2px solid var(--line);border-radius:18px;padding:14px;margin-top:14px;display:grid;gap:8px}
+.repcard h4{display:flex;align-items:center;gap:10px;font-size:20px}
+.repcard h5{margin:6px 0 0;font-size:15px}
+.repcard p{margin:0}
+.replist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.replist li{display:flex;align-items:center;gap:10px}.replist li>span:first-child{flex:1}.replist li b{min-width:3em;text-align:right}
+.replist .pbar{width:90px;flex:none}.replist .btn{min-height:40px;flex:none}
+.reptry{background:#fff4e6;color:#5c3d0e;border-radius:14px;padding:10px 12px}.reptry p{margin-top:4px}
+.repcard .up{color:var(--ok);font-weight:700;font-size:12px;display:block}.repcard .down{color:var(--bad);font-weight:700;font-size:12px;display:block}
+.report .note{color:var(--ink);opacity:.75;background:none;padding:0;margin:4px 0 0;font-size:14px}
+.report a.btn{text-decoration:none}
+.repcard h4{color:var(--ink)}
+.repcard .ptiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.repcard .kpi{min-width:0;padding:8px 10px}
+@media (max-width:480px){.repcard .kpi b{font-size:24px}.repcard .kpi span{font-size:12px}.replist .pbar{width:56px}}

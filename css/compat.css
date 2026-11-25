@@ -165,6 +165,8 @@
 .noclamp .lcols{font:800 34px/1.15 ui-monospace,Menlo,Consolas,monospace}
 .noclamp .lpv,.noclamp .ltab{font-size:17px}
 .nogap .lbmr>*{margin:calc(8px / 2)}
+.nogap .repcard h4>*{margin:calc(10px / 2)}
+.nogap .replist li>*{margin:calc(10px / 2)}
 .noar .obj{height:calc(clamp(56px,10vw,86px) * 1 / 1)}
 .noar.noclamp .obj{height:calc(86px * 1 / 1)}
 .noar .sil{height:calc(clamp(130px,30vmin,230px) * 1 / 1)}
