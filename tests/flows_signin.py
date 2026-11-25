@@ -9,7 +9,7 @@ MATHS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HUB = os.environ.get('HUB') or os.path.join(os.path.dirname(MATHS), 'getuplore.github.io')
 CHROME = os.environ.get('CHROME', '/usr/bin/google-chrome')
 SITE = tempfile.mkdtemp(prefix='uplore-site-')
-for name, target in (('index.html', os.path.join(HUB, 'index.html')), ('maths', MATHS)):
+for name, target in (('index.html', os.path.join(HUB, 'index.html')), ('admin', os.path.join(HUB, 'admin')), ('maths', MATHS)):
     p = os.path.join(SITE, name)
     if not os.path.lexists(p): os.symlink(target, p)
 
@@ -241,16 +241,25 @@ def run(size):
         check(tag + 'remove learner (two taps): gone here and marked removed in the account', 'Ravi K' not in p.inner_text('#sc') and any(r['id'] == rid and r['deleted'] for r in F.learners['u1']))
         p.click('#gsync'); p.wait_for_function("document.querySelector('#gst') && /All saved at/.test(document.querySelector('#gst').textContent)", timeout=6000)
         check(tag + 'Sync now: "All saved"', True)
+        p.goto(BASE + 'admin/'); p.wait_for_selector('.msg:not(:has-text("Checking"))', timeout=6000)
+        check(tag + 'Admin page refuses an ordinary family', 'only for the Uplore owner' in p.inner_text('#main') and p.locator('.kpis').count() == 0)
+        p.goto(BASE); p.wait_for_selector('#gro'); p.click('#gro'); p.wait_for_selector('#ga, #gout')
+        if p.is_visible('#ga'):
+            a, b = [int(x) for x in re.findall(r'\d+', p.inner_text('.gsum span'))[:2]]
+            p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gout')
         # Admin: only for the owner's account
         p.click('#gout'); p.wait_for_selector('#sin2'); hub_signin(p, 'two@x.io'); p.wait_for_selector('.chip[data-id]')
         p.click('.chip[data-id="pL"]'); p.click('#gro'); p.wait_for_selector('#ga')
         a, b = [int(x) for x in re.findall(r'\d+', p.inner_text('.gsum span'))[:2]]
-        p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gadm .kpis', timeout=6000)
-        adm = p.inner_text('#gadm')
-        check(tag + 'owner: Admin on Uplore with the families overview', 'Admin' in adm and 'families' in adm and 'India 2' in adm)
-        check(tag + 'owner: Admin links to the Maths lesson list', p.get_attribute('#gadm a', 'href') == 'maths/#admin')
-        check(tag + 'owner: Admin has Device check', p.locator('#gadm a[href="maths/diag.html"]').count() == 1)
-        p.click('#sx'); p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('#gans')
+        p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gadmin', timeout=6000)
+        check(tag + 'owner: Grown-ups shows only an Admin button (no figures)', 'families' not in p.inner_text('#gadm') and p.get_attribute('#gadmin', 'href') == 'admin/')
+        p.click('#gadmin'); wait_path(p, '/admin/'); p.wait_for_selector('.panel .kpis', timeout=6000)
+        adm = p.inner_text('#main')
+        check(tag + 'Admin page: Maths overview with countries and age groups', 'Maths' in adm and 'families' in adm and 'India' in adm and 'Little Learners' in adm)
+        check(tag + 'Admin page: other subjects shown as coming', p.locator('.tabs button[disabled]').count() == 3)
+        check(tag + 'Admin page: links to the Maths lesson list and Device check', p.locator('a[href="../maths/#admin"]').count() == 1 and p.locator('a[href="../maths/diag.html"]').count() == 1)
+        p.goto(BASE); p.wait_for_selector('#gro')
+        p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('#gans')
         p.fill('#gans', str(eval(p.inner_text('.gsum').split('=')[0].replace('×', '*')))); p.click('.gok'); p.wait_for_selector('.sheet.grown a[href="diag.html"]', timeout=6000)
         check(tag + 'owner: Maths settings shows Device check', True)
         p.goto(BASE); p.wait_for_selector('#gro'); p.click('#gro'); p.wait_for_selector('#ga')
