@@ -15,7 +15,19 @@ const listeners = [];
 // Other parts (cloud sync) can listen for changes.
 export const onSave = fn => { listeners.push(fn); };
 function write() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-export function save() { write(); listeners.forEach(f => { try { f(); } catch (e) {} }); }
+// Listeners run first: cloud sync stamps changed learners with "t", and that stamp must be stored too,
+// so another open tab can tell which copy of a learner is newer.
+export function save() { listeners.forEach(f => { try { f(); } catch (e) {} }); write(); }
+// Another tab (Maths or the Uplore home page) changed the saved learners: bring them in.
+// For each learner the newer copy wins; learners missing from storage were removed there.
+// The learner chosen in this tab stays chosen if it still exists. Returns true if anything changed.
+export function reload() {
+  const d = load(), before = JSON.stringify([S.profiles, S.settings]), mine = new Map(S.profiles.map(p => [p.id, p]));
+  S.profiles = d.profiles.map(p => { const m = mine.get(p.id); return m && (m.t || 0) >= (p.t || 0) ? m : p; });
+  Object.assign(S.settings, d.settings);
+  if (S.active && !S.profiles.some(p => p.id === S.active)) S.active = S.profiles.length === 1 ? S.profiles[0].id : null;
+  return JSON.stringify([S.profiles, S.settings]) !== before;
+}
 // Replace the learner list after a sync (no change event, so it does not echo back).
 // If the current learner was removed on another device, switch to the only one left (or ask who is learning).
 // After "Log out" (no current learner) a sync never chooses one: the app stays on "Who is learning?".

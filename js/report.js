@@ -81,6 +81,6 @@ export function reportText(rep, title) {
     if (r.next) L.push(`Up next: ${r.next.title}`);
     L.push(`Try at home (5 minutes): ${r.activity}`, '');
   });
-  L.push('Sent from Uplore (Pip Maths): https://learnnestapps.github.io/maths/');
+  L.push('Sent from Uplore (Pip Maths): https://getuplore.github.io/maths/');
   return L.join('\n');
 }

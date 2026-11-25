@@ -2,7 +2,7 @@ import './core/compat.js';
 // App shell: boot, onboarding, mode homes, grown-ups area.
 import { $, $$, h, esc, holdButton, squash, popIn, toast } from './core/ui.js';
 import { t, tr, setLang, lang, LANGS } from './core/i18n.js';
-import { profile, profiles, addProfile, setActive, updateProfile, removeProfile, resetProgress, effectiveMode, modeForAge, settings, save, clearLearners } from './core/store.js';
+import { profile, profiles, addProfile, setActive, updateProfile, removeProfile, resetProgress, effectiveMode, modeForAge, settings, save, clearLearners, reload } from './core/store.js';
 import { sfx, say, unlockAudio, hush } from './core/audio.js';
 import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
@@ -11,7 +11,7 @@ import { dashboard } from './dashboard.js';
 import { tableExplainer } from './content/table_learn.js';
 import { LEARN } from './content/learn.js';
 import { learnerReport, familyReport, reportText } from './report.js';
-import { adminError, signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
+import { adminError, signedIn, userEmail, signUp, signIn, signOut, resetPassword, setPassword, deleteAccount, syncNow, cloudStatus, onStatus, handleAuthRedirect, checkSession, isAdmin, isAdminCached, adminOverview } from './core/cloud.js';
 import { REGIONS, R, regionId, setRegion, hasRegion, loc, lvShort, lvLong } from './core/region.js';
 
 const app = $('#app');
@@ -21,6 +21,19 @@ function applyRegion() { const id = regionId(); content.skills = RAW.filter(s =>
 const COLORS = ['#ff8a3d', '#4dabf7', '#5cc96b', '#9775fa', '#ff6b8a', '#ffb020'];
 const TRACKS = ['school', 'life', 'uni', 'tables', 'tricks', 'vedic', 'logic', 'exam', 'method'];
 let tab = null;
+
+// Signing in happens on the Uplore home page. "again" shows a friendly "please sign in again" there.
+let leaving = false;
+function toHub(again) { if (leaving) return; leaving = true; location.replace('../#signin' + (again ? '-again' : '')); }
+const UPLORE = `<a class="btn grownbtn uplink" href="../" aria-label="Uplore home">← Uplore</a>`;
+// Another tab (Maths or the home page) signed in or out, or changed the learners.
+function otherTab() {
+  if (leaving) return;
+  const s = checkSession();
+  if (s === 'gone') return toHub(false);
+  if (s === 'changed') { leaving = true; location.reload(); return; }
+  if (reload()) afterSync();
+}
 
 const mount = el => { app.replaceChildren(el); window.scrollTo(0, 0); };
 const applyMode = () => { const p = profile(); document.documentElement.dataset.mode = p ? effectiveMode(p) : 'little'; };
@@ -38,9 +51,15 @@ async function boot() {
     // Times tables: a 'Learn' explainer for each table (built here, not stored).
     RAW.forEach(k => { if (k.intro && k.intro.startsWith('tbl-')) { const n = k.params.n; content.explainers[k.intro] = Array.isArray(n) ? tableExplainer(24, 'Learn the tables of 21 to 30') : tableExplainer(n); } });
   } catch (err) { app.innerHTML = '<p class="err">Could not load lessons. Please reload the page.</p>'; return; }
-  // Family account: finish an email link (confirm / reset password), then sync in the background.
+  // Family account: finish an email link (old links still land here), then sync in the background.
   const auth = handleAuthRedirect();
-  if (signedIn()) syncNow().then(ok => { if (ok) afterSync(); });
+  // No lessons without a family account: sign in on the home page.
+  if (!signedIn()) return toHub(false);
+  onStatus(() => { if (!signedIn()) toHub(true); });   // the session ended (expired, or the server refused it)
+  window.addEventListener('storage', e => { if (e.key === null || /^pipmaths\.(session|v1|synced)$/.test(e.key)) otherTab(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) otherTab(); });
+  window.addEventListener('pageshow', e => { if (e.persisted) otherTab(); });
+  syncNow().then(ok => { if (ok) afterSync(); });
   if (auth) setTimeout(() => { if (auth.error) toast(auth.error); else if (auth.type === 'recovery') accountSheet('newpw', home); else toast(t('acc.confirmed')); }, 700);
   window.addEventListener('pip-synced', afterSync);
   // Typing #admin while the app is already open: the page does not reload, so react here.
@@ -61,7 +80,7 @@ async function ownerGate(next) {
   document.body.append(el);
   const close = () => { el.remove(); if (location.hash === '#admin') history.replaceState(null, '', location.pathname); };
   $('.ownno', el).onclick = close; $('.ownok', el).onclick = close;
-  if (out) $('.ownin', el).onclick = () => { close(); accountSheet('signin', () => ownerGate(next)); };
+  if (out) $('.ownin', el).onclick = () => { close(); toHub(false); };
 }
 
 // ---------- Family account: sign up, sign in, forgot password, new password ----------
@@ -121,7 +140,7 @@ function afterSync() {
 function accountBlock() {
   const st = cloudStatus();
   if (!signedIn()) return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.why')}</p>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gsignup">${t('acc.create')}</button><button class="btn gsignin">${t('acc.signin')}</button><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a></div></div>`;
+    <div class="row" style="justify-content:flex-start"><a class="btn primary" href="../#signin">${t('acc.signin')}</a><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a></div></div>`;
   const when = st.at ? new Date(st.at).toLocaleTimeString(R().locale, { hour: 'numeric', minute: '2-digit' }) : '';
   const line = st.state === 'syncing' ? t('acc.syncing') : st.state === 'offline' ? t('acc.offline') : st.error ? esc(st.error) : when ? t('acc.savedAt', { time: when }) : t('acc.auto');
   return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.as', { email: esc(userEmail() || '') })}<br><small class="accst">${line}</small></p>
@@ -146,7 +165,7 @@ function gate(next) {
 // ---------- Who is playing? (shown after logging out, or when there are several learners) ----------
 function picker() {
   document.documentElement.dataset.mode = 'little'; hush();
-  const el = h(`<section class="ob scene picker"><div class="obpip">${PIP()}</div><h1 class="obh">${t('pick.who')}</h1>
+  const el = h(`<section class="ob scene picker">${UPLORE}<div class="obpip">${PIP()}</div><h1 class="obh">${t('pick.who')}</h1>
     <div class="pgrid">${profiles().map(q => `<button class="pcard" data-p="${q.id}"><span class="av big" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span><b>${esc(q.name)}</b><small>${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
       <button class="pcard add"><span class="av big plus">+</span><b>${t('ui.addLearner')}</b></button></div>
     <button class="btn grownbtn pgrown">${ICON.gear}<span>${t('ui.grownups')}</span></button></section>`);
@@ -162,9 +181,8 @@ function onboarding({ cancel } = {}) {
   setLang('en');
   const draft = { lang: 'en', name: '', age: null, color: COLORS[profiles().length % COLORS.length], region: regionId() };
   const ages = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  const el = h(`<section class="ob scene"><div class="obpip">${PIP()}</div><div class="obcard">
+  const el = h(`<section class="ob scene">${UPLORE}<div class="obpip">${PIP()}</div><div class="obcard">
     <h1>${t('ob.who')}</h1>
-    ${!signedIn() && !profiles().length ? `<button class="btn ghost obsignin">${t('acc.haveFamily')}</button>` : ''}
     ${hasRegion() ? '' : `<div class="fl"><span>${t('ob.country')}</span><div class="boards">${Object.entries(REGIONS).map(([k, r]) => `<button class="bb rg${k === draft.region ? ' on' : ''}" data-r="${k}">${r.name}</button>`).join('')}</div></div>`}
     <label class="fl"><span>${t('ob.name')}</span><input id="obname" maxlength="20" autocomplete="off" placeholder="${t('ob.namePh')}"></label>
     <div class="colors">${COLORS.map(c => `<button class="sw${c === draft.color ? ' on' : ''}" data-c="${c}" style="--c:${c}" aria-label="Colour"></button>`).join('')}</div>
@@ -177,7 +195,6 @@ function onboarding({ cancel } = {}) {
   $$('.sw').forEach(b => b.onclick = () => { draft.color = b.dataset.c; $$('.sw').forEach(x => x.classList.toggle('on', x === b)); });
   $$('.ab').forEach(b => b.onclick = () => { draft.age = +b.dataset.a; $$('.ab').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); sync(); });
   $$('.rg').forEach(b => b.onclick = () => { draft.region = b.dataset.r; $$('.rg').forEach(x => x.classList.toggle('on', x === b)); sfx.tap(); });
-  if ($('.obsignin', el)) $('.obsignin', el).onclick = () => accountSheet('signin', () => { if (!profiles().length) toast(t('acc.noLearnersYet')); else if (profiles().length === 1 && !profile()) setActive(profiles()[0].id); afterSync(); });
   if (cancel) $('.obback').onclick = cancel;
   go.onclick = () => { if (!hasRegion()) { setRegion(draft.region); applyRegion(); } const p = addProfile({ ...draft, name: draft.name.trim() }); sfx.fanfare(); applyMode(); tab = null; home(); say(t('ob.hello', { name: p.name })); };
   $('#obname').focus();
@@ -204,7 +221,7 @@ function home() {
     : mode === 'explore' ? `<span class="pill">${ICON.coin}<b>${p.coins}</b></span>`
     : `<span class="pill">${ICON.star}<b>${list.filter(s => status(p.progress[s.id]) === 'mastered').length}/${list.length}</b></span>`;
   const el = h(`<section class="home">
-    <header class="htop"><button class="who" aria-label="${t('ui.switch')}"><span class="av" style="--c:${p.color}">${esc(p.name[0] || '?').toUpperCase()}</span><span class="nm">${esc(p.name)}</span></button>
+    <header class="htop">${UPLORE}<button class="who" aria-label="${t('ui.switch')}"><span class="av" style="--c:${p.color}">${esc(p.name[0] || '?').toUpperCase()}</span><span class="nm">${esc(p.name)}</span></button>
       <span class="modechip">${t('mode.' + mode)}</span>${stat}<button class="btn grownbtn progbtn" aria-label="${t('g.progress')}">${ICON.chart}<span>${t('g.progress')}</span></button><button class="btn grownbtn gear" aria-label="${t('ui.grownups')}">${ICON.gear}<span>${t('ui.grownups')}</span></button></header>
     <div class="hero">${mode !== 'adult' ? `<div class="hpip">${PIP()}</div>` : ''}
       <button class="upnext" data-id="${up.id}"><span class="ic">${SKILL_ICON[up.icon] || ''}</span><span class="ut"><small>${t('ui.upNext')}</small><b>${esc(tr(up.title))}</b><em>${esc(lvShort(up.level))} · ${esc(up.strand)}</em></span><span class="go">${ICON.play}</span></button></div>
@@ -372,16 +389,14 @@ function grownups() {
   $('.lr.add', el).onclick = () => { el.remove(); onboarding({ cancel: home }); };
   if ($('.gadmin', el)) $('.gadmin', el).onclick = () => { el.remove(); ownerGate(admin); };
   else if (signedIn()) isAdmin().then(yes => { if (yes && el.isConnected) { el.remove(); grownups(); } });
-  if ($('.gsignup', el)) $('.gsignup', el).onclick = () => { el.remove(); accountSheet('signup'); };
-  if ($('.gsignin', el)) $('.gsignin', el).onclick = () => { el.remove(); accountSheet('signin'); };
   if ($('.gsync', el)) $('.gsync', el).onclick = async () => { const st = $('.accst', el); st.textContent = t('acc.syncing'); const ok = await syncNow(); el.remove(); afterSync(); grownups(); toast(ok ? t('acc.synced') : cloudStatus().error); };
   // Sign out completely: back up first, then remove this family's learners from the device.
   if ($('.gsignout', el)) { const b = $('.gsignout', el); b.onclick = async () => {
     b.disabled = true; let ok = false; try { ok = await syncNow({ pull: false }); } catch (e) {} b.disabled = false;
     if (!ok && !b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.signoutAnyway'); toast(t('acc.notBackedUp')); return; }
-    await signOut(); clearLearners(); el.remove(); onboarding(); toast(t('acc.signedOut'));
+    leaving = true; await signOut(); clearLearners(); location.replace('../');
   }; }
-  if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } try { await deleteAccount(); el.remove(); grownups(); toast(t('acc.deleted')); } catch (e) { toast(e.message); } }; }
+  if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } leaving = true; try { await deleteAccount(); clearLearners(); location.replace('../'); } catch (e) { leaving = false; toast(e.message); } }; }
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.greport', el).onclick = () => reportSheet();
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };

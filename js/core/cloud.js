@@ -1,6 +1,6 @@
 // Family accounts and sync with Supabase (plain fetch; no packages).
-// The app keeps working on the device without an account; signing in adds backup and the same
-// learners and progress on every device.
+// A family account is required: signing in happens on the Uplore home page (../), and Maths
+// sends anyone who is not signed in back there. Learners and progress sync across devices.
 import { profiles, settings, setProfiles, onSave, save } from './store.js';
 
 export const SUPABASE_URL = 'https://kafkrkcuogvurfhigksk.supabase.co';
@@ -57,12 +57,26 @@ function saveSession(d) {
 async function fresh() { if (session && session.expires_at - 60 < Date.now() / 1000) await refresh(); }
 let refreshing = null;
 // Renew the session once, even if several requests notice at the same time (each renewal token works only once).
+// Another tab (or the home page) may already have renewed it: each renewal token works only once,
+// so use that tab's newer session instead of trying the old token.
+function adoptStored() {
+  const s = read(SKEY);
+  if (!s || !session || !s.access_token || s.refresh_token === session.refresh_token) return false;
+  if ((s.user && s.user.id) !== (session.user && session.user.id) && session.user && s.user) return false;
+  session = { ...s, user: s.user || session.user }; adminCache = null; return true;
+}
 function refresh(force) {
   if (!session) return Promise.resolve();
   if (!refreshing) refreshing = (async () => {
     const e0 = epoch;
+    if (adoptStored() && session.expires_at - 60 > Date.now() / 1000) { setTimeout(() => { refreshing = null; }, 0); return; }
     try { const d = await call('/auth/v1/token?grant_type=refresh_token', { method: 'POST', auth: false, body: { refresh_token: session.refresh_token } }); if (e0 === epoch && session) saveSession(d); }
-    catch (e) { if (e.code !== 'offline' && e0 === epoch) { endSession(); setStatus({ state: 'off', error: 'Signed out: please sign in again.' }); } throw e; }
+    catch (e) {
+      // Only a refusal from the server ends the session (not a lost connection or a server hiccup),
+      // and not if another tab renewed it in the meantime.
+      if ([400, 401, 403].includes(e.code) && e0 === epoch && !adoptStored()) { endSession(); setStatus({ state: 'off', error: 'Signed out: please sign in again.' }); }
+      throw e;
+    }
     finally { setTimeout(() => { refreshing = null; }, 0); }
   })();
   return force ? refreshing : refreshing.catch(() => {});
@@ -83,6 +97,17 @@ export async function setPassword(password) { await call('/auth/v1/user', { meth
 // Sign out this device only (other devices of the family stay signed in).
 export async function signOut() { const s = session; endSession(); setStatus({ state: 'off', error: null }); if (s) { try { await fetch(BASE + '/auth/v1/logout?scope=local', { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + s.access_token } }); } catch (e) {} } }
 export async function deleteAccount() { await call('/rest/v1/rpc/delete_my_account', { method: 'POST', body: {} }); endSession(); setStatus({ state: 'off', error: null }); }
+
+// Another tab signed in, signed out, renewed the session or synced: re-read what it saved.
+// Returns 'gone' (no session any more), 'changed' (a different account) or 'same'.
+export function checkSession() {
+  const s = read(SKEY);
+  if (!s || !s.access_token) { if (session) { epoch++; session = null; synced = {}; adminCache = null; } return 'gone'; }
+  if (!session || (s.user && session.user && s.user.id !== session.user.id)) return 'changed';
+  if (s.access_token !== session.access_token) { session = { ...s, user: s.user || session.user }; adminCache = null; }
+  synced = read(PKEY) || {};
+  return 'same';
+}
 
 // Links in Supabase emails come back to the app with the session in the address (#access_token=…&type=…).
 export function handleAuthRedirect() {

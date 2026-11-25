@@ -40,7 +40,7 @@ h1,h2,h3,h4{line-height:1.1;margin:0;text-wrap:balance}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 4px 6px;border-radius:99px;background:var(--surface);box-shadow:var(--shadow);font-weight:800}
 .pill svg{width:28px;height:28px}
 .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
-#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);opacity:0;background:#1d2b53;color:#fff;padding:10px 18px;border-radius:12px;transition:.25s;z-index:200}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);opacity:0;background:#1d2b53;color:#fff;padding:10px 18px;border-radius:12px;transition:.25s;z-index:200;pointer-events:none}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* Pip */
@@ -62,6 +62,8 @@ h1,h2,h3,h4{line-height:1.1;margin:0;text-wrap:balance}
 /* Onboarding */
 .ob{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px}
 .obpip{width:min(30vh,200px)}
+/* Link back to the Uplore home page */
+.uplink{text-decoration:none;color:inherit;background:#fff}.ob>.uplink{position:absolute;top:12px;left:12px;z-index:2}
 .obh{font-size:clamp(26px,4.4vw,40px);text-align:center}
 .langs{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .langb{min-width:150px;min-height:72px;font-size:26px}

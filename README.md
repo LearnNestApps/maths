@@ -4,17 +4,17 @@ A maths learning app that grows with the learner: playful voice-led games for ag
 
 It covers seven tracks: **school maths** (JK to university), **tables**, **mental maths tricks**, **Vedic maths** (the 16 sutras), **logic & coding**, **Indian exam prep** (Maharashtra scholarship incl. Reasoning, NMMS, SOF IMO) and **other methods** (abacus, Singapore bar models, speed maths, puzzles).
 
-**Live site:** https://learnnestapps.github.io/maths/ (GitHub Pages, updates automatically from `main`).
+**Live site:** https://getuplore.github.io/maths/ (GitHub Pages, updates automatically from `main`).
 
 See [`docs/master-plan.md`](docs/master-plan.md) for the full plan and build order.
 
 ## Family accounts (Supabase)
 
-Accounts are optional: without one, everything stays on the device. With a family account, learners and progress sync across devices.
+A family account is required. Parents sign in, create an account, reset a password and add learners on the Uplore home page (https://getuplore.github.io/, repository getuplore/getuplore.github.io); Maths sends anyone who is not signed in there. Learners and progress sync across devices.
 
 - Project: `https://kafkrkcuogvurfhigksk.supabase.co` (publishable key in `js/core/cloud.js`; it is public by design: the database rules protect the data).
 - Database: run `supabase/setup.sql` once in Supabase → SQL Editor. It creates the schema `Math_schema` with `families`, `learners` and `admins` (row-level security (each family sees only its own rows) and the functions `is_admin`, `admin_overview` and `delete_my_account`. Every account automatically gets a row in `Math_schema.families` (ID and email) when it signs up; for a project set up before this, run `supabase/02-family-ids.sql` once. Then add `Math_schema` under Project Settings → Data API → Exposed schemas; the app sends `Accept-Profile`/`Content-Profile: Math_schema` on every database request.
-- Auth settings (Supabase → Authentication → URL Configuration): Site URL `https://learnnestapps.github.io/maths/`, and add that URL under Redirect URLs, so confirmation and password-reset emails open the app.
+- Auth settings (Supabase → Authentication → URL Configuration): Site URL `https://getuplore.github.io/`, and add `https://getuplore.github.io/**` under Redirect URLs, so confirmation and password-reset emails open the home page (old links to /maths/ still work).
 - Admin: the admin page opens only for accounts listed in `public.admins` (checked by the server). Add the owner after signing up:
   `insert into "Math_schema".admins (user_id) select id from auth.users where email = 'owner@example.com';`
 - Privacy notes for parents: `privacy.html`.
@@ -28,6 +28,12 @@ The page loads one packed file, `js/app.js`, so it also runs on older iPads (Saf
 ```
 
 This rebuilds `js/app.js` (with esbuild, converted to ES2017) and `css/compat.css` (fallbacks for older Safari), and bumps the version in `index.html` so browsers fetch the new file.
+
+Sign-in flow tests (home page + Maths, two tabs, expired sessions; uses a stand-in for Supabase, so no real accounts are touched). They need Python Playwright, Chrome, and a clone of getuplore/getuplore.github.io next to this repo (or `HUB=/path/to/it`):
+
+```
+python3 tests/flows_signin.py
+```
 
 ## Run it
 
@@ -76,7 +82,7 @@ js/engine/templates/    the activity templates (tap, drag, balance, number pad, 
 ## Grown-ups, admin and dashboard
 
 - **Grown-ups button** (top right of the home screen): answer a quick sum (for example 7 × 9) to open the grown-ups area. Adults skip the sum.
-- **Admin page directly:** open https://learnnestapps.github.io/maths/#admin and answer the sum.
+- **Admin page directly:** open https://getuplore.github.io/maths/#admin and answer the sum.
 - **Admin: all lessons:** every lesson in every age group, with search, age-group filters and a Try button. **Dashboard** sits next to it.
 - **Switch, edit or log out:** tap the learner's name at the top left: switch learner, edit name/colour/age, add a learner, or **Log out**. Logging out (or having more than one learner) shows a "Who is playing?" screen when the app opens.
 - **Dashboard:** per learner: lessons mastered, right-first-time %, streak, practice time, active days, a 14-day activity chart, progress by track, lessons that need attention (with Try), recent sessions, and a summary of all learners. The **Content** tab counts lessons by track, age group and level.
