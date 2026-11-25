@@ -67,7 +67,9 @@ async function boot() {
   const wantAdmin = location.hash === '#admin';
   if (!profiles().length) { onboarding(); if (wantAdmin) ownerGate(admin); return; }
   if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); ownerGate(admin); return; }
-  if (!profile() || profiles().length > 1) picker(); else { setLang(profile().lang); applyMode(); home(); }
+  // The learner is chosen on the Uplore home page: open straight into them. "Who is playing?" only
+  // when none is chosen (opened directly, or after Log out in Maths).
+  if (!profile()) picker(); else { setLang(profile().lang); applyMode(); home(); }
 }
 
 // ---------- Owner lock: the admin page needs the owner's passcode (remembered on the owner's device) ----------

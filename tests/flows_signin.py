@@ -162,8 +162,10 @@ def run(size):
         check(tag + 'expired session: session removed from the device', p.evaluate("localStorage.getItem('pipmaths.session')") is None)
 
         # 8. Sign out inside Maths (Grown-ups → Family account) → home page, signed out.
-        hub_signin(p, 'one@x.io'); wait_path(p, '/maths/', timeout=5000)
-        p.wait_for_selector('.home .htop, .picker', timeout=8000)
+        hub_signin(p, 'one@x.io'); p.wait_for_selector('.chip[data-id]')   # two learners, none chosen: stays to choose
+        check(tag + 'sign in again with two learners: stays on Uplore to choose', p.url.split('#')[0] == BASE)
+        p.click('.chip[data-id="pA"]'); p.click('a.tile.live'); wait_path(p, '/maths/', timeout=5000)
+        p.wait_for_selector('.home .htop', timeout=8000)
         if p.is_visible('.picker'): p.click('.pcard[data-p="pA"]')
         p.click('.htop .gear')   # Asha is a grown-up, so no grown-ups sum
         p.wait_for_selector('.gsignout'); p.click('.gsignout')   # everything is backed up, so one tap
@@ -190,16 +192,19 @@ def run(size):
 
         p.click('.upnext'); p.wait_for_function("!document.querySelector('#app > section.home')", timeout=6000)
         check(tag + 'a lesson still opens when signed in', p.evaluate("document.querySelector('#app').children.length") > 0)
-        # 10. Two learners: tapping Maths on the home page shows "Who is playing?" and it stays there.
+        # 10. Two learners: the learner is chosen on the Uplore page, and Maths opens straight into them.
         p.goto(BASE + 'maths/'); p.wait_for_selector('.home .htop'); p.click('.htop .uplink'); wait_path(p, '/')
         check(tag + '"← Uplore" in Maths goes back to the home page', p.is_visible('#who'))
         p.click('#out'); p.wait_for_selector('#sin2'); hub_signin(p, 'two@x.io'); p.wait_for_selector('.chip[data-id]')
-        p.click('.chip[data-id="pK"]')   # a learner was chosen on the home page earlier
-        p.click('a.tile.live'); wait_path(p, '/maths/'); p.wait_for_selector('.picker'); p.wait_for_timeout(2500)
-        check(tag + 'two learners: "Who is playing?" stays until a learner is picked', p.is_visible('.picker') and not p.is_visible('.home .htop'))
-        check(tag + 'picker has the "← Uplore" link', p.is_visible('.picker > .uplink'))
-        p.click('.pcard[data-p="pL"]'); p.wait_for_selector('.home .htop')
-        check(tag + 'picking a learner opens their home screen', 'Lila' in p.inner_text('.htop'))
+        check(tag + 'two learners, none chosen: Maths tile asks to choose first', 'Choose who is learning first' in p.inner_text('#subjects') and p.locator('a.tile.live').count() == 0)
+        p.click('.tile[data-pick]')
+        check(tag + 'tapping it points at the learner names', 'Tap a name' in p.inner_text('#who') and 'ask' in p.get_attribute('#who', 'class'))
+        p.click('.chip[data-id="pL"]'); p.click('a.tile.live'); wait_path(p, '/maths/'); p.wait_for_selector('.home .htop'); p.wait_for_timeout(2000)
+        check(tag + 'chosen on Uplore: Maths opens straight into Lila (no "Who is playing?")', 'Lila' in p.inner_text('.htop') and not p.is_visible('.picker'))
+        p.click('.htop .uplink'); wait_path(p, '/'); p.click('.chip[data-id="pK"]'); p.click('a.tile.live'); wait_path(p, '/maths/'); p.wait_for_selector('.home .htop'); p.wait_for_timeout(1500)
+        check(tag + 'switching learner on Uplore: Maths opens as Kiran', 'Kiran' in p.inner_text('.htop'))
+        p.click('.htop .who'); p.click('.slogout'); p.wait_for_selector('.picker'); p.wait_for_timeout(2000)
+        check(tag + 'Log out in Maths: "Who is playing?" stays, with "← Uplore"', p.is_visible('.picker') and p.is_visible('.picker > .uplink'))
         check(tag + 'no script errors', not errors)
         if errors: print(errors)
         br.close()
