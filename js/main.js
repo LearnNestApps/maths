@@ -2,7 +2,7 @@ import './core/compat.js';
 // App shell: boot, onboarding, mode homes, grown-ups area.
 import { $, $$, h, esc, holdButton, squash, popIn, toast } from './core/ui.js';
 import { t, tr, setLang, lang, LANGS } from './core/i18n.js';
-import { profile, profiles, addProfile, setActive, updateProfile, removeProfile, resetProgress, effectiveMode, modeForAge, settings, save } from './core/store.js';
+import { profile, profiles, addProfile, setActive, updateProfile, removeProfile, resetProgress, effectiveMode, modeForAge, settings, save, clearLearners } from './core/store.js';
 import { sfx, say, unlockAudio, hush } from './core/audio.js';
 import { status, pct, nextSkill } from './core/mastery.js';
 import { PIP, ICON, SKILL_ICON, sticker } from './core/art.js';
@@ -339,7 +339,12 @@ function grownups() {
   if ($('.gsignup', el)) $('.gsignup', el).onclick = () => { el.remove(); accountSheet('signup'); };
   if ($('.gsignin', el)) $('.gsignin', el).onclick = () => { el.remove(); accountSheet('signin'); };
   if ($('.gsync', el)) $('.gsync', el).onclick = async () => { const st = $('.accst', el); st.textContent = t('acc.syncing'); const ok = await syncNow(); el.remove(); afterSync(); grownups(); toast(ok ? t('acc.synced') : cloudStatus().error); };
-  if ($('.gsignout', el)) $('.gsignout', el).onclick = async () => { await signOut(); el.remove(); grownups(); toast(t('acc.signedOut')); };
+  // Sign out completely: back up first, then remove this family's learners from the device.
+  if ($('.gsignout', el)) { const b = $('.gsignout', el); b.onclick = async () => {
+    b.disabled = true; let ok = false; try { ok = await syncNow({ pull: false }); } catch (e) {} b.disabled = false;
+    if (!ok && !b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.signoutAnyway'); toast(t('acc.notBackedUp')); return; }
+    await signOut(); clearLearners(); el.remove(); onboarding(); toast(t('acc.signedOut'));
+  }; }
   if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } try { await deleteAccount(); el.remove(); grownups(); toast(t('acc.deleted')); } catch (e) { toast(e.message); } }; }
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.gedit', el).onclick = () => { el.remove(); editProfile(); };

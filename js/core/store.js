@@ -33,6 +33,8 @@ export function addProfile({ name, age, board, lang, color }) {
   S.profiles.push(p); S.active = p.id; save(); return p;
 }
 export function setActive(id) { S.active = id; save(); }
+// Signing out of the family account removes its learners from this device (they are kept in the account).
+export function clearLearners() { S.profiles = []; S.active = null; save(); }
 export function updateProfile(patch) { const p = profile(); if (p) { Object.assign(p, patch); save(); } }
 export function removeProfile(id) { S.profiles = S.profiles.filter(p => p.id !== id); if (S.active === id) S.active = S.profiles[0]?.id || null; save(); }
 export function resetProgress() { const p = profile(); if (p) { p.progress = {}; p.bests = {}; p.coins = 0; p.stickers = []; save(); } }
