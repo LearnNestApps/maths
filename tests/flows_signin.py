@@ -256,7 +256,7 @@ def run(size):
         p.click('#gadmin'); wait_path(p, '/admin/'); p.wait_for_selector('.panel .kpis', timeout=6000)
         adm = p.inner_text('#main')
         check(tag + 'Admin page: Maths overview with countries and age groups', 'Maths' in adm and 'families' in adm and 'India' in adm and 'Little Learners' in adm)
-        check(tag + 'Admin page: other subjects shown as coming', p.locator('.tabs button[disabled]').count() == 3)
+        check(tag + 'Admin page: subjects not live yet shown as coming', p.locator('.tabs button[disabled]').count() == 2)
         check(tag + 'Admin page: links to the Maths lesson list and Device check', p.locator('a[href="../maths/#admin"]').count() == 1 and p.locator('a[href="../maths/diag.html"]').count() == 1)
         p.goto(BASE); p.wait_for_selector('#gro')
         p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('#gans')
