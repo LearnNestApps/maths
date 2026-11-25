@@ -362,7 +362,7 @@ function grownups() {
   const sel = (id, opts, cur) => `<select id="${id}">${opts.map(([v, n]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
   const el = h(`<div class="sheet on grown"><div class="sheetin wide" role="dialog" aria-modal="true" aria-labelledby="gt">
     <div class="ghead"><h3 id="gt">${t('g.mathsTitle')}</h3><button class="icon gclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn greport">${t('rep.open')}</button><a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn greport">${t('rep.open')}</button>${isAdminCached() ? `<a class="btn" href="diag.html">${t('ui.devcheck')}</a>` : ''}</div>
     <h4>${esc(p.name)}</h4>
     <div class="form">
       <label><span>${t('ui.mode')}</span>${sel('gmode', [['', t('mode.auto')], ...['little', 'explore', 'achieve', 'adult'].map(m => [m, t('mode.' + m)])], p.modeOverride || '')}</label>
@@ -374,7 +374,8 @@ function grownups() {
   const close = () => { el.remove(); home(); };
   $('.gclose', el).onclick = close;
   el.addEventListener('click', e => { if (e.target === el) close(); });
-  if (signedIn()) isAdmin();   // the owner's dashboard also shows the Content tab
+  // Admin only: Device check here, and the Content tab in the dashboard (checked by the server).
+  if (signedIn() && !isAdminCached()) isAdmin().then(yes => { if (yes && el.isConnected) { el.remove(); grownups(); } });
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.greport', el).onclick = () => reportSheet();
   $('#gmode', el).onchange = e => { updateProfile({ modeOverride: e.target.value || null }); tab = null; el.remove(); home(); grownups(); };

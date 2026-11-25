@@ -175,7 +175,7 @@ def run(size):
         p.click('.htop .gear')   # Asha is a grown-up, so no grown-ups sum
         p.wait_for_selector('.sheet.grown')
         g = p.inner_text('.sheet.grown')
-        check(tag + 'Maths settings: no family account, learners or admin', 'Maths settings' in g and 'Sign out' not in g and 'Add a learner' not in g and 'Admin' not in g and 'Dashboard' in g)
+        check(tag + 'Maths settings: no family account, learners or admin', 'Maths settings' in g and 'Sign out' not in g and 'Add a learner' not in g and 'Admin' not in g and 'Device check' not in g and 'Dashboard' in g)
         p.click('.gup'); wait_path(p, '/'); p.wait_for_selector('#sheet:not([hidden]) #gout')
         check(tag + '"Open Grown-ups on Uplore" opens Grown-ups there (grown-up learner: no sum)', 'Grown-ups' in p.inner_text('#st'))
         check(tag + 'Uplore Grown-ups: no Admin for an ordinary family', p.is_hidden('#gadm'))
@@ -249,6 +249,13 @@ def run(size):
         adm = p.inner_text('#gadm')
         check(tag + 'owner: Admin on Uplore with the families overview', 'Admin' in adm and 'families' in adm and 'India 2' in adm)
         check(tag + 'owner: Admin links to the Maths lesson list', p.get_attribute('#gadm a', 'href') == 'maths/#admin')
+        check(tag + 'owner: Admin has Device check', p.locator('#gadm a[href="maths/diag.html"]').count() == 1)
+        p.click('#sx'); p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('#gans')
+        p.fill('#gans', str(eval(p.inner_text('.gsum').split('=')[0].replace('×', '*')))); p.click('.gok'); p.wait_for_selector('.sheet.grown a[href="diag.html"]', timeout=6000)
+        check(tag + 'owner: Maths settings shows Device check', True)
+        p.goto(BASE); p.wait_for_selector('#gro'); p.click('#gro'); p.wait_for_selector('#ga')
+        a, b = [int(x) for x in re.findall(r'\d+', p.inner_text('.gsum span'))[:2]]
+        p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gdel')
         # Delete account on Uplore
         p.click('#gdel'); p.click('#gdel'); p.wait_for_selector('#sin2')
         check(tag + 'Delete account (two taps): deleted and signed out', not F.learners['u3'] and p.evaluate("localStorage.getItem('pipmaths.session')") is None)
