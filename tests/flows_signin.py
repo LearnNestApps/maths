@@ -24,10 +24,11 @@ SB = 'https://kafkrkcuogvurfhigksk.supabase.co'
 n = itertools.count(1)
 class Fake:
     def __init__(s):
-        s.users = {'one@x.io': {'id': 'u1', 'pw': 'password1'}, 'none@x.io': {'id': 'u2', 'pw': 'password1'}}
+        s.users = {'one@x.io': {'id': 'u1', 'pw': 'password1'}, 'none@x.io': {'id': 'u2', 'pw': 'password1'}, 'two@x.io': {'id': 'u3', 'pw': 'password1'}}
         s.access, s.refresh = {}, {}
-        s.learners = {'u1': [{'id': 'pA', 'name': 'Asha', 'deleted': False, 'data': {'age': 19, 'lang': 'en', 'color': '#ff8a3d', 'progress': {}, 'bests': {}, 'coins': 0, 'stickers': [], 't': 1}}], 'u2': []}
-        s.families = {'u1': {'region': 'uk'}, 'u2': {}}
+        s.learners = {'u1': [{'id': 'pA', 'name': 'Asha', 'deleted': False, 'data': {'age': 19, 'lang': 'en', 'color': '#ff8a3d', 'progress': {}, 'bests': {}, 'coins': 0, 'stickers': [], 't': 1}}], 'u2': [],
+            'u3': [{'id': k, 'name': nm, 'deleted': False, 'data': {'age': a, 'lang': 'en', 'color': '#4dabf7', 'progress': {}, 'bests': {}, 'coins': 0, 'stickers': [], 't': 1}} for k, nm, a in (('pK', 'Kiran', 7), ('pL', 'Lila', 10))]}
+        s.families = {'u1': {'region': 'uk'}, 'u2': {}, 'u3': {'region': 'india'}}
         s.log = []
     def session(s, uid):
         a, r = f'acc{next(n)}', f'ref{next(n)}'; s.access[a] = uid; s.refresh[r] = uid
@@ -189,6 +190,16 @@ def run(size):
 
         p.click('.upnext'); p.wait_for_function("!document.querySelector('#app > section.home')", timeout=6000)
         check(tag + 'a lesson still opens when signed in', p.evaluate("document.querySelector('#app').children.length") > 0)
+        # 10. Two learners: tapping Maths on the home page shows "Who is playing?" and it stays there.
+        p.goto(BASE + 'maths/'); p.wait_for_selector('.home .htop'); p.click('.htop .uplink'); wait_path(p, '/')
+        check(tag + '"← Uplore" in Maths goes back to the home page', p.is_visible('#who'))
+        p.click('#out'); p.wait_for_selector('#sin2'); hub_signin(p, 'two@x.io'); p.wait_for_selector('.chip[data-id]')
+        p.click('.chip[data-id="pK"]')   # a learner was chosen on the home page earlier
+        p.click('a.tile.live'); wait_path(p, '/maths/'); p.wait_for_selector('.picker'); p.wait_for_timeout(2500)
+        check(tag + 'two learners: "Who is playing?" stays until a learner is picked', p.is_visible('.picker') and not p.is_visible('.home .htop'))
+        check(tag + 'picker has the "← Uplore" link', p.is_visible('.picker > .uplink'))
+        p.click('.pcard[data-p="pL"]'); p.wait_for_selector('.home .htop')
+        check(tag + 'picking a learner opens their home screen', 'Lila' in p.inner_text('.htop'))
         check(tag + 'no script errors', not errors)
         if errors: print(errors)
         br.close()

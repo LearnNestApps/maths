@@ -134,7 +134,8 @@ function afterSync() {
   if (!profiles().length) { if (!onSetup) onboarding(); return; }
   // Only redraw the first screen, the picker or the main page (never admin, the dashboard, a lesson or an open panel).
   if (q('.sheet.on') || !(onSetup || onHome || onPicker)) return;
-  if (!profile()) { picker(); return; }
+  // "Who is playing?" stays until someone taps a learner: a sync only refreshes the list.
+  if (onPicker || !profile()) { picker(); return; }
   applyMode(); tab = null; home();
 }
 function accountBlock() {
