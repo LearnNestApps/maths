@@ -72,7 +72,7 @@ def check(name, cond):
     results.append((name, bool(cond))); print(('PASS ' if cond else 'FAIL ') + name)
 
 def hub_signin(page, email):
-    page.wait_for_selector('#sheet:not([hidden]) #em', timeout=5000) if page.is_visible('#sheet:not([hidden]) #em') else page.click('#sin')
+    page.wait_for_selector('#sheet:not([hidden]) #em', timeout=5000) if page.is_visible('#sheet:not([hidden]) #em') else page.click('#sin2')
     page.fill('#em', email); page.fill('#pw', 'password1'); page.click('#f .go')
 
 def wait_path(pg, path, timeout=5000):
@@ -140,15 +140,17 @@ def run(size):
         check(tag + 'Maths tab now shows the signed-out home page', 'Welcome to Uplore' in p.inner_text('#hello'))
 
         # 6. Family with no learners: stays on the home page to add one.
-        p.click('#sin') if not p.is_visible('#sheet:not([hidden]) #em') else None
+        p.click('#sin2') if not p.is_visible('#sheet:not([hidden]) #em') else None
         p.fill('#em', 'none@x.io'); p.fill('#pw', 'password1'); p.click('#f .go')
         p.wait_for_selector('#addl', timeout=5000)
         check(tag + 'no learners yet: stays on the home page with "Add a learner"', p.url.split('#')[0] == BASE)
+        p.goto(BASE); p.click('#out'); p.wait_for_selector('#sin2')
+        check(tag + 'signed out: one Sign in / Create account pair only', p.locator('text=/^(Sign in|Create account|Create one now)$/').count() == 0 and p.locator('#sin2, #sup3').count() == 2)
         h.close()
 
         # 7. Session ends while Maths is open (renewal refused) → home page, "please sign in again".
-        p.goto(BASE); p.click('#out')
-        p.click('#sin'); p.fill('#em', 'one@x.io'); p.fill('#pw', 'password1'); p.click('#f .go'); p.wait_for_selector('.chip[data-id]')
+        p.goto(BASE)
+        p.click('#sin2'); p.fill('#em', 'one@x.io'); p.fill('#pw', 'password1'); p.click('#f .go'); p.wait_for_selector('.chip[data-id]')
         p.goto(BASE + 'maths/'); p.wait_for_selector('.home .htop, .picker', timeout=8000)
         p.wait_for_timeout(1200)   # let the first sync finish, so the next one meets the expired session
         F.access.clear(); F.refresh.clear()
