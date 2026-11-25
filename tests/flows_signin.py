@@ -64,7 +64,12 @@ def handle(route):
     if path == '/rest/v1/families':
         if req.method == 'GET': return ok([{'settings': F.families.get(uid, {})}])
         F.families[uid] = body[0]['settings']; return ok(None, 201)
-    if path == '/rest/v1/rpc/is_admin': return ok(False)
+    if path == '/rest/v1/rpc/is_admin': return ok(uid == 'u3')
+    if path == '/rest/v1/rpc/admin_overview':
+        if uid != 'u3': return err(403, 'Only the owner can see this')
+        return ok({'families': 3, 'learners': 5, 'active7': 2, 'newFamilies30': 3, 'byCountry': {'uk': 1, 'india': 2}, 'byMode': {'little': 2, 'explore': 1}, 'topLessons': [{'id': 'zzz-unknown', 'learners': 2}]})
+    if path == '/rest/v1/rpc/delete_my_account':
+        F.learners[uid] = []; return ok(None, 204)
     return err(404, 'not found ' + path)
 
 # ---------- checks ----------
@@ -161,18 +166,23 @@ def run(size):
         check(tag + 'expired session: "Your sign-in has ended. Please sign in again."', 'sign in again' in p.inner_text('#msg'))
         check(tag + 'expired session: session removed from the device', p.evaluate("localStorage.getItem('pipmaths.session')") is None)
 
-        # 8. Sign out inside Maths (Grown-ups → Family account) → home page, signed out.
+        # 8. Maths settings point to Grown-ups on Uplore; sign out there.
         hub_signin(p, 'one@x.io'); p.wait_for_selector('.chip[data-id]')   # two learners, none chosen: stays to choose
         check(tag + 'sign in again with two learners: stays on Uplore to choose', p.url.split('#')[0] == BASE)
         p.click('.chip[data-id="pA"]'); p.click('a.tile.live'); wait_path(p, '/maths/', timeout=5000)
         p.wait_for_selector('.home .htop', timeout=8000)
         if p.is_visible('.picker'): p.click('.pcard[data-p="pA"]')
         p.click('.htop .gear')   # Asha is a grown-up, so no grown-ups sum
-        p.wait_for_selector('.gsignout'); p.click('.gsignout')   # everything is backed up, so one tap
-        wait_path(p, '/', timeout=6000)
-        check(tag + 'sign out in Maths returns to the home page', 'Welcome to Uplore' in p.inner_text('#hello'))
-        check(tag + 'sign out in Maths: no "sign in again" message', p.is_hidden('#sheet'))
-        check(tag + 'sign out in Maths: learners cleared', p.evaluate("JSON.parse(localStorage.getItem('pipmaths.v1')).profiles.length") == 0)
+        p.wait_for_selector('.sheet.grown')
+        g = p.inner_text('.sheet.grown')
+        check(tag + 'Maths settings: no family account, learners or admin', 'Maths settings' in g and 'Sign out' not in g and 'Add a learner' not in g and 'Admin' not in g and 'Dashboard' in g)
+        p.click('.gup'); wait_path(p, '/'); p.wait_for_selector('#sheet:not([hidden]) #gout')
+        check(tag + '"Open Grown-ups on Uplore" opens Grown-ups there (grown-up learner: no sum)', 'Grown-ups' in p.inner_text('#st'))
+        check(tag + 'Uplore Grown-ups: no Admin for an ordinary family', p.is_hidden('#gadm'))
+        p.click('#gout')   # everything is backed up, so one tap
+        p.wait_for_selector('#sin2')
+        check(tag + 'sign out in Grown-ups: signed out on the home page', 'Welcome to Uplore' in p.inner_text('#hello') and p.is_hidden('#sheet'))
+        check(tag + 'sign out in Grown-ups: learners cleared', p.evaluate("JSON.parse(localStorage.getItem('pipmaths.v1')).profiles.length") == 0)
 
         # 9. Old email link that lands on /maths/ still signs in (and offers to add a learner).
         s = F.session('u2')
@@ -205,11 +215,43 @@ def run(size):
         check(tag + 'switching learner on Uplore: Maths opens as Kiran', 'Kiran' in p.inner_text('.htop'))
         p.click('.htop .who'); p.click('.slogout'); p.wait_for_selector('.picker'); p.wait_for_timeout(2000)
         check(tag + 'Log out in Maths: "Who is playing?" stays, with "← Uplore"', p.is_visible('.picker') and p.is_visible('.picker > .uplink'))
-        # 11. Grown-ups: Edit sits beside "Add a learner", and a learner's name is never localised (Asha in the UK).
+        # 11. Grown-ups on Uplore: sum for a child learner, edit, country, remove. Names stay as typed.
         p.goto(BASE); p.click('#out'); p.wait_for_selector('#sin2'); hub_signin(p, 'one@x.io'); p.wait_for_selector('.chip[data-id]')
-        p.click('.chip[data-id="pA"]'); p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('.lrs .gedit')
-        check(tag + 'Grown-ups: Edit button is in the learners row, after "Add a learner"', p.evaluate("[...document.querySelectorAll('.lrs > button')].slice(-2).map(b => b.classList.contains('gedit') ? 'edit' : b.classList.contains('add') ? 'add' : 'x').join()") == 'add,edit')
-        check(tag + 'learner name kept as typed outside India ("Edit Asha", not "Edit Kate")', 'Edit Asha' in p.inner_text('.lrs .gedit'))
+        p.click('.chip[data-id="pA"]'); p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .who'); p.wait_for_selector('.sedit')
+        check(tag + 'learner name kept as typed outside India ("Edit Asha", not "Edit Kate")', 'Edit Asha' in p.inner_text('.sedit'))
+        p.goto(BASE); p.wait_for_selector('.chip[data-id]')
+        ravi = next((c for c in ('Ravi',) if c in p.inner_text('#who')), None)
+        rid = p.evaluate("(JSON.parse(localStorage.getItem('pipmaths.v1')).profiles.find(x => x.name === 'Ravi') || {}).id")
+        p.click(f'.chip[data-id="{rid}"]'); p.click('#gro'); p.wait_for_selector('#ga')
+        check(tag + 'child chosen: Grown-ups asks the grown-ups sum first', p.is_visible('.gsum'))
+        p.fill('#ga', '1'); p.click('#f .go'); p.wait_for_selector('#ga')
+        check(tag + 'wrong answer: asks another sum', 'Not quite' in p.inner_text('#msg'))
+        a, b = [int(x) for x in re.findall(r'\d+', p.inner_text('.gsum span'))[:2]]
+        p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gadd')
+        p.click(f'[data-edit="{rid}"]'); p.wait_for_selector('#nm')
+        check(tag + 'Edit opens with the learner filled in', p.input_value('#nm') == 'Ravi')
+        p.fill('#nm', 'Ravi K'); p.click('#ag button[data-a="10"]'); p.click('#f .go'); p.wait_for_selector('#gadd')
+        p.wait_for_timeout(800)
+        check(tag + 'edited learner saved and backed up', 'Ravi K' in p.inner_text('#sc') and any(r['name'] == 'Ravi K' and r['data'].get('age') == 10 for r in F.learners['u1']))
+        p.select_option('#grg', 'canada'); p.wait_for_timeout(600)
+        check(tag + 'country saved for the family', F.families['u1'].get('region') == 'canada' and p.evaluate("JSON.parse(localStorage.getItem('pipmaths.v1')).settings.region") == 'canada')
+        p.click('#gsnd'); p.wait_for_timeout(400)
+        check(tag + 'sound setting saved', p.evaluate("JSON.parse(localStorage.getItem('pipmaths.v1')).settings.sound") is False and F.families['u1'].get('sound') is False)
+        p.click(f'[data-edit="{rid}"]'); p.wait_for_selector('#rm'); p.click('#rm'); p.click('#rm'); p.wait_for_selector('#gadd'); p.wait_for_timeout(600)
+        check(tag + 'remove learner (two taps): gone here and marked removed in the account', 'Ravi K' not in p.inner_text('#sc') and any(r['id'] == rid and r['deleted'] for r in F.learners['u1']))
+        p.click('#gsync'); p.wait_for_function("document.querySelector('#gst') && /All saved at/.test(document.querySelector('#gst').textContent)", timeout=6000)
+        check(tag + 'Sync now: "All saved"', True)
+        # Admin: only for the owner's account
+        p.click('#gout'); p.wait_for_selector('#sin2'); hub_signin(p, 'two@x.io'); p.wait_for_selector('.chip[data-id]')
+        p.click('.chip[data-id="pL"]'); p.click('#gro'); p.wait_for_selector('#ga')
+        a, b = [int(x) for x in re.findall(r'\d+', p.inner_text('.gsum span'))[:2]]
+        p.fill('#ga', str(a * b)); p.click('#f .go'); p.wait_for_selector('#gadm .kpis', timeout=6000)
+        adm = p.inner_text('#gadm')
+        check(tag + 'owner: Admin on Uplore with the families overview', 'Admin' in adm and 'families' in adm and 'India 2' in adm)
+        check(tag + 'owner: Admin links to the Maths lesson list', p.get_attribute('#gadm a', 'href') == 'maths/#admin')
+        # Delete account on Uplore
+        p.click('#gdel'); p.click('#gdel'); p.wait_for_selector('#sin2')
+        check(tag + 'Delete account (two taps): deleted and signed out', not F.learners['u3'] and p.evaluate("localStorage.getItem('pipmaths.session')") is None)
         check(tag + 'no script errors', not errors)
         if errors: print(errors)
         br.close()

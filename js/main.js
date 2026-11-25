@@ -64,12 +64,13 @@ async function boot() {
   window.addEventListener('pip-synced', afterSync);
   // Typing #admin while the app is already open: the page does not reload, so react here.
   window.addEventListener('hashchange', () => { if (location.hash === '#admin') { if (!profile() && profiles().length) setActive(profiles()[0].id); ownerGate(admin); } });
-  const wantAdmin = location.hash === '#admin';
+  const wantAdmin = location.hash === '#admin', wantSettings = location.hash === '#settings';
+  if (wantSettings) history.replaceState(null, '', location.pathname);
   if (!profiles().length) { onboarding(); if (wantAdmin) ownerGate(admin); return; }
   if (wantAdmin) { if (!profile()) setActive(profiles()[0].id); applyMode(); home(); ownerGate(admin); return; }
   // The learner is chosen on the Uplore home page: open straight into them. "Who is playing?" only
   // when none is chosen (opened directly, or after Log out in Maths).
-  if (!profile()) picker(); else { setLang(profile().lang); applyMode(); home(); }
+  if (!profile()) picker(); else { setLang(profile().lang); applyMode(); home(); if (wantSettings) gate(grownups); }
 }
 
 // ---------- Owner lock: the admin page needs the owner's passcode (remembered on the owner's device) ----------
@@ -140,16 +141,6 @@ function afterSync() {
   if (onPicker || !profile()) { picker(); return; }
   applyMode(); tab = null; home();
 }
-function accountBlock() {
-  const st = cloudStatus();
-  if (!signedIn()) return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.why')}</p>
-    <div class="row" style="justify-content:flex-start"><a class="btn primary" href="../#signin">${t('acc.signin')}</a><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a></div></div>`;
-  const when = st.at ? new Date(st.at).toLocaleTimeString(R().locale, { hour: 'numeric', minute: '2-digit' }) : '';
-  const line = st.state === 'syncing' ? t('acc.syncing') : st.state === 'offline' ? t('acc.offline') : st.error ? esc(st.error) : when ? t('acc.savedAt', { time: when }) : t('acc.auto');
-  return `<div class="acct"><b>${t('acc.title')}</b><p>${t('acc.as', { email: esc(userEmail() || '') })}<br><small class="accst">${line}</small></p>
-    <div class="row" style="justify-content:flex-start"><button class="btn gsync">${t('acc.syncNow')}</button><button class="btn gsignout">${t('acc.signout')}</button><a class="btn ghost" href="privacy.html">${t('acc.privacy')}</a><button class="btn ghost gdelacct">${t('acc.delete')}</button></div></div>`;
-}
-
 // ---------- Grown-ups gate: a quick sum instead of a hidden press-and-hold ----------
 function gate(next) {
   const p = profile(); if (p && effectiveMode(p) === 'adult') return next();
@@ -364,53 +355,31 @@ function reportSheet() {
   });
 }
 
+// Maths settings: only what belongs to Maths. Learners, country, sound, the family account and
+// Admin are in Grown-ups on the Uplore home page (../#grownups).
 function grownups() {
-  const p = profile(), S = settings(), list = skillsFor(p);
+  const p = profile();
   const sel = (id, opts, cur) => `<select id="${id}">${opts.map(([v, n]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select>`;
   const el = h(`<div class="sheet on grown"><div class="sheetin wide" role="dialog" aria-modal="true" aria-labelledby="gt">
-    <div class="ghead"><h3 id="gt">${t('g.title')}</h3><button class="icon gclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
-    <h4>${t('g.learners')}</h4>
-    <div class="lrs">${profiles().map(q => `<button class="lr${q.id === p.id ? ' on' : ''}" data-p="${q.id}"><span class="av" style="--c:${q.color}">${esc(q.name[0]).toUpperCase()}</span>${esc(q.name)}<small>${q.age > 18 ? t('ob.adult') : q.age} · ${t('mode.' + effectiveMode(q))}</small></button>`).join('')}
-      <button class="lr add">+ ${t('ui.addLearner')}</button><button class="lr add gedit">✎ ${t('ui.editProfile', { name: esc(p.name) })}</button></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn greport">${t('rep.open')}</button>${isAdminCached() ? `<button class="btn primary gadmin">${t('adm.open', { n: content.skills.length })}</button>` : ''}<a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
-    ${accountBlock()}
+    <div class="ghead"><h3 id="gt">${t('g.mathsTitle')}</h3><button class="icon gclose" aria-label="${t('ui.close')}">${ICON.close}</button></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn primary gdash">${ICON.star}<span>${t('dash.open')}</span></button><button class="btn greport">${t('rep.open')}</button><a class="btn" href="diag.html">${t('ui.devcheck')}</a></div>
     <h4>${esc(p.name)}</h4>
     <div class="form">
-      <label><span>${t('ui.country')}</span>${sel('gregion', Object.entries(REGIONS).map(([k, r]) => [k, r.name]), regionId())}</label>
       <label><span>${t('ui.mode')}</span>${sel('gmode', [['', t('mode.auto')], ...['little', 'explore', 'achieve', 'adult'].map(m => [m, t('mode.' + m)])], p.modeOverride || '')}</label>
-      <label class="tg"><span>${t('ui.sound')}</span><button class="tog" id="gsound" aria-pressed="${S.sound}"></button></label>
-      <label class="tg"><span>${t('ui.voice')}</span><button class="tog" id="gvoice" aria-pressed="${S.voice}"></button></label>
     </div>
-
-    <p class="gnote">${t('g.note')}</p>
-    <div class="row"><button class="btn glogout">${t('ui.logout')}</button><button class="btn ghost greset">${t('ui.reset')}</button><button class="btn ghost gdel">${t('ui.delete')}</button></div></div></div>`);
+    <div class="row" style="justify-content:flex-start"><button class="btn ghost greset">${t('ui.reset')}</button></div>
+    <div class="acct"><b>${t('g.title')}</b><p>${t('g.onUplore')}</p><div class="row" style="justify-content:flex-start"><a class="btn primary gup" href="../#grownups">${t('g.openUplore')}</a></div></div>
+    <p class="gnote">${t('g.note')}</p></div></div>`);
   document.body.append(el);
   const close = () => { el.remove(); home(); };
   $('.gclose', el).onclick = close;
   el.addEventListener('click', e => { if (e.target === el) close(); });
-  $$('[data-p]', el).forEach(b => b.onclick = () => { setActive(b.dataset.p); tab = null; el.remove(); home(); grownups(); });
-  $('.lr.add', el).onclick = () => { el.remove(); onboarding({ cancel: home }); };
-  if ($('.gadmin', el)) $('.gadmin', el).onclick = () => { el.remove(); ownerGate(admin); };
-  else if (signedIn()) isAdmin().then(yes => { if (yes && el.isConnected) { el.remove(); grownups(); } });
-  if ($('.gsync', el)) $('.gsync', el).onclick = async () => { const st = $('.accst', el); st.textContent = t('acc.syncing'); const ok = await syncNow(); el.remove(); afterSync(); grownups(); toast(ok ? t('acc.synced') : cloudStatus().error); };
-  // Sign out completely: back up first, then remove this family's learners from the device.
-  if ($('.gsignout', el)) { const b = $('.gsignout', el); b.onclick = async () => {
-    b.disabled = true; let ok = false; try { ok = await syncNow({ pull: false }); } catch (e) {} b.disabled = false;
-    if (!ok && !b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.signoutAnyway'); toast(t('acc.notBackedUp')); return; }
-    leaving = true; await signOut(); clearLearners(); location.replace('../');
-  }; }
-  if ($('.gdelacct', el)) { const b = $('.gdelacct', el); b.onclick = async () => { if (!b.dataset.arm) { b.dataset.arm = 1; b.textContent = t('acc.deleteConfirm'); return; } leaving = true; try { await deleteAccount(); clearLearners(); location.replace('../'); } catch (e) { leaving = false; toast(e.message); } }; }
+  if (signedIn()) isAdmin();   // the owner's dashboard also shows the Content tab
   $('.gdash', el).onclick = () => { el.remove(); openDash(p.id); };
   $('.greport', el).onclick = () => reportSheet();
-  $('.gedit', el).onclick = () => { el.remove(); editProfile(); };
-  $('.glogout', el).onclick = () => { el.remove(); setActive(null); picker(); };
-  $('#gregion', el).onchange = e => { setRegion(e.target.value); applyRegion(); tab = null; el.remove(); home(); grownups(); toast(t('ui.countrySet', { c: REGIONS[e.target.value].name })); };
   $('#gmode', el).onchange = e => { updateProfile({ modeOverride: e.target.value || null }); tab = null; el.remove(); home(); grownups(); };
-  $('#gsound', el).onclick = e => { S.sound = !S.sound; e.currentTarget.setAttribute('aria-pressed', S.sound); save(); };
-  $('#gvoice', el).onclick = e => { S.voice = !S.voice; e.currentTarget.setAttribute('aria-pressed', S.voice); if (!S.voice) hush(); save(); };
   const twoTap = (btn, label, fn) => btn.onclick = () => { if (!btn.dataset.arm) { btn.dataset.arm = 1; btn.textContent = label; return; } fn(); };
   twoTap($('.greset', el), t('ui.resetConfirm'), () => { resetProgress(); el.remove(); home(); grownups(); });
-  twoTap($('.gdel', el), t('ui.deleteConfirm'), () => { removeProfile(p.id); el.remove(); profile() ? home() : onboarding(); });
 }
 
 // ---------- Dashboard ----------
