@@ -71,7 +71,9 @@ export const lang = () => L;
 export function setLang(l) { L = D[l] ? l : 'en'; document.documentElement.lang = L; }
 export function t(k, v = {}) {
   const s = (D[L] && D[L][k]) ?? D.en[k] ?? k;
-  return locText(s.replace(/\{(\w+)\}/g, (_, x) => v[x] ?? ''));
+  // Localise the wording first, then fill in the values, so a learner's own name is never changed
+  // ("Edit Asha" stays "Edit Asha" in the UK). Lesson text is localised separately, as a whole (loc()).
+  return locText(s).replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
 }
 // Content fields may be a plain string or {en, hi, mr}.
 export const tr = o => (o && typeof o === 'object') ? (o[L] ?? o.en) : (o ?? '');

@@ -205,6 +205,11 @@ def run(size):
         check(tag + 'switching learner on Uplore: Maths opens as Kiran', 'Kiran' in p.inner_text('.htop'))
         p.click('.htop .who'); p.click('.slogout'); p.wait_for_selector('.picker'); p.wait_for_timeout(2000)
         check(tag + 'Log out in Maths: "Who is playing?" stays, with "← Uplore"', p.is_visible('.picker') and p.is_visible('.picker > .uplink'))
+        # 11. Grown-ups: Edit sits beside "Add a learner", and a learner's name is never localised (Asha in the UK).
+        p.goto(BASE); p.click('#out'); p.wait_for_selector('#sin2'); hub_signin(p, 'one@x.io'); p.wait_for_selector('.chip[data-id]')
+        p.click('.chip[data-id="pA"]'); p.click('a.tile.live'); p.wait_for_selector('.home .htop'); p.click('.htop .gear'); p.wait_for_selector('.lrs .gedit')
+        check(tag + 'Grown-ups: Edit button is in the learners row, after "Add a learner"', p.evaluate("[...document.querySelectorAll('.lrs > button')].slice(-2).map(b => b.classList.contains('gedit') ? 'edit' : b.classList.contains('add') ? 'add' : 'x').join()") == 'add,edit')
+        check(tag + 'learner name kept as typed outside India ("Edit Asha", not "Edit Kate")', 'Edit Asha' in p.inner_text('.lrs .gedit'))
         check(tag + 'no script errors', not errors)
         if errors: print(errors)
         br.close()
